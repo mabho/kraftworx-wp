@@ -4,9 +4,9 @@
 @source "../**/*.js";
 
 @theme {
-    --color-primary: #1d4ed8;
-    --color-secondary: #0f766e;
-    --color-tertiary: #d97706;
-    --color-black: #000000;
-    --color-white: #ffffff;
+  --color-primary: #1d4ed8;
+  --color-secondary: #0f766e;
+  --color-tertiary: #d97706;
+  --color-black: #000000;
+  --color-white: #ffffff;
 }
