@@ -157,6 +157,14 @@ Config::define('WP_POST_REVISIONS', env('WP_POST_REVISIONS') ?? true);
 Config::define('CONCATENATE_SCRIPTS', false);
 
 /**
+ * ACF PRO
+ * Define the license from the environment when provided.
+ */
+if ($acfLicense = env('ACF_PRO_LICENSE')) {
+    Config::define('ACF_PRO_LICENSE', $acfLicense);
+}
+
+/**
  * Debugging Settings
  */
 Config::define('WP_DEBUG_DISPLAY', false);
