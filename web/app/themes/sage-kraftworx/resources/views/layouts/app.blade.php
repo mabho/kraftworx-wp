@@ -3,6 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preload" href="{{ Vite::asset('resources/fonts/replica-pro-regular.woff2') }}" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ Vite::asset('resources/fonts/avenir-light.woff2') }}" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ Vite::asset('resources/fonts/avenir-book.woff2') }}" as="font" type="font/woff2" crossorigin>
     @php(do_action('get_header'))
     @php(wp_head())
 
