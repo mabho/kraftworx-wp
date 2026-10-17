@@ -1,0 +1,14 @@
+# Pin Composer to 2.8.12.
+# Composer 2.9+ unconditionally requests HTTP/3 when libcurl supports it, which
+# fails on networks that reset QUIC. 2.8.12 is the latest release before that
+# behavior and uses HTTP/2. Revisit once Composer 2.11+ ships (PR #13096).
+ARG COMPOSER_VERSION=2.8.12
+
+RUN cd /tmp \
+    && curl -fsSL --http1.1 "https://getcomposer.org/download/${COMPOSER_VERSION}/composer.phar" -o composer.phar \
+    && curl -fsSL --http1.1 "https://getcomposer.org/download/${COMPOSER_VERSION}/composer.phar.sha256sum" -o composer.phar.sha256sum \
+    && sha256sum -c composer.phar.sha256sum \
+    && mv composer.phar /usr/local/bin/composer \
+    && chmod +x /usr/local/bin/composer \
+    && rm -f composer.phar.sha256sum \
+    && composer --version
