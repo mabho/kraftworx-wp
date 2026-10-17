@@ -19,9 +19,12 @@ export default defineConfig({
         'resources/css/editor.css',
         'resources/css/acf-editor.css',
         'resources/js/editor.js',
+        'resources/fonts/replica-pro-regular.woff2',
+        'resources/fonts/avenir-light.woff2',
+        'resources/fonts/avenir-book.woff2',
       ],
       refresh: true,
-      assets: ['resources/images/**', 'resources/fonts/**'],
+      assets: ['resources/images/**'],
     }),
 
     wordpressPlugin(),
@@ -33,6 +36,10 @@ export default defineConfig({
       disableTailwindFonts: false,
       disableTailwindFontSizes: false,
       disableTailwindBorderRadius: false,
+      fontLabels: {
+        sans: 'Avenir',
+        display: 'Replica Pro',
+      },
     }),
   ],
   resolve: {
