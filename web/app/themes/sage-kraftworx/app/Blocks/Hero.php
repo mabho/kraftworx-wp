@@ -2,11 +2,16 @@
 
 namespace App\Blocks;
 
+use App\Blocks\Concerns\HasLayoutControls;
+use App\Fields\Partials\Alignment;
+use App\Fields\Partials\FullHeight;
 use Log1x\AcfComposer\Block;
 use Log1x\AcfComposer\Builder;
 
 class Hero extends Block
 {
+  use HasLayoutControls;
+
   /**
    * The block name.
    *
@@ -76,7 +81,7 @@ class Hero extends Block
       'title' => get_field('title'),
       'intro_text' => get_field('intro_text'),
       'call_to_action' => get_field('call_to_action'),
-    ];
+    ] + $this->alignment() + $this->fullHeight();
   }
 
   /**
@@ -113,7 +118,9 @@ class Hero extends Block
       ->addLink('call_to_action', [
         'label' => 'Call to action',
         'return_format' => 'array',
-      ]);
+      ])
+      ->addPartial(Alignment::class)
+      ->addPartial(FullHeight::class);
 
     return $fields->build();
   }
