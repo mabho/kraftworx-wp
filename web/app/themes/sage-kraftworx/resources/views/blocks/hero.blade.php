@@ -33,16 +33,16 @@
     <div class="absolute inset-0 -z-10 bg-black/45"></div>
   @endif
 
-  <div class="mx-auto flex {{ $height }} max-w-7xl flex-col justify-center px-4 py-24 sm:px-6 lg:px-8">
-    <div class="{{ $alignment['content'] }} max-w-2xl {{ $alignment['text'] }}">
+  <div class="container mx-auto flex {{ $height }} flex-col justify-center px-4 py-24 sm:px-6 lg:px-8">
+    <div class="{{ $alignment['content'] }} max-w-5xl {{ $alignment['text'] }}">
       @if ($title)
-        <h1 class="text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-7xl">
+        <h1 class="text-[clamp(2.75rem,10vw,var(--text-hero))] leading-[0.95] tracking-tight">
           {{ $title }}
         </h1>
       @endif
 
       @if ($intro_text)
-        <p class="mt-6 max-w-md leading-relaxed sm:text-lg {{ $alignment['inner'] }}">
+        <p class="mt-8 max-w-md text-xl font-light leading-relaxed sm:text-2xl lg:text-lead {{ $alignment['inner'] }}">
           {{ $intro_text }}
         </p>
       @endif
@@ -51,7 +51,7 @@
         <a
           href="{{ $call_to_action['url'] }}"
           @if (!empty($call_to_action['target'])) target="{{ $call_to_action['target'] }}" rel="noopener noreferrer" @endif
-          class="mt-8 inline-flex border border-current px-5 py-3 text-xs font-semibold uppercase tracking-[0.2em] transition {{ $buttonHover }}"
+          class="mt-10 inline-flex border border-current px-5 py-3 text-lg font-light uppercase tracking-[0.2em] transition {{ $buttonHover }}"
         >
           {{ $call_to_action['title'] ?: 'Learn More' }}
         </a>
