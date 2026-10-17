@@ -80,6 +80,9 @@ Sources:
   `@source`, `@theme`)
 - `resources/css/editor.css` — block-editor styles (Tailwind entry plus the editor
   title field styles)
+- `resources/css/theme.css` — global font faces, `--font-sans`/`--font-display`
+  tokens, type scale, heading typography, and container width
+- `resources/css/acf-editor.css` — ACF accordion styling in the block editor
 - `resources/js/*.js` — JS source; compiled by Vite
 
 Commands (run from the theme directory):
@@ -94,8 +97,8 @@ npm run build   # production build
 - `vite.config.js` inputs the CSS and JS entries.
 - The frontend layout (`resources/views/layouts/app.blade.php`) loads `app.css` and
   `app.js` via `@vite`.
-- Editor styles are injected in `app/setup.php` (`editor.css`) and the `editor.js`
-  entry is loaded there too.
+- Editor styles are injected/enqueued in `app/setup.php`: `editor.css` in the editor
+  iframe, `acf-editor.css` in the block editor, and the `editor.js` entry.
 - Compiled output goes to `public/build`, which is gitignored (`public/*`), so the
   compiled CSS/JS are never committed.
 - Vite `base` is set to `/app/themes/sage-kraftworx/public/build/`.
@@ -124,6 +127,88 @@ colors exposed to the editor and used by the component blocks:
   default Tailwind colors (`green`, `yellow`, `red`, `indigo`). Those remain available
   in CSS because the default palette is not cleared. Update the alert to the tokens if
   the 5-color system should be enforced everywhere.
+
+## Typography and container
+
+### Fonts
+
+- **Display/title font:** **Replica Pro** Regular (weight 400).
+  File: `resources/fonts/replica-pro-regular.woff2`.
+- **Body/UI font:** **Avenir**, self-hosted from `Avenir.ttc` as four faces:
+  | File | Weight | Use |
+  | --- | --- | --- |
+  | `avenir-light.woff2` | 300 (`font-light`) | Hero intro, nav links, CTA |
+  | `avenir-book.woff2` | 400 (body) | Default text, source notes |
+  | `avenir-medium.woff2` | 500 (`font-medium`) | Section intros, stat captions |
+  | `avenir-black.woff2` | 800 (`font-extrabold`) | Section headings, stats, labels |
+- Avenir Black reports `usWeightClass: 800`; use `font-extrabold` (800), not
+  `font-black` (900), or the browser will synthesize the weight.
+- `@font-face` rules and the `--font-sans` / `--font-display` tokens live in
+  `resources/css/theme.css`, imported by both `app.css` and `editor.css`.
+- `--font-sans` sets the Tailwind `font-sans` family and the `body` font; headings
+  (`h1`, `h2`, `h3`) use `--font-display` at weight 400 with `font-synthesis: none`.
+- Replica Pro and the two most-used Avenir faces (Light, Book) are preloaded in
+  `resources/views/layouts/app.blade.php`. They are declared in the Vite `input` so
+  `Vite::asset()` can resolve their hashed manifest entries.
+- `theme.json` exposes `sans` as **Avenir** and `display` as **Replica Pro**; its
+  `styles.elements.h1/h2/h3` use the display family at weight 400.
+- The Replica file was converted from `ReplicaTrialTT-Regular.ttf` (a trial). Replace
+  `replica-pro-regular.woff2` with the licensed commercial Replica Pro file before
+  production; keep the same file name and family so no CSS changes are needed.
+- Only the `.woff2` files are referenced by CSS and published by the build. The source
+  files (`Avenir.ttc`, `MyriadPro-Regular.otf`, `ReplicaTrialTT-Regular.ttf`) are kept
+  in `resources/fonts` for reference but are not copied to `public/build`.
+
+### Type scale from the design
+
+Sizes were read from the PDF font specs (`pdftohtml`) at the design's native scale
+(1:1 with CSS px). Tokens are defined in `theme.css`; use the token rather than raw
+values.
+
+| Role | Font | Design size | Token / utility |
+| --- | --- | --- | --- |
+| Hero title | Replica Pro 400 | 144px | `--text-hero` (9rem, leading 0.95); Hero uses a fluid `clamp(2.75rem, 10vw, 9rem)` |
+| Hero intro / description | Avenir Light 300 | 30px | `--text-lead` (1.875rem) + `font-light` |
+| Navigation (active) | Avenir Medium 500 | 18px | `--text-nav` (1.125rem) + `font-medium` |
+| Navigation (links) | Avenir Light 300 | 18px | `--text-nav` + `font-light` |
+| Section heading | Avenir Black 800 | 72px | `--text-section` (4.5rem) + `font-extrabold` |
+| Section intro | Avenir Medium 500 | 42px | — (no token yet) |
+| Stat number | Avenir Black 800 | 98px | `--text-stat` (6.125rem) |
+| Stat caption | Avenir Medium 500 | 36px | — (no token yet) |
+| Uppercase label | Avenir Black 800 | 29px | `--text-label` (1.8125rem) |
+| Source note | Avenir Book 400 | 24px | `--text-note` (1.5rem) |
+| CTA label | Avenir Light 300 | 18px (assumed) | `text-lg font-light` |
+
+The CTA is not present as text in the PDF (likely outlined), so 18px Light matches the
+navigation instead of an extracted spec. Confirm with the designer if the CTA appears in
+another artboard.
+
+### Breakpoints
+
+- Breakpoints are project tokens in the `@theme` block of `resources/css/theme.css`:
+  `--breakpoint-sm` 40rem, `md` 48rem, `lg` 64rem, `xl` 80rem, and `2xl` 96rem.
+- Use Tailwind variants (`sm:`, `lg:`, `2xl:`) or the `@variant` directive for custom CSS.
+  Do not write raw media queries with pixel/rem values:
+  ```css
+  @variant 2xl {
+    .container {
+      max-width: 100rem;
+    }
+  }
+  ```
+- CSS custom properties cannot be used in media conditions
+  (`@media (min-width: var(--breakpoint-2xl))` is invalid). Tailwind resolves `@variant`
+  against the tokens at build time.
+
+### Container
+
+- `.container` is capped at **1600px (`100rem`) from the `2xl` breakpoint (96rem)**.
+  Below that, Tailwind's responsive container widths remain (1280px at 1440).
+- The cap uses `@variant 2xl`, so it follows the project breakpoint token instead of a
+  hardcoded `1536px` media query.
+- The Hero, Section (contained), and page header use `.container`.
+- Intentional narrow widths (`max-w-2xl`, `max-w-md`, `max-w-4xl`) are unchanged.
+- The editor's block preview uses the same `theme.css`, so it matches the frontend.
 
 ## Version tracking and upgrades
 
