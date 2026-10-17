@@ -69,22 +69,38 @@ in Bedrock's `vendor/` and would not be loaded by Acorn.
 
 Both `composer.lock` files should be committed. Both `vendor/` directories are ignored.
 
-## Assets
+## Styling and assets
 
-Sage uses Vite:
+Sage uses Vite + Tailwind CSS 4. There is a single CSS entry per context; Tailwind
+handles bundling, nesting, and variables, so no Sass/Less/Stylus preprocessor is used.
+
+Sources:
+
+- `resources/css/app.css` — frontend Tailwind entry (`@import "tailwindcss"`,
+  `@source`, `@theme`)
+- `resources/css/editor.css` — block-editor styles (Tailwind entry plus the editor
+  title field styles)
+- `resources/js/*.js` — JS source; compiled by Vite
+
+Commands (run from the theme directory):
 
 ```bash
-ddev exec bash -c 'cd web/app/themes/sage-kraftworx && npm install'
-ddev exec bash -c 'cd web/app/themes/sage-kraftworx && npm run build'
+npm install
+npm run dev     # Vite HMR
+npm run watch   # build + watch
+npm run build   # production build
 ```
 
-- Vite `base` was updated in `vite.config.js` to
-  `/app/themes/sage-kraftworx/public/build/` (the default points at `sage`).
-- `public/*` is gitignored by the theme (except `public/.gitkeep`), so a fresh
-  checkout/deploy must run `npm run build` before the site will render.
-- Missing build output produces: `Vite manifest not found .../public/build/manifest.json`.
-- Live reloading (`npm run dev` + DDEV) is not configured yet; the current flow is a
-  production build.
+- `vite.config.js` inputs the CSS and JS entries.
+- The frontend layout (`resources/views/layouts/app.blade.php`) loads `app.css` and
+  `app.js` via `@vite`.
+- Editor styles are injected in `app/setup.php` (`editor.css`) and the `editor.js`
+  entry is loaded there too.
+- Compiled output goes to `public/build`, which is gitignored (`public/*`), so the
+  compiled CSS/JS are never committed.
+- Vite `base` is set to `/app/themes/sage-kraftworx/public/build/`.
+- Missing build output produces `Vite manifest not found .../public/build/manifest.json`.
+- HMR (`npm run dev`) with DDEV is not configured yet; use `watch` or `build` for now.
 
 ## Design tokens
 
