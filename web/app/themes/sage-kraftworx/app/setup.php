@@ -15,12 +15,31 @@ use Illuminate\Support\Facades\Vite;
  */
 add_filter('block_editor_settings_all', function ($settings) {
   $style = Vite::asset('resources/css/editor.css');
+  $acfStyle = Vite::asset('resources/css/acf-editor.css');
 
   $settings['styles'][] = [
     'css' => "@import url('{$style}')",
   ];
 
+  $settings['styles'][] = [
+    'css' => "@import url('{$acfStyle}')",
+  ];
+
   return $settings;
+});
+
+/**
+ * Enqueue editor styles for ACF fields.
+ *
+ * @return void
+ */
+add_action('enqueue_block_editor_assets', function () {
+  wp_enqueue_style(
+    'sage/acf-editor.css',
+    Vite::asset('resources/css/acf-editor.css'),
+    [],
+    null
+  );
 });
 
 /**

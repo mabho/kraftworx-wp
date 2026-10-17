@@ -92,6 +92,25 @@ class Hero extends Block
     $fields = Builder::make('hero');
 
     $fields
+      ->addAccordion('Content', [
+        'open' => 1,
+        'multi_expand' => 1,
+      ])
+      ->addText('title', [
+        'label' => 'Title',
+      ])
+      ->addTextarea('intro_text', [
+        'label' => 'Intro text',
+        'rows' => 3,
+      ])
+      ->addLink('call_to_action', [
+        'label' => 'Call to action',
+        'return_format' => 'array',
+      ])
+      ->addAccordion('Layout', [
+        'open' => 1,
+        'multi_expand' => 1,
+      ])
       ->addImage('background_image', [
         'label' => 'Background image',
         'return_format' => 'array',
@@ -107,17 +126,6 @@ class Hero extends Block
           'white' => 'White',
         ],
         'default_value' => 'black',
-      ])
-      ->addText('title', [
-        'label' => 'Title',
-      ])
-      ->addTextarea('intro_text', [
-        'label' => 'Intro text',
-        'rows' => 3,
-      ])
-      ->addLink('call_to_action', [
-        'label' => 'Call to action',
-        'return_format' => 'array',
       ])
       ->addPartial(Alignment::class)
       ->addPartial(FullHeight::class);

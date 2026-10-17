@@ -1,0 +1,30 @@
+.acf-field.acf-field-accordion {
+  margin: 0;
+  border-top: 1px solid #e0e0e0;
+  border-bottom: 0;
+  background: #fff;
+}
+
+.acf-field-accordion .acf-accordion-title.acf-label {
+  padding: 16px 48px 16px 16px;
+  color: #1e1e1e;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+  background: #fff;
+}
+
+.acf-field-accordion .acf-accordion-title.acf-label:hover {
+  background: #f0f0f0;
+}
+
+.acf-field-accordion .acf-accordion-title.acf-label label {
+  color: #1e1e1e;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.acf-field-accordion .acf-accordion-title.acf-label .components-panel__arrow {
+  color: #1e1e1e;
+  fill: currentColor;
+}
