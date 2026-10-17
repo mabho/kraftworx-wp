@@ -1,8 +1,8 @@
 @php
-    $container = match ($container_type) {
-        'full' => 'w-full px-4 sm:px-6 lg:px-8',
-        'edge' => 'w-full',
-        default => 'mx-auto max-w-7xl px-4 sm:px-6 lg:px-8',
+    $wrapper = match (true) {
+        $column_width === 'narrow' => 'mx-auto w-full max-w-4xl px-4 sm:px-6 lg:px-8',
+        $contained === 'uncontained' => 'w-full',
+        default => 'container mx-auto px-4 sm:px-6 lg:px-8',
     };
 
     $grid = match ($columns) {
@@ -12,16 +12,16 @@
     };
 
     $background = match ($background_color) {
-        'dark' => 'bg-neutral-900 text-white',
-        'primary' => 'bg-blue-600 text-white',
-        'secondary' => 'bg-neutral-100 text-neutral-900',
-        'accent' => 'bg-amber-400 text-neutral-900',
-        default => 'bg-white text-neutral-900',
+        'primary' => 'bg-primary text-white',
+        'secondary' => 'bg-secondary text-white',
+        'tertiary' => 'bg-tertiary text-black',
+        'black' => 'bg-black text-white',
+        default => 'bg-white text-black',
     };
 @endphp
 
 <section {{ $attributes->merge(['class' => "section py-12 $background"]) }}>
-    <div class="{{ $container }}">
+    <div class="{{ $wrapper }}">
         <div class="grid gap-6 {{ $grid }}">
             <InnerBlocks template="{{ $block->template }}" />
         </div>

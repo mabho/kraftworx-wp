@@ -16,7 +16,34 @@
       "defaultDuotone": false,
       "defaultGradients": false,
       "defaultPalette": false,
-      "duotone": []
+      "duotone": [],
+      "palette": [
+        {
+          "slug": "primary",
+          "name": "Primary",
+          "color": "#1d4ed8"
+        },
+        {
+          "slug": "secondary",
+          "name": "Secondary",
+          "color": "#0f766e"
+        },
+        {
+          "slug": "tertiary",
+          "name": "Tertiary",
+          "color": "#d97706"
+        },
+        {
+          "slug": "black",
+          "name": "Black",
+          "color": "#000000"
+        },
+        {
+          "slug": "white",
+          "name": "White",
+          "color": "#ffffff"
+        }
+      ]
     },
     "custom": {
       "spacing": {},

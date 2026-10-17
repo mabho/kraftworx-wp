@@ -19,7 +19,7 @@ class Section extends Block
      *
      * @var string
      */
-    public $description = 'A reusable layout section with container, column, and background options.';
+    public $description = 'A reusable layout section with container, width, columns, and background options.';
 
     /**
      * The block category.
@@ -80,9 +80,10 @@ class Section extends Block
     public function with(): array
     {
         return [
-            'container_type' => get_field('container_type') ?: 'boxed',
+            'contained' => get_field('contained') ?: 'contained',
+            'column_width' => get_field('column_width') ?: 'default',
             'columns' => get_field('columns') ?: '100',
-            'background_color' => get_field('background_color') ?: 'light',
+            'background_color' => get_field('background_color') ?: 'white',
         ];
     }
 
@@ -94,14 +95,21 @@ class Section extends Block
         $fields = Builder::make('section');
 
         $fields
-            ->addSelect('container_type', [
+            ->addSelect('contained', [
                 'label' => 'Container',
                 'choices' => [
-                    'boxed' => 'Boxed',
-                    'full' => 'Full Width',
-                    'edge' => 'Edge to Edge',
+                    'contained' => 'Contained',
+                    'uncontained' => 'Uncontained',
                 ],
-                'default_value' => 'boxed',
+                'default_value' => 'contained',
+            ])
+            ->addSelect('column_width', [
+                'label' => 'Content width',
+                'choices' => [
+                    'default' => 'Default',
+                    'narrow' => 'Narrow',
+                ],
+                'default_value' => 'default',
             ])
             ->addSelect('columns', [
                 'label' => 'Grid layout',
@@ -115,13 +123,13 @@ class Section extends Block
             ->addSelect('background_color', [
                 'label' => 'Background color',
                 'choices' => [
-                    'light' => 'Light',
-                    'dark' => 'Dark',
                     'primary' => 'Primary',
                     'secondary' => 'Secondary',
-                    'accent' => 'Accent',
+                    'tertiary' => 'Tertiary',
+                    'black' => 'Black',
+                    'white' => 'White',
                 ],
-                'default_value' => 'light',
+                'default_value' => 'white',
             ]);
 
         return $fields->build();
