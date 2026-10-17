@@ -1,0 +1,80 @@
+@font-face {
+  font-family: 'Replica Pro';
+  src: url('../fonts/replica-pro-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avenir';
+  src: url('../fonts/avenir-light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avenir';
+  src: url('../fonts/avenir-book.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avenir';
+  src: url('../fonts/avenir-medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avenir';
+  src: url('../fonts/avenir-black.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-sans: 'Avenir', 'Helvetica Neue', Arial, sans-serif;
+  --font-display: 'Replica Pro', 'Avenir', ui-sans-serif, system-ui, sans-serif;
+
+  --breakpoint-sm: 40rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 80rem;
+  --breakpoint-2xl: 96rem;
+
+  --text-hero: 9rem;
+  --text-hero--line-height: 0.95;
+  --text-lead: 1.875rem;
+  --text-lead--line-height: 1.25;
+  --text-section: 4.5rem;
+  --text-section--line-height: 1.05;
+  --text-stat: 6.125rem;
+  --text-stat--line-height: 1;
+  --text-nav: 1.125rem;
+  --text-note: 1.5rem;
+  --text-label: 1.8125rem;
+}
+
+body {
+  font-family: var(--font-sans);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-synthesis: none;
+}
+
+@variant 2xl {
+  .container {
+    max-width: 100rem;
+  }
+}
