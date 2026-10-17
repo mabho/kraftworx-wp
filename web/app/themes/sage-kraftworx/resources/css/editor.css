@@ -1,1 +1,35 @@
 @import "tailwindcss";
+
+.editor-visual-editor__post-title-wrapper,
+.edit-post-visual-editor__post-title-wrapper {
+  margin-bottom: 2.5rem;
+}
+
+.editor-visual-editor__post-title-wrapper::before,
+.edit-post-visual-editor__post-title-wrapper::before {
+  content: "Page title";
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--wp--preset--color--primary, #1d4ed8);
+}
+
+h1.editor-post-title__input {
+  font-size: 2.5em;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+}
+
+h1.editor-post-title__input:focus {
+  outline: 2px solid var(--wp--preset--color--primary, #1d4ed8);
+  outline-offset: 2px;
+}
