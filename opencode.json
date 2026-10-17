@@ -13,7 +13,12 @@
     "bash": {
       "*": "allow",
       "*.env*": "deny",
-      "*.env.example*": "allow"
+      "*.env.example*": "allow",
+      "*git commit*": "deny",
+      "*git push*": "deny",
+      "*git tag*": "deny",
+      "*gh pr create*": "deny",
+      "*gh pr merge*": "deny"
     }
   }
 }

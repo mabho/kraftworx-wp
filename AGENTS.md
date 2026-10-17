@@ -24,3 +24,12 @@ paths. When in doubt, ask.
 Credentials and environment files intentionally live outside this repository
 (e.g. `~/.composer/auth.json`, `~/.ddev/homeadditions`); do not read or modify
 them without explicit permission.
+
+## Commits
+
+- **Never commit, amend, push, tag, or open pull requests.** All commits are made
+  by the project owner.
+- Leave changes in the working tree and report what changed. You may suggest a
+  commit message, but do not run `git commit`, `git commit --amend`, `git push`,
+  `git tag`, or `gh pr create`.
+- Only the owner decides when and what to commit.
