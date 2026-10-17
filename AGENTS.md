@@ -33,3 +33,12 @@ them without explicit permission.
   commit message, but do not run `git commit`, `git commit --amend`, `git push`,
   `git tag`, or `gh pr create`.
 - Only the owner decides when and what to commit.
+
+### Commit message format
+
+- Messages must use `f/NNNN: <message>.` (feature) or `b/NNNN: <message>.` (bug),
+  e.g. `f/0001: Add section block.`
+- The prefix is followed by a colon and a space; the message must end with a
+  period.
+- Enforced by `.githooks/commit-msg`; enable it in a clone with
+  `git config core.hooksPath .githooks`.
