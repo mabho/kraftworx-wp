@@ -86,6 +86,29 @@ ddev exec bash -c 'cd web/app/themes/sage-kraftworx && npm run build'
 - Live reloading (`npm run dev` + DDEV) is not configured yet; the current flow is a
   production build.
 
+## Design tokens
+
+Colors are defined once in `resources/css/app.css` under `@theme`. These are the only
+colors exposed to the editor and used by the component blocks:
+
+| Token | Value | Example utilities |
+| --- | --- | --- |
+| `--color-primary` | `#1d4ed8` | `bg-primary`, `text-primary` |
+| `--color-secondary` | `#0f766e` | `bg-secondary`, `text-secondary` |
+| `--color-tertiary` | `#d97706` | `bg-tertiary`, `text-tertiary` |
+| `--color-black` | `#000000` | `bg-black`, `text-black` |
+| `--color-white` | `#ffffff` | `bg-white`, `text-white` |
+
+- `theme.json` defines the matching 5-swatch editor palette.
+- `vite.config.js` sets `disableTailwindColors: true`, so the generated
+  `public/build/assets/theme.json` no longer includes Tailwind's default 288-color
+  palette.
+- Replace the placeholder hex values with the brand colors, then run `npm run build`.
+- Known exception: the starter `resources/views/components/alert.blade.php` still uses
+  default Tailwind colors (`green`, `yellow`, `red`, `indigo`). Those remain available
+  in CSS because the default palette is not cleared. Update the alert to the tokens if
+  the 5-color system should be enforced everywhere.
+
 ## Version tracking and upgrades
 
 Sage is a starter, not a package dependency, so record the baseline version here and treat
