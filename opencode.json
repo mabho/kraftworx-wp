@@ -3,6 +3,17 @@
   "permission": {
     "external_directory": {
       "*": "ask"
+    },
+    "read": {
+      "*": "allow",
+      "*.env": "deny",
+      "*.env.*": "deny",
+      "*.env.example": "allow"
+    },
+    "bash": {
+      "*": "allow",
+      "*.env*": "deny",
+      "*.env.example*": "allow"
     }
   }
 }
