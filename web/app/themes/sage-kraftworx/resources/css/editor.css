@@ -15,7 +15,7 @@
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--wp--preset--color--primary, #1d4ed8);
+  color: var(--wp--preset--color--primary, #00b0ff);
 }
 
 h1.editor-post-title__input {
@@ -32,6 +32,6 @@ h1.editor-post-title__input {
 }
 
 h1.editor-post-title__input:focus {
-  outline: 2px solid var(--wp--preset--color--primary, #1d4ed8);
+  outline: 2px solid var(--wp--preset--color--primary, #00b0ff);
   outline-offset: 2px;
 }
