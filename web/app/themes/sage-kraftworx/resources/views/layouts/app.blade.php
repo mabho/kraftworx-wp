@@ -15,14 +15,14 @@
   <body @php(body_class())>
     @php(wp_body_open())
 
-    <div id="app">
+    <div id="app" class="flex min-h-[calc(100svh-var(--admin-bar-height))] flex-col">
       <a class="sr-only focus:not-sr-only" href="#main">
         {{ __('Skip to content', 'sage') }}
       </a>
 
       @include('sections.header')
 
-      <main id="main" class="main scroll-mt-16 pt-16">
+      <main id="main" class="main flex-1 scroll-mt-16 pt-16">
         @yield('content')
       </main>
 

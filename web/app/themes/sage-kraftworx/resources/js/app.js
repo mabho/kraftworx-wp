@@ -69,9 +69,23 @@ const initScrollArrows = () => {
   });
 };
 
+const initScrollTop = () => {
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  document.querySelectorAll('[data-scroll-top]').forEach((button) => {
+    button.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: prefersReducedMotion.matches ? 'auto' : 'smooth',
+      });
+    });
+  });
+};
+
 const init = () => {
   initHeader();
   initScrollArrows();
+  initScrollTop();
 };
 
 if (document.readyState === 'loading') {
