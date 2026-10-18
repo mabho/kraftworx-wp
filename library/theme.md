@@ -191,12 +191,17 @@ another artboard.
 
 The `Stats` block derives its layout from the repeater count (2–4 rows): 2 stats render
 in two columns with 36px captions, while 3 and 4 stats render in three/four columns at the
-`xl` breakpoint with 30px captions. Vertical dividers separate the active columns and run
-down to the source rule; the grid uses a Bootstrap-style negative-margin gutter so the
-first and last columns keep the same inner content width as the middle columns. Dividers
-appear from `md` upward and are shown in each wrapped row; below `md` the stats stack in
-one column and no divider is needed. The block reuses the `FullHeight` partial (default
-off) and shows the shared scroll arrow when enabled.
+`xl` breakpoint with 30px captions. The grid keeps its normal column/row gaps; separators
+are absolutely positioned pseudo-elements on the stat items, so they do not affect column
+widths or outer alignment. Vertical dividers sit in the column gaps and extend through
+wrapped rows via half-gap offsets; when the grid wraps, a full-width horizontal pseudo-
+element spans the row from the first to the last column edge. Dividers appear from `md`
+upward. Below `md` the stats stack in one column and no divider is needed. The block reuses
+the `FullHeight` partial (default off) and shows the shared scroll arrow when enabled.
+
+All ACF textarea fields are treated as plain text: their values are escaped and rendered
+with `{!! nl2br(e($value)) !!}`, so line breaks become `<br />` without WYSIWYG controls
+or raw HTML. Do not pair this with `whitespace-pre-line`.
 
 ### Breakpoints
 
