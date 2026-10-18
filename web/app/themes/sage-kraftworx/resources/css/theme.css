@@ -54,8 +54,14 @@
   --text-lead--line-height: 1.25;
   --text-section: 4.5rem;
   --text-section--line-height: 1.05;
+  --text-section-intro: 2.625rem;
+  --text-section-intro--line-height: 1.2;
   --text-stat: 6.125rem;
   --text-stat--line-height: 1;
+  --text-stat-label: 2.25rem;
+  --text-stat-label--line-height: 1.25;
+  --text-stat-label-compact: 1.875rem;
+  --text-stat-label-compact--line-height: 1.3;
   --text-nav: 1.125rem;
   --text-note: 1.5rem;
   --text-label: 1.8125rem;
