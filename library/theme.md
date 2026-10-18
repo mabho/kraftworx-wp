@@ -203,6 +203,12 @@ All ACF textarea fields are treated as plain text: their values are escaped and 
 with `{!! nl2br(e($value)) !!}`, so line breaks become `<br />` without WYSIWYG controls
 or raw HTML. Do not pair this with `whitespace-pre-line`.
 
+CTA links are targeted automatically: external hosts open in a new tab with
+`rel="noopener noreferrer"`; internal, relative, `mailto:`, and `tel:` links stay in the
+same tab. The ACF link target setting is ignored. The shared scroll arrow is a button that
+smooth-scrolls to the next sibling block (respecting reduced motion and the admin bar) and
+is hidden when there is no next block.
+
 ### Breakpoints
 
 - Breakpoints are project tokens in the `@theme` block of `resources/css/theme.css`:
