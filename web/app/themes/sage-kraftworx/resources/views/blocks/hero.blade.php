@@ -20,7 +20,7 @@
     default => ['content' => 'ml-auto', 'text' => 'text-right', 'inner' => 'ml-auto'],
   };
 
-  $height = $full_height ? 'min-h-screen' : '';
+  $height = $full_height ? 'min-h-[calc(100svh-var(--site-header-offset))]' : '';
 @endphp
 
 <section {{ $attributes->merge(['class' => "hero relative isolate overflow-hidden $background"]) }}>

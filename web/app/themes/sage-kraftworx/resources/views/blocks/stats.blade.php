@@ -36,7 +36,7 @@
     ? 'border-white/20'
     : 'border-black/20';
 
-  $height = $full_height ? 'flex min-h-screen flex-col justify-center' : '';
+  $height = $full_height ? 'flex min-h-[calc(100svh-var(--site-header-offset))] flex-col justify-center' : '';
 @endphp
 
 <section {{ $attributes->merge(['class' => "stats relative overflow-hidden py-16 lg:py-24 $background $height"]) }}>
