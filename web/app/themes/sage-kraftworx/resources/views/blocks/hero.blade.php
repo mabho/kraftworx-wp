@@ -37,12 +37,12 @@
     <div class="{{ $alignment['content'] }} max-w-5xl {{ $alignment['text'] }}">
       @if ($title)
         <h1 class="text-[clamp(2.75rem,10vw,var(--text-hero))] leading-[0.95] tracking-tight">
-          {{ $title }}
+          {!! nl2br(e($title)) !!}
         </h1>
       @endif
 
       @if ($intro_text)
-        <p class="mt-8 max-w-md text-xl font-light leading-relaxed sm:text-2xl lg:text-lead {{ $alignment['inner'] }}">
+        <p class="mt-8 max-w-md text-xl font-light sm:text-2xl lg:text-lead {{ $alignment['inner'] }}">
           {!! nl2br(e($intro_text)) !!}
         </p>
       @endif
@@ -50,8 +50,8 @@
       @if (is_array($call_to_action) && !empty($call_to_action['url']))
         <a
           href="{{ $call_to_action['url'] }}"
-          @if (!empty($call_to_action['target'])) target="{{ $call_to_action['target'] }}" rel="noopener noreferrer" @endif
-          class="mt-10 inline-flex border border-current px-5 py-3 text-lg font-light uppercase tracking-[0.2em] transition {{ $buttonHover }}"
+          @if (!empty($call_to_action_is_external)) target="_blank" rel="noopener noreferrer" @endif
+          class="mt-10 inline-flex rounded-lg border border-current px-5 py-3 text-lg font-light uppercase tracking-[0.2em] transition {{ $buttonHover }}"
         >
           {{ $call_to_action['title'] ?: 'Learn More' }}
         </a>

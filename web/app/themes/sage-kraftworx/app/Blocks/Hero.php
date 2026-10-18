@@ -75,13 +75,37 @@ class Hero extends Block
    */
   public function with(): array
   {
+    $callToAction = get_field('call_to_action');
+
     return [
       'background_image' => get_field('background_image'),
       'background_color' => get_field('background_color') ?: 'black',
       'title' => get_field('title'),
       'intro_text' => get_field('intro_text'),
-      'call_to_action' => get_field('call_to_action'),
+      'call_to_action' => $callToAction,
+      'call_to_action_is_external' => $this->isExternalUrl(
+        is_array($callToAction) ? ($callToAction['url'] ?? null) : null
+      ),
     ] + $this->alignment() + $this->fullHeight();
+  }
+
+  /**
+   * Determine whether a URL points outside the current site.
+   */
+  protected function isExternalUrl(?string $url): bool
+  {
+    $host = wp_parse_url((string) $url, PHP_URL_HOST);
+    $homeHost = wp_parse_url(home_url('/'), PHP_URL_HOST);
+
+    if (! $host || ! $homeHost) {
+      return false;
+    }
+
+    $normalize = static fn (string $value): string => strtolower(
+      preg_replace('/^www\./i', '', $value) ?? $value
+    );
+
+    return $normalize($host) !== $normalize($homeHost);
   }
 
   /**
@@ -96,8 +120,10 @@ class Hero extends Block
         'open' => 1,
         'multi_expand' => 1,
       ])
-      ->addText('title', [
+      ->addTextarea('title', [
         'label' => 'Title',
+        'rows' => 3,
+        'new_lines' => '',
       ])
       ->addTextarea('intro_text', [
         'label' => 'Intro text',
@@ -106,6 +132,7 @@ class Hero extends Block
       ])
       ->addLink('call_to_action', [
         'label' => 'Call to action',
+        'instructions' => 'External links open in a new tab automatically.',
         'return_format' => 'array',
       ])
       ->addAccordion('Layout', [
