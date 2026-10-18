@@ -43,16 +43,16 @@
   <div class="container mx-auto px-4 sm:px-6 lg:px-8">
     <div class="grid gap-12 lg:gap-16 {{ $gridLayout }}">
       @if ($hasHeader)
-        <div class="min-w-0">
+        <div class="min-w-0 xl:pe-12 2xl:pe-16">
           @if ($title)
-            <h2 class="font-sans text-4xl font-extrabold leading-[1.05] sm:text-5xl lg:text-section">
-              {{ $title }}
+            <h2 class="font-sans text-4xl font-extrabold leading-[1.05] sm:text-5xl lg:text-6xl xl:text-section">
+              {!! nl2br(e($title)) !!}
             </h2>
           @endif
 
           @if ($intro_text)
-            <p class="mt-6 text-2xl font-medium leading-snug md:text-3xl lg:text-section-intro">
-              {{ $intro_text }}
+            <p class="mt-6 text-2xl font-medium md:text-3xl lg:text-4xl xl:text-section-intro">
+              {!! nl2br(e($intro_text)) !!}
             </p>
           @endif
         </div>
@@ -86,8 +86,8 @@
                 @endif
 
                 @if (isset($stat['label']) && $stat['label'] !== '')
-                  <dd class="mt-4 text-xl font-medium leading-snug {{ $labelSize }}">
-                    {{ $stat['label'] }}
+                  <dd class="mt-4 text-xl font-medium {{ $labelSize }}">
+                    {!! nl2br(e($stat['label'])) !!}
                   </dd>
                 @endif
               </div>

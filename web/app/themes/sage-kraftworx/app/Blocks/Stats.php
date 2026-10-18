@@ -96,8 +96,10 @@ class Stats extends Block
         'open' => 1,
         'multi_expand' => 1,
       ])
-      ->addText('title', [
+      ->addTextarea('title', [
         'label' => 'Title',
+        'rows' => 3,
+        'new_lines' => '',
       ])
       ->addTextarea('intro_text', [
         'label' => 'Intro text',
