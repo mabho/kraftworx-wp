@@ -239,17 +239,36 @@ is hidden when there is no next block.
 ## Header
 
 - Fixed black header, `4rem` tall, with the white `logo-kraftworx.svg` moved to
-  `resources/images/logo-kraftworx.svg`.
+  `resources/images/logo-kraftworx.svg`. The logo markup is shared via
+  `resources/views/partials/site-logo.blade.php`.
 - Desktop navigation is centered from `md`; below `md` the menu collapses into a
   hamburger panel toggled in `resources/js/app.js`.
 - Navigation comes from the WordPress `primary_navigation` menu. Active items use the
-  primary blue; the Home custom link is marked current on the front page.
-- The LinkedIn icon is inline SVG. Update `$linkedinUrl` in
-  `resources/views/sections/header.blade.php` with the company URL.
+  primary blue; the Home menu item is marked current on the front page.
+- The LinkedIn link and inline icon are shared via
+  `resources/views/partials/linkedin-link.blade.php`; update its default URL with the
+  company URL.
 - The header is fixed: `main` has `pt-16`, and `--site-header-offset` accounts for the
   header and the WordPress admin bar. The scroll-arrow offset includes the header.
-- The initial menu uses placeholder custom links (`/mission/`, `/approach/`, `/about/`,
-  `/contact/`); replace them with the real pages when they exist.
+- Menu items are managed in **Appearance → Menus**.
+
+## Footer
+
+- Black footer with the shared logo on the left, editable center content, and the footer
+  menu plus LinkedIn on the right. An up-arrow button sits above the content with a gap.
+- Center content comes from the ACF **Footer** options page
+  (`App\Options\Footer`, field `footer_center`); line breaks render as `<br />`.
+- The right side renders the `footer_navigation` menu (named **Footer Navigation**,
+  currently containing Contact) plus the LinkedIn icon. There is no hardcoded Contact link.
+- The up arrow is a `data-scroll-top` button using the shared
+  `resources/views/partials/arrow-icon.blade.php` icon rotated 180° — the same 40px icon
+  used by the scroll-down button. `resources/js/app.js` scrolls to the top and respects
+  reduced motion.
+- Sticky footer: `#app` is a flex column with
+  `min-h-[calc(100svh-var(--admin-bar-height))]` and `main` is `flex-1`, so the footer sits
+  at the bottom of the viewport on short pages.
+- The LinkedIn link and icon are shared via the same
+  `resources/views/partials/linkedin-link.blade.php` partial.
 
 ## Version tracking and upgrades
 
