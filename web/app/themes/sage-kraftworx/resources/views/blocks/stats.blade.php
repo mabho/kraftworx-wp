@@ -17,7 +17,7 @@
   $columnCount = count($stats);
 
   $grid = match (true) {
-    $columnCount >= 4 => 'md:grid-cols-2 xl:grid-cols-4',
+    $columnCount >= 4 => 'md:grid-cols-2 2xl:grid-cols-4',
     $columnCount === 3 => 'md:grid-cols-2 xl:grid-cols-3',
     default => 'md:grid-cols-2',
   };
@@ -27,60 +27,90 @@
     : 'lg:text-stat-label-compact';
 
   $hasHeader = !empty($title) || !empty($intro_text);
+
+  $gridLayout = $hasHeader
+    ? 'lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)]'
+    : 'lg:grid-cols-1';
+
+  $gutterLines = match (true) {
+    $columnCount >= 4 => 'md:[&>*:nth-child(even)]:border-l 2xl:[&>*:nth-child(3)]:border-l',
+    $columnCount === 3 => 'md:[&>*:nth-child(even)]:border-l xl:[&>*:nth-child(3)]:border-l',
+    default => 'md:[&>*:nth-child(even)]:border-l',
+  };
+
+  $ruleColor = in_array($background_color, ['primary', 'secondary', 'black'], true)
+    ? 'border-white/20'
+    : 'border-black/20';
+
+  $lineColor = in_array($background_color, ['primary', 'secondary', 'black'], true)
+    ? 'md:[&>*]:border-white/20'
+    : 'md:[&>*]:border-black/20';
+
+  $height = $full_height ? 'flex min-h-screen flex-col justify-center' : '';
 @endphp
 
-<section {{ $attributes->merge(['class' => "stats py-16 lg:py-24 $background"]) }}>
+<section {{ $attributes->merge(['class' => "stats relative overflow-hidden py-16 lg:py-24 $background $height"]) }}>
   <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid gap-12 lg:grid-cols-12 lg:gap-16">
+    <div class="grid gap-12 lg:gap-16 {{ $gridLayout }}">
       @if ($hasHeader)
-        <div class="lg:col-span-4">
+        <div class="min-w-0">
           @if ($title)
-            <h2 class="font-sans text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-section">
+            <h2 class="font-sans text-4xl font-extrabold leading-[1.05] sm:text-5xl lg:text-section">
               {{ $title }}
             </h2>
           @endif
 
           @if ($intro_text)
-            <p class="mt-6 text-2xl font-medium leading-snug whitespace-pre-line md:text-3xl lg:text-section-intro">
+            <p class="mt-6 text-2xl font-medium leading-snug md:text-3xl lg:text-section-intro">
               {{ $intro_text }}
             </p>
           @endif
         </div>
       @endif
 
-      <div class="{{ $hasHeader ? 'lg:col-span-8' : 'lg:col-span-12' }}">
-        @if ($eyebrow)
-          <p class="mb-8 text-lg font-extrabold uppercase tracking-[0.2em] md:text-xl lg:text-label">
-            {{ $eyebrow }}
-          </p>
-        @endif
-
+      <div class="min-w-0">
         @if ($stats)
-          <dl class="grid gap-x-8 gap-y-12 {{ $grid }}">
-            @foreach ($stats as $stat)
-              <div>
-                @if (isset($stat['value']) && $stat['value'] !== '')
-                  <dt class="text-5xl font-extrabold leading-none sm:text-6xl lg:text-stat {{ $valueColor }}">
-                    {{ $stat['value'] }}
-                  </dt>
-                @endif
+          <div class="mb-8 h-6 w-full bg-current"></div>
 
-                @if (isset($stat['label']) && $stat['label'] !== '')
-                  <dd class="mt-4 text-xl font-medium leading-snug whitespace-pre-line {{ $labelSize }}">
-                    {{ $stat['label'] }}
-                  </dd>
-                @endif
-              </div>
-            @endforeach
-          </dl>
+          @if ($eyebrow)
+            <p class="mb-8 text-lg font-extrabold uppercase tracking-[0.2em] md:text-xl lg:text-label">
+              {{ $eyebrow }}
+            </p>
+          @endif
+
+          <div class="md:-mx-4 lg:-mx-6 2xl:-mx-8">
+            <dl class="grid gap-x-8 gap-y-12 {{ $grid }} md:gap-x-0 {{ $gutterLines }} {{ $lineColor }}">
+              @foreach ($stats as $stat)
+                <div class="pb-10 md:px-4 lg:px-6 2xl:px-8">
+                  @if (isset($stat['value']) && $stat['value'] !== '')
+                    <dt class="text-5xl font-extrabold leading-none sm:text-6xl lg:text-stat {{ $valueColor }}">
+                      {{ $stat['value'] }}
+                    </dt>
+                  @endif
+
+                  @if (isset($stat['label']) && $stat['label'] !== '')
+                    <dd class="mt-4 text-xl font-medium leading-snug {{ $labelSize }}">
+                      {{ $stat['label'] }}
+                    </dd>
+                  @endif
+                </div>
+              @endforeach
+            </dl>
+          </div>
         @endif
 
         @if ($source)
-          <p class="mt-12 text-note font-normal leading-relaxed whitespace-pre-line">
-            {{ $source }}
-          </p>
+          <div class="border-t pt-4 {{ $ruleColor }}">
+            <p class="text-note font-normal">
+              {{ $source }}
+            </p>
+          </div>
         @endif
       </div>
     </div>
   </div>
+
+  @if ($full_height)
+    @include('partials.scroll-arrow')
+  @endif
 </section>
