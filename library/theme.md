@@ -236,6 +236,21 @@ is hidden when there is no next block.
 - Intentional narrow widths (`max-w-2xl`, `max-w-md`, `max-w-4xl`) are unchanged.
 - The editor's block preview uses the same `theme.css`, so it matches the frontend.
 
+## Header
+
+- Fixed black header, `4rem` tall, with the white `logo-kraftworx.svg` moved to
+  `resources/images/logo-kraftworx.svg`.
+- Desktop navigation is centered from `md`; below `md` the menu collapses into a
+  hamburger panel toggled in `resources/js/app.js`.
+- Navigation comes from the WordPress `primary_navigation` menu. Active items use the
+  primary blue; the Home custom link is marked current on the front page.
+- The LinkedIn icon is inline SVG. Update `$linkedinUrl` in
+  `resources/views/sections/header.blade.php` with the company URL.
+- The header is fixed: `main` has `pt-16`, and `--site-header-offset` accounts for the
+  header and the WordPress admin bar. The scroll-arrow offset includes the header.
+- The initial menu uses placeholder custom links (`/mission/`, `/approach/`, `/about/`,
+  `/contact/`); replace them with the real pages when they exist.
+
 ## Version tracking and upgrades
 
 Sage is a starter, not a package dependency, so record the baseline version here and treat
