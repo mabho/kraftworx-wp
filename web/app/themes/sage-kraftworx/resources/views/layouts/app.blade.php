@@ -22,7 +22,7 @@
 
       @include('sections.header')
 
-      <main id="main" class="main">
+      <main id="main" class="main scroll-mt-16 pt-16">
         @yield('content')
       </main>
 
