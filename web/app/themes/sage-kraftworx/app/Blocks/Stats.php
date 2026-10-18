@@ -2,11 +2,15 @@
 
 namespace App\Blocks;
 
+use App\Blocks\Concerns\HasLayoutControls;
+use App\Fields\Partials\FullHeight;
 use Log1x\AcfComposer\Block;
 use Log1x\AcfComposer\Builder;
 
 class Stats extends Block
 {
+  use HasLayoutControls;
+
   /**
    * The block name.
    *
@@ -77,7 +81,7 @@ class Stats extends Block
       'source' => get_field('source'),
       'background_color' => get_field('background_color') ?: 'white',
       'stats' => get_field('stats') ?: [],
-    ];
+    ] + $this->fullHeight(false);
   }
 
   /**
@@ -99,6 +103,24 @@ class Stats extends Block
         'label' => 'Intro text',
         'rows' => 3,
         'new_lines' => '',
+      ])
+      ->addAccordion('Layout', [
+        'open' => 1,
+        'multi_expand' => 1,
+      ])
+      ->addSelect('background_color', [
+        'label' => 'Background color',
+        'choices' => [
+          'primary' => 'Primary',
+          'secondary' => 'Secondary',
+          'tertiary' => 'Tertiary',
+          'black' => 'Black',
+          'white' => 'White',
+        ],
+        'default_value' => 'white',
+      ])
+      ->addPartial(FullHeight::class, [
+        'default' => 0,
       ])
       ->addAccordion('Stats', [
         'open' => 1,
@@ -129,21 +151,6 @@ class Stats extends Block
       ->addText('source', [
         'label' => 'Source note',
         'instructions' => 'Optional. Include a leading * if needed.',
-      ])
-      ->addAccordion('Layout', [
-        'open' => 1,
-        'multi_expand' => 1,
-      ])
-      ->addSelect('background_color', [
-        'label' => 'Background color',
-        'choices' => [
-          'primary' => 'Primary',
-          'secondary' => 'Secondary',
-          'tertiary' => 'Tertiary',
-          'black' => 'Black',
-          'white' => 'White',
-        ],
-        'default_value' => 'white',
       ]);
 
     return $fields->build();
