@@ -144,6 +144,24 @@
   color: var(--color-primary);
 }
 
+.footer-nav .menu-item > a {
+  font-family: var(--font-sans);
+  font-size: var(--text-nav);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgb(255 255 255 / 0.8);
+  transition: color 150ms ease;
+}
+
+.footer-nav .menu-item > a:hover {
+  color: #fff;
+}
+
+.site-logo {
+  height: 1.25rem;
+  width: auto;
+}
+
 :root {
   --admin-bar-height: 0px;
   --site-header-offset: 4rem;
@@ -240,5 +258,42 @@ body.admin-bar {
 
   .stats-grid[data-count="4"] > :nth-child(odd):not(:first-child)::after {
     display: none;
+  }
+}
+
+@keyframes arrow-nudge-up {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-0.35rem);
+  }
+}
+
+@keyframes arrow-nudge-down {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(0.35rem);
+  }
+}
+
+.arrow-hover-up:hover {
+  animation: arrow-nudge-up 500ms ease-in-out;
+}
+
+.arrow-hover-down:hover {
+  animation: arrow-nudge-down 500ms ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arrow-hover-up:hover,
+  .arrow-hover-down:hover {
+    animation: none;
   }
 }
