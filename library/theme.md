@@ -107,12 +107,13 @@ npm run build   # production build
 
 ## Design tokens
 
-Colors are defined once in `resources/css/app.css` under `@theme`. These are the only
-colors exposed to the editor and used by the component blocks:
+Colors are defined once in `resources/css/theme.css` under `@theme`, so both the
+frontend and the editor share the same tokens. These are the only colors exposed to the
+editor and used by the component blocks:
 
 | Token | Value | Example utilities |
 | --- | --- | --- |
-| `--color-primary` | `#1d4ed8` | `bg-primary`, `text-primary` |
+| `--color-primary` | `#00b0ff` | `bg-primary`, `text-primary` |
 | `--color-secondary` | `#0f766e` | `bg-secondary`, `text-secondary` |
 | `--color-tertiary` | `#d97706` | `bg-tertiary`, `text-tertiary` |
 | `--color-black` | `#000000` | `bg-black`, `text-black` |
@@ -122,7 +123,9 @@ colors exposed to the editor and used by the component blocks:
 - `vite.config.js` sets `disableTailwindColors: true`, so the generated
   `public/build/assets/theme.json` no longer includes Tailwind's default 288-color
   palette.
-- Replace the placeholder hex values with the brand colors, then run `npm run build`.
+- `--color-primary` is the design blue (`#00b0ff`). The secondary and tertiary values
+  are still placeholders; replace them with the brand colors, then run
+  `npm run build`.
 - Known exception: the starter `resources/views/components/alert.blade.php` still uses
   default Tailwind colors (`green`, `yellow`, `red`, `indigo`). Those remain available
   in CSS because the default palette is not cleared. Update the alert to the tokens if
@@ -145,13 +148,15 @@ colors exposed to the editor and used by the component blocks:
   `font-black` (900), or the browser will synthesize the weight.
 - `@font-face` rules and the `--font-sans` / `--font-display` tokens live in
   `resources/css/theme.css`, imported by both `app.css` and `editor.css`.
-- `--font-sans` sets the Tailwind `font-sans` family and the `body` font; headings
-  (`h1`, `h2`, `h3`) use `--font-display` at weight 400 with `font-synthesis: none`.
+- `--font-sans` sets the Tailwind `font-sans` family and the `body` font. `h1` uses
+  `--font-display` at weight 400; `h2`/`h3` use Avenir at weight 800. All three set
+  `font-synthesis: none`.
 - Replica Pro and the two most-used Avenir faces (Light, Book) are preloaded in
   `resources/views/layouts/app.blade.php`. They are declared in the Vite `input` so
   `Vite::asset()` can resolve their hashed manifest entries.
 - `theme.json` exposes `sans` as **Avenir** and `display` as **Replica Pro**; its
-  `styles.elements.h1/h2/h3` use the display family at weight 400.
+  `styles.elements.h1` uses the display family at weight 400, while `h2`/`h3` use the
+  sans family at weight 800.
 - The Replica file was converted from `ReplicaTrialTT-Regular.ttf` (a trial). Replace
   `replica-pro-regular.woff2` with the licensed commercial Replica Pro file before
   production; keep the same file name and family so no CSS changes are needed.
@@ -172,16 +177,26 @@ values.
 | Navigation (active) | Avenir Medium 500 | 18px | `--text-nav` (1.125rem) + `font-medium` |
 | Navigation (links) | Avenir Light 300 | 18px | `--text-nav` + `font-light` |
 | Section heading | Avenir Black 800 | 72px | `--text-section` (4.5rem) + `font-extrabold` |
-| Section intro | Avenir Medium 500 | 42px | — (no token yet) |
+| Section intro | Avenir Medium 500 | 42px | `--text-section-intro` (2.625rem) + `font-medium` |
 | Stat number | Avenir Black 800 | 98px | `--text-stat` (6.125rem) |
-| Stat caption | Avenir Medium 500 | 36px | — (no token yet) |
+| Stat caption (2-up) | Avenir Medium 500 | 36px | `--text-stat-label` (2.25rem) |
+| Stat caption (3/4-up) | Avenir Medium 500 | 30px | `--text-stat-label-compact` (1.875rem) |
 | Uppercase label | Avenir Black 800 | 29px | `--text-label` (1.8125rem) |
-| Source note | Avenir Book 400 | 24px | `--text-note` (1.5rem) |
+| Source note | Avenir Book 400 | 21px | `--text-note` (1.3125rem) |
 | CTA label | Avenir Light 300 | 18px (assumed) | `text-lg font-light` |
 
 The CTA is not present as text in the PDF (likely outlined), so 18px Light matches the
 navigation instead of an extracted spec. Confirm with the designer if the CTA appears in
 another artboard.
+
+The `Stats` block derives its layout from the repeater count (2–4 rows): 2 stats render
+in two columns with 36px captions, while 3 and 4 stats render in three/four columns at the
+`xl` breakpoint with 30px captions. Vertical dividers separate the active columns and run
+down to the source rule; the grid uses a Bootstrap-style negative-margin gutter so the
+first and last columns keep the same inner content width as the middle columns. Dividers
+appear from `md` upward and are shown in each wrapped row; below `md` the stats stack in
+one column and no divider is needed. The block reuses the `FullHeight` partial (default
+off) and shows the shared scroll arrow when enabled.
 
 ### Breakpoints
 
