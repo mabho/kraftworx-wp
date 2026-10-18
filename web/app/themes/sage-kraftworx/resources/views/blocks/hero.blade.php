@@ -43,7 +43,7 @@
 
       @if ($intro_text)
         <p class="mt-8 max-w-md text-xl font-light leading-relaxed sm:text-2xl lg:text-lead {{ $alignment['inner'] }}">
-          {{ $intro_text }}
+          {!! nl2br(e($intro_text)) !!}
         </p>
       @endif
 

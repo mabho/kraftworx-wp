@@ -102,6 +102,7 @@ class Hero extends Block
       ->addTextarea('intro_text', [
         'label' => 'Intro text',
         'rows' => 3,
+        'new_lines' => '',
       ])
       ->addLink('call_to_action', [
         'label' => 'Call to action',
