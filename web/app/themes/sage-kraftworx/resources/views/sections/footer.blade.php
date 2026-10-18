@@ -1,5 +1,4 @@
 @php
-  $linkedinUrl = 'https://www.linkedin.com/';
   $footerCenter = get_field('footer_center', 'option') ?: '3214 N UNIVERSITY AVE / SUITE 140 / PROVO, UT 84604 / USA';
 @endphp
 
@@ -8,13 +7,11 @@
     <div class="flex justify-end">
       <button
         type="button"
-        class="inline-flex items-center justify-center text-white/80 transition hover:text-white"
+        class="arrow-hover-up inline-flex cursor-pointer items-center justify-center text-white/80 transition hover:text-white"
         aria-label="Back to top"
         data-scroll-top
       >
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-6 w-6" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 19.5v-15m0 0l-6 6m6-6l6 6" />
-        </svg>
+        @include('partials.arrow-icon', ['class' => 'h-10 w-10 rotate-180'])
       </button>
     </div>
 
@@ -26,24 +23,20 @@
       </div>
 
       <div class="flex items-center gap-8 justify-self-center md:justify-self-end">
-        <a
-          href="{{ home_url('/contact/') }}"
-          class="text-sm uppercase tracking-[0.1em] text-white/80 transition hover:text-white"
-        >
-          Contact
-        </a>
+        @if (has_nav_menu('footer_navigation'))
+          <nav class="footer-nav" aria-label="{{ wp_get_nav_menu_name('footer_navigation') }}">
+            {!! wp_nav_menu([
+              'theme_location' => 'footer_navigation',
+              'container' => false,
+              'depth' => 1,
+              'fallback_cb' => false,
+              'menu_class' => 'menu flex items-center gap-8',
+              'menu_id' => 'footer-menu',
+            ]) !!}
+          </nav>
+        @endif
 
-        <a
-          href="{{ $linkedinUrl }}"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex text-white/80 transition hover:text-white"
-          aria-label="LinkedIn"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5" aria-hidden="true">
-            <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3V9zm6 0h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.08 1.4-2.08 2.85V21H9V9z"/>
-          </svg>
-        </a>
+        @include('partials.linkedin-link', ['class' => 'inline-flex text-white/80 transition hover:text-white'])
       </div>
     </div>
   </div>
