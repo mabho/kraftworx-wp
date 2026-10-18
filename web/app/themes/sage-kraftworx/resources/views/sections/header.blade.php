@@ -4,13 +4,7 @@
 
 <header class="site-header fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-black text-white" data-site-header>
   <div class="container mx-auto grid h-16 grid-cols-[1fr_auto] items-center gap-6 px-4 sm:px-6 md:grid-cols-[auto_1fr_auto] lg:grid-cols-[1fr_auto_1fr] lg:px-8" data-site-header-bar>
-    <a href="{{ home_url('/') }}" class="inline-flex items-center justify-self-start" aria-label="{{ $siteName }}">
-      <img
-        src="{{ Vite::asset('resources/images/logo-kraftworx.svg') }}"
-        alt="{{ $siteName }}"
-        class="h-5 w-auto"
-      >
-    </a>
+    @include('partials.site-logo', ['class' => 'justify-self-start'])
 
     @if (has_nav_menu('primary_navigation'))
       <nav class="site-nav hidden justify-self-center md:block" aria-label="{{ wp_get_nav_menu_name('primary_navigation') }}">

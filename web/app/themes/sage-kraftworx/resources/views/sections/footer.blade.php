@@ -19,13 +19,7 @@
     </div>
 
     <div class="grid gap-8 pt-12 md:grid-cols-[1fr_auto_1fr] md:items-center">
-      <a href="{{ home_url('/') }}" class="inline-flex items-center justify-self-start" aria-label="{{ $siteName }}">
-        <img
-          src="{{ Vite::asset('resources/images/logo-kraftworx.svg') }}"
-          alt="{{ $siteName }}"
-          class="h-5 w-auto"
-        >
-      </a>
+      @include('partials.site-logo', ['class' => 'justify-self-start'])
 
       <div class="text-center text-sm uppercase tracking-[0.08em] text-white/80">
         {!! nl2br(e($footerCenter)) !!}
