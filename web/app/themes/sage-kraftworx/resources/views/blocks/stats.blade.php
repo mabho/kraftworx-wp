@@ -32,19 +32,9 @@
     ? 'lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)]'
     : 'lg:grid-cols-1';
 
-  $gutterLines = match (true) {
-    $columnCount >= 4 => 'md:[&>*:nth-child(even)]:border-l 2xl:[&>*:nth-child(3)]:border-l',
-    $columnCount === 3 => 'md:[&>*:nth-child(even)]:border-l xl:[&>*:nth-child(3)]:border-l',
-    default => 'md:[&>*:nth-child(even)]:border-l',
-  };
-
   $ruleColor = in_array($background_color, ['primary', 'secondary', 'black'], true)
     ? 'border-white/20'
     : 'border-black/20';
-
-  $lineColor = in_array($background_color, ['primary', 'secondary', 'black'], true)
-    ? 'md:[&>*]:border-white/20'
-    : 'md:[&>*]:border-black/20';
 
   $height = $full_height ? 'flex min-h-screen flex-col justify-center' : '';
 @endphp
@@ -78,25 +68,31 @@
             </p>
           @endif
 
-          <div class="md:-mx-4 lg:-mx-6 2xl:-mx-8">
-            <dl class="grid gap-x-8 gap-y-12 {{ $grid }} md:gap-x-0 {{ $gutterLines }} {{ $lineColor }}">
-              @foreach ($stats as $stat)
-                <div class="pb-10 md:px-4 lg:px-6 2xl:px-8">
-                  @if (isset($stat['value']) && $stat['value'] !== '')
-                    <dt class="text-5xl font-extrabold leading-none sm:text-6xl lg:text-stat {{ $valueColor }}">
-                      {{ $stat['value'] }}
-                    </dt>
-                  @endif
+          <dl class="stats-grid grid {{ $grid }}" data-count="{{ $columnCount }}">
+            @foreach ($stats as $stat)
+              @php
+                $itemBottom = match (true) {
+                  $columnCount >= 4 && $loop->index < 2 => 'md:pb-0 2xl:pb-10',
+                  $columnCount === 3 && $loop->index < 2 => 'md:pb-0 xl:pb-10',
+                  default => '',
+                };
+              @endphp
 
-                  @if (isset($stat['label']) && $stat['label'] !== '')
-                    <dd class="mt-4 text-xl font-medium leading-snug {{ $labelSize }}">
-                      {{ $stat['label'] }}
-                    </dd>
-                  @endif
-                </div>
-              @endforeach
-            </dl>
-          </div>
+              <div class="stats-item pb-10 {{ $itemBottom }}">
+                @if (isset($stat['value']) && $stat['value'] !== '')
+                  <dt class="text-5xl font-extrabold leading-none sm:text-6xl lg:text-stat {{ $valueColor }}">
+                    {{ $stat['value'] }}
+                  </dt>
+                @endif
+
+                @if (isset($stat['label']) && $stat['label'] !== '')
+                  <dd class="mt-4 text-xl font-medium leading-snug {{ $labelSize }}">
+                    {{ $stat['label'] }}
+                  </dd>
+                @endif
+              </div>
+            @endforeach
+          </dl>
         @endif
 
         @if ($source)

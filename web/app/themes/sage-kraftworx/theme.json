@@ -21,7 +21,7 @@
         {
           "slug": "primary",
           "name": "Primary",
-          "color": "#1d4ed8"
+          "color": "#00b0ff"
         },
         {
           "slug": "secondary",
@@ -71,14 +71,14 @@
       },
       "h2": {
         "typography": {
-          "fontFamily": "var(--wp--preset--font-family--display)",
-          "fontWeight": "400"
+          "fontFamily": "var(--wp--preset--font-family--sans)",
+          "fontWeight": "800"
         }
       },
       "h3": {
         "typography": {
-          "fontFamily": "var(--wp--preset--font-family--display)",
-          "fontWeight": "400"
+          "fontFamily": "var(--wp--preset--font-family--sans)",
+          "fontWeight": "800"
         }
       }
     }
