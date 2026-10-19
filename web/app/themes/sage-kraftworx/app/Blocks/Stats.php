@@ -75,6 +75,8 @@ class Stats extends Block
   public function with(): array
   {
     return [
+      'section_eyebrow' => get_field('section_eyebrow'),
+      'right_content' => get_field('right_content'),
       'title' => get_field('title'),
       'intro_text' => get_field('intro_text'),
       'eyebrow' => get_field('eyebrow'),
@@ -96,6 +98,12 @@ class Stats extends Block
         'open' => 1,
         'multi_expand' => 1,
       ])
+      ->addTextarea('section_eyebrow', [
+        'label' => 'Section eyebrow',
+        'instructions' => 'Optional label shown above the title.',
+        'rows' => 2,
+        'new_lines' => '',
+      ])
       ->addTextarea('title', [
         'label' => 'Title',
         'rows' => 3,
@@ -105,6 +113,64 @@ class Stats extends Block
         'label' => 'Intro text',
         'rows' => 3,
         'new_lines' => '',
+      ])
+      ->addAccordion('Stats', [
+        'open' => 1,
+        'multi_expand' => 1,
+      ])
+      ->addWysiwyg('right_content', [
+        'label' => 'Right column content',
+        'instructions' => 'Rich text shown above the stats. Use the Styles dropdown for the Lead paragraph and Accent, Eyebrow, or Muted spans.',
+        'toolbar' => 'Kraftworx',
+        'tabs' => 'visual',
+        'media_upload' => 0,
+      ])
+      ->addTextarea('eyebrow', [
+        'label' => 'Stats eyebrow',
+        'instructions' => 'Optional uppercase label shown above the stats grid.',
+        'rows' => 2,
+        'new_lines' => '',
+      ])
+      ->addRepeater('stats', [
+        'label' => 'Stats',
+        'instructions' => 'Add between two and four stats.',
+        'min' => 2,
+        'max' => 4,
+        'layout' => 'block',
+        'button_label' => 'Add stat',
+      ])
+        ->addTextarea('eyebrow', [
+          'label' => 'Card eyebrow',
+          'instructions' => 'e.g. BEFORE, AFTER',
+          'rows' => 2,
+          'new_lines' => '',
+        ])
+        ->addText('value', [
+          'label' => 'Value',
+          'instructions' => 'e.g. 69%, 40% lower, 1.7x',
+        ])
+        ->addTextarea('label', [
+          'label' => 'Label',
+          'rows' => 2,
+          'new_lines' => '',
+        ])
+        ->addRange('progress', [
+          'label' => 'Progress',
+          'instructions' => '0–100. Shows the bar when greater than 0.',
+          'min' => 0,
+          'max' => 100,
+          'step' => 1,
+          'default_value' => 0,
+          'append' => '%',
+        ])
+        ->addText('bar_label', [
+          'label' => 'Bar label',
+          'instructions' => 'Optional label under the bar, e.g. 100% OF TRACK.',
+        ])
+      ->endRepeater()
+      ->addText('source', [
+        'label' => 'Source note',
+        'instructions' => 'Optional. Include a leading * if needed.',
       ])
       ->addAccordion('Layout', [
         'open' => 1,
@@ -123,36 +189,6 @@ class Stats extends Block
       ])
       ->addPartial(FullHeight::class, [
         'default' => 0,
-      ])
-      ->addAccordion('Stats', [
-        'open' => 1,
-        'multi_expand' => 1,
-      ])
-      ->addText('eyebrow', [
-        'label' => 'Stats label',
-        'instructions' => 'Optional uppercase label shown above the stats.',
-      ])
-      ->addRepeater('stats', [
-        'label' => 'Stats',
-        'instructions' => 'Add between two and four stats.',
-        'min' => 2,
-        'max' => 4,
-        'layout' => 'block',
-        'button_label' => 'Add stat',
-      ])
-        ->addText('value', [
-          'label' => 'Value',
-          'instructions' => 'e.g. 69%, 40% lower, 1.7x',
-        ])
-        ->addTextarea('label', [
-          'label' => 'Label',
-          'rows' => 2,
-          'new_lines' => '',
-        ])
-      ->endRepeater()
-      ->addText('source', [
-        'label' => 'Source note',
-        'instructions' => 'Optional. Include a leading * if needed.',
       ]);
 
     return $fields->build();

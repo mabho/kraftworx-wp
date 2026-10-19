@@ -13,6 +13,12 @@
     default => 'text-primary',
   };
 
+  $barColor = match ($background_color) {
+    'primary', 'secondary' => 'bg-white',
+    'tertiary' => 'bg-black',
+    default => 'bg-primary',
+  };
+
   $stats = is_array($stats) ? array_values($stats) : [];
   $columnCount = count($stats);
 
@@ -26,7 +32,7 @@
     ? 'lg:text-stat-label'
     : 'lg:text-stat-label-compact';
 
-  $hasHeader = !empty($title) || !empty($intro_text);
+  $hasHeader = !empty($section_eyebrow) || !empty($title) || !empty($intro_text);
 
   $gridLayout = $hasHeader
     ? 'lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)]'
@@ -44,6 +50,12 @@
     <div class="grid gap-12 lg:gap-16 {{ $gridLayout }}">
       @if ($hasHeader)
         <div class="min-w-0 xl:pe-12 2xl:pe-16">
+          @if ($section_eyebrow)
+            <p class="mb-4 text-lg font-extrabold uppercase tracking-[0.2em] md:text-xl lg:text-label">
+              {!! nl2br(e($section_eyebrow)) !!}
+            </p>
+          @endif
+
           @if ($title)
             <h2 class="font-sans text-4xl font-extrabold leading-[1.05] sm:text-5xl lg:text-6xl xl:text-section">
               {!! nl2br(e($title)) !!}
@@ -60,11 +72,17 @@
 
       <div class="min-w-0">
         @if ($stats)
+          @if ($right_content)
+            <div class="stats-content mb-8">
+              {!! wp_kses_post($right_content) !!}
+            </div>
+          @endif
+
           <div class="mb-8 h-6 w-full bg-current"></div>
 
           @if ($eyebrow)
             <p class="mb-8 text-lg font-extrabold uppercase tracking-[0.2em] md:text-xl lg:text-label">
-              {{ $eyebrow }}
+              {!! nl2br(e($eyebrow)) !!}
             </p>
           @endif
 
@@ -76,9 +94,19 @@
                   $columnCount === 3 && $loop->index < 2 => 'md:pb-0 xl:pb-10',
                   default => '',
                 };
+
+                $progress = isset($stat['progress']) && $stat['progress'] !== ''
+                  ? max(0, min(100, (int) $stat['progress']))
+                  : 0;
               @endphp
 
-              <div class="stats-item pb-10 {{ $itemBottom }}">
+              <div class="stats-item flex flex-col pb-10 {{ $itemBottom }}">
+                @if (!empty($stat['eyebrow']))
+                  <p class="mb-3 text-lg font-extrabold uppercase tracking-[0.2em] lg:text-label">
+                    {!! nl2br(e($stat['eyebrow'])) !!}
+                  </p>
+                @endif
+
                 @if (isset($stat['value']) && $stat['value'] !== '')
                   <dt class="text-5xl font-extrabold leading-none sm:text-6xl lg:text-stat {{ $valueColor }}">
                     {{ $stat['value'] }}
@@ -89,6 +117,20 @@
                   <dd class="mt-4 text-xl font-medium {{ $labelSize }}">
                     {!! nl2br(e($stat['label'])) !!}
                   </dd>
+                @endif
+
+                @if ($progress > 0)
+                  <div class="mt-auto pt-10">
+                    <div class="h-4 w-full bg-current/20">
+                      <div class="h-full {{ $barColor }}" style="width: {{ $progress }}%"></div>
+                    </div>
+
+                    @if (!empty($stat['bar_label']))
+                      <p class="mt-3 text-lg uppercase tracking-[0.1em] text-current/70">
+                        {{ $stat['bar_label'] }}
+                      </p>
+                    @endif
+                  </div>
                 @endif
               </div>
             @endforeach
