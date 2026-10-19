@@ -5,6 +5,7 @@ namespace App\Blocks;
 use App\Blocks\Concerns\HasLayoutControls;
 use App\Fields\Partials\Alignment;
 use App\Fields\Partials\FullHeight;
+use App\Fields\Partials\VerticalAlignment;
 use Log1x\AcfComposer\Block;
 use Log1x\AcfComposer\Builder;
 
@@ -88,7 +89,7 @@ class Hero extends Block
       'call_to_action_is_external' => $this->isExternalUrl(
         is_array($callToAction) ? ($callToAction['url'] ?? null) : null
       ),
-    ] + $this->alignment() + $this->fullHeight();
+    ] + $this->alignment() + $this->verticalAlignment() + $this->fullHeight();
   }
 
   /**
@@ -164,6 +165,7 @@ class Hero extends Block
         'default_value' => 'black',
       ])
       ->addPartial(Alignment::class)
+      ->addPartial(VerticalAlignment::class)
       ->addPartial(FullHeight::class);
 
     return $fields->build();

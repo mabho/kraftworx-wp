@@ -20,6 +20,11 @@
     default => ['content' => 'ml-auto', 'text' => 'text-right', 'inner' => 'ml-auto'],
   };
 
+  $vertical = match ($vertical_alignment ?? 'center') {
+    'top' => 'justify-start',
+    default => 'justify-center',
+  };
+
   $height = $full_height ? 'min-h-[calc(100svh-var(--site-header-offset))]' : '';
 @endphp
 
@@ -35,7 +40,7 @@
     @endif
   @endif
 
-  <div class="container mx-auto flex {{ $height }} flex-col justify-center px-4 py-24 sm:px-6 lg:px-8">
+  <div class="container mx-auto flex {{ $height }} flex-col {{ $vertical }} px-4 py-24 sm:px-6 lg:px-8">
     <div class="{{ $alignment['content'] }} max-w-5xl {{ $alignment['text'] }}">
       @if ($title)
         <h1 class="text-[clamp(2.75rem,10vw,var(--text-hero))] leading-[0.95] tracking-tight">
