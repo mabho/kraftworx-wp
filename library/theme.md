@@ -251,6 +251,38 @@ same tab. The ACF link target setting is ignored. The shared scroll arrow is a b
 smooth-scrolls to the next sibling block (respecting reduced motion and the admin bar) and
 is hidden when there is no next block.
 
+## Image block
+
+ACF block **Image** (`acf/image`), implemented in `App\Blocks\Image` with the view
+`resources/views/blocks/image.blade.php`. It is separate from the core Image block and
+appears in the **Kraftworx Components** category.
+
+### Image fields
+
+**Content**
+
+- `image` (image, required) — attachment URL, alt text, and width/height. The image is
+  used as a normal foreground image, not a background.
+
+**Layout**
+
+- `background_color` (select) — primary, secondary, tertiary, black, or white. Defaults
+  to white and colors the section around the image.
+- `full_height` (true/false) — fills the viewport below the fixed header, centers the
+  image, and shows the shared scroll arrow. Defaults to off.
+
+**Rendering**
+
+- The image is centered inside the standard `.container` with
+  `mx-auto block h-auto max-w-full`: it keeps its natural width when smaller and scales
+  down when wider. Use `w-full` if it should always fill the container width.
+- There is no overlay, background-image treatment, cropping, or `object-cover`; the
+  background color applies only to the section.
+- The section uses `py-16 lg:py-24` for separation from adjacent blocks.
+- Width/height attributes reduce layout shift; images use `loading="lazy"` and
+  `decoding="async"`.
+- SVG images work with the Safe SVG upload support described below.
+
 ### Breakpoints
 
 - Breakpoints are project tokens in the `@theme` block of `resources/css/theme.css`:
@@ -319,8 +351,6 @@ is hidden when there is no next block.
 - Safe SVG sanitizes uploads, generates SVG dimensions/metadata, and avoids raster image
   processing, so the media library and block editor can use SVG files normally.
 - The earlier custom theme SVG class and `enshrined/svg-sanitize` dependency were removed.
-
-## Version tracking and upgrades
 
 ## Version tracking and upgrades
 
