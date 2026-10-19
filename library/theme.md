@@ -199,9 +199,51 @@ element spans the row from the first to the last column edge. Dividers appear fr
 upward. Below `md` the stats stack in one column and no divider is needed. The block reuses
 the `FullHeight` partial (default off) and shows the shared scroll arrow when enabled.
 
+### Stats fields
+
+**Content**
+
+- `section_eyebrow` (textarea) — optional label above the left column title.
+- `title` (textarea) — left column title; line breaks are preserved.
+- `intro_text` (textarea) — left column intro text; line breaks are preserved.
+
+**Stats**
+
+- `right_content` (WYSIWYG) — rich content above the stats, before the black rule.
+- `eyebrow` (textarea) — optional stats eyebrow above the grid.
+- `stats` (repeater, 2–4 items):
+  - `eyebrow` (textarea) — card eyebrow above the value, e.g. BEFORE / AFTER.
+  - `value` (text) — the primary card value, e.g. 69%, 40% lower, 1.7x.
+  - `label` (textarea) — the card description; line breaks are preserved.
+  - `progress` (range, 0–100) — bar value. The bar is a 16px square bar and renders
+    when the value is greater than 0.
+  - `bar_label` (text) — optional label under the bar, e.g. 100% OF TRACK.
+- `source` (text) — optional source note for the stats.
+
+**Layout**
+
+- `background_color` (select) — section background: primary, secondary, tertiary, black,
+  or white.
+- `full_height` (true/false) — fills the viewport and shows the shared scroll arrow.
+  Default is off.
+
+The bar and its label are bottom-aligned within each card column. The WYSIWYG uses the
+lean **Kraftworx** toolbar with a styles dropdown for the **Lead** paragraph (same
+responsive size as card values, inheriting the surrounding text color) and **Accent**
+(primary color), **Eyebrow**, and **Muted** inline `<span>` styles. The classes live in
+`theme.css` and are loaded into TinyMCE with `mce_css`.
+
+ACF initializes its WYSIWYG TinyMCE instance manually, so `editor.js` also applies the
+lean toolbar and style formats through ACF's `wysiwyg_tinymce_settings` filter.
+
 All ACF textarea fields are treated as plain text: their values are escaped and rendered
 with `{!! nl2br(e($value)) !!}`, so line breaks become `<br />` without WYSIWYG controls
 or raw HTML. Do not pair this with `whitespace-pre-line`.
+
+`right_content` is the one rich-text field and is rendered with
+`{!! wp_kses_post($right_content) !!}`. Blade's `{!! !!}` is unescaped, like Twig's
+`|raw`; only use it with sanitized HTML. Plain-text fields use `{{ }}`/`e()`, and
+textareas use `nl2br(e())`.
 
 CTA links are targeted automatically: external hosts open in a new tab with
 `rel="noopener noreferrer"`; internal, relative, `mailto:`, and `tel:` links stay in the
@@ -269,6 +311,16 @@ is hidden when there is no next block.
   at the bottom of the viewport on short pages.
 - The LinkedIn link and icon are shared via the same
   `resources/views/partials/linkedin-link.blade.php` partial.
+
+## SVG uploads
+
+- SVG uploads are provided by the **Safe SVG** plugin (`wp-plugin/safe-svg`, active),
+  installed through Composer.
+- Safe SVG sanitizes uploads, generates SVG dimensions/metadata, and avoids raster image
+  processing, so the media library and block editor can use SVG files normally.
+- The earlier custom theme SVG class and `enshrined/svg-sanitize` dependency were removed.
+
+## Version tracking and upgrades
 
 ## Version tracking and upgrades
 
