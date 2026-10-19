@@ -30,7 +30,9 @@
       alt="{{ $imageAlt }}"
       class="absolute inset-0 -z-20 h-full w-full object-cover"
     />
-    <div class="absolute inset-0 -z-10 bg-black/45"></div>
+    @if ($image_overlay)
+      <div class="absolute inset-0 -z-10 bg-black/45"></div>
+    @endif
   @endif
 
   <div class="container mx-auto flex {{ $height }} flex-col justify-center px-4 py-24 sm:px-6 lg:px-8">

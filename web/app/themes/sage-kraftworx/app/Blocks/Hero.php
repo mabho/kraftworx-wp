@@ -76,10 +76,12 @@ class Hero extends Block
   public function with(): array
   {
     $callToAction = get_field('call_to_action');
+    $overlay = get_field('image_overlay');
 
     return [
       'background_image' => get_field('background_image'),
       'background_color' => get_field('background_color') ?: 'black',
+      'image_overlay' => $overlay === null ? true : (bool) $overlay,
       'title' => get_field('title'),
       'intro_text' => get_field('intro_text'),
       'call_to_action' => $callToAction,
@@ -143,6 +145,12 @@ class Hero extends Block
         'label' => 'Background image',
         'return_format' => 'array',
         'preview_size' => 'medium',
+      ])
+      ->addTrueFalse('image_overlay', [
+        'label' => 'Image shade',
+        'instructions' => 'Apply the dark shade over the background image for text contrast.',
+        'default_value' => 1,
+        'ui' => 1,
       ])
       ->addSelect('background_color', [
         'label' => 'Background color',
