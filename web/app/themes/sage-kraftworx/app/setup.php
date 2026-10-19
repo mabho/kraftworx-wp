@@ -43,6 +43,41 @@ add_action('enqueue_block_editor_assets', function () {
 });
 
 /**
+ * Register the lean Kraftworx WYSIWYG toolbar.
+ */
+add_filter('acf/fields/wysiwyg/toolbars', function ($toolbars) {
+  $toolbars['Kraftworx'] = [
+    1 => ['bold', 'italic', 'bullist', 'numlist', 'link', 'unlink', 'styleselect', 'removeformat'],
+    2 => ['undo', 'redo'],
+  ];
+
+  return $toolbars;
+});
+
+/**
+ * Add the project text styles to the TinyMCE styles dropdown.
+ */
+add_filter('tiny_mce_before_init', function ($init) {
+  $init['style_formats'] = wp_json_encode([
+    ['title' => 'Lead', 'block' => 'p', 'classes' => 'wysiwyg-lead'],
+    ['title' => 'Accent', 'inline' => 'span', 'classes' => 'wysiwyg-accent'],
+    ['title' => 'Eyebrow', 'inline' => 'span', 'classes' => 'wysiwyg-eyebrow'],
+    ['title' => 'Muted', 'inline' => 'span', 'classes' => 'wysiwyg-muted'],
+  ]);
+
+  return $init;
+});
+
+/**
+ * Load the theme styles inside TinyMCE.
+ */
+add_filter('mce_css', function ($mceCss) {
+  $editorCss = Vite::asset('resources/css/editor.css');
+
+  return $mceCss ? "{$mceCss},{$editorCss}" : $editorCss;
+});
+
+/**
  * Inject scripts into the block editor.
  *
  * @return void
