@@ -106,6 +106,52 @@
   row-gap: var(--stats-gap-y);
 }
 
+.stats-content > * + * {
+  margin-top: 1.5rem;
+}
+
+.stats-content p:not(.wysiwyg-lead) {
+  font-family: var(--font-sans);
+  font-size: clamp(1.25rem, 3vw, var(--text-stat-label));
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.wysiwyg-lead {
+  font-family: var(--font-sans);
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+@variant sm {
+  .wysiwyg-lead {
+    font-size: 3.75rem;
+  }
+}
+
+@variant lg {
+  .wysiwyg-lead {
+    font-size: var(--text-stat);
+  }
+}
+
+.wysiwyg-accent {
+  color: var(--color-primary);
+}
+
+.wysiwyg-eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--text-label);
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.wysiwyg-muted {
+  opacity: 0.7;
+}
+
 .site-nav .menu-item > a {
   font-family: var(--font-sans);
   font-size: var(--text-nav);
