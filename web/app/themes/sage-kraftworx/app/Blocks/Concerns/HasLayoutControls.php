@@ -15,6 +15,16 @@ trait HasLayoutControls
   }
 
   /**
+   * Retrieve the vertical alignment value for the block.
+   */
+  protected function verticalAlignment(): array
+  {
+    return [
+      'vertical_alignment' => get_field('vertical_alignment') ?: 'center',
+    ];
+  }
+
+  /**
    * Retrieve the full-height value for the block.
    */
   protected function fullHeight(bool $default = true): array
