@@ -36,3 +36,6 @@ wp-cli.local.yml
 
 # System files
 .DS_Store
+
+# Not to be tracked.
+_databases
