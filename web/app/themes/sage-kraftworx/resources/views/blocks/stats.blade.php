@@ -90,8 +90,8 @@
             @foreach ($stats as $stat)
               @php
                 $itemBottom = match (true) {
-                  $columnCount >= 4 && $loop->index < 2 => 'md:pb-0 2xl:pb-10',
-                  $columnCount === 3 && $loop->index < 2 => 'md:pb-0 xl:pb-10',
+                  $columnCount >= 4 && $loop->index < 2 => 'md:pb-0 2xl:pb-30',
+                  $columnCount === 3 && $loop->index < 2 => 'md:pb-0 xl:pb-30',
                   default => '',
                 };
 
@@ -100,7 +100,7 @@
                   : 0;
               @endphp
 
-              <div class="stats-item flex flex-col pb-10 {{ $itemBottom }}">
+              <div class="stats-item flex flex-col pb-30 {{ $itemBottom }}">
                 @if (!empty($stat['eyebrow']))
                   <p class="mb-3 text-lg font-extrabold uppercase tracking-[0.2em] lg:text-label">
                     {!! nl2br(e($stat['eyebrow'])) !!}
@@ -138,7 +138,7 @@
         @endif
 
         @if ($source)
-          <div class="border-t pt-4 {{ $ruleColor }}">
+          <div class="border-t pt-10 {{ $ruleColor }}">
             <p class="text-note font-normal">
               {{ $source }}
             </p>
