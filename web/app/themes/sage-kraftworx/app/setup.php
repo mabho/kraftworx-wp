@@ -6,7 +6,13 @@
 
 namespace App;
 
+use App\PostTypes\Profile;
 use Illuminate\Support\Facades\Vite;
+
+/**
+ * Register the profile post type.
+ */
+add_action('init', [Profile::class, 'register']);
 
 /**
  * Inject styles into the block editor.
