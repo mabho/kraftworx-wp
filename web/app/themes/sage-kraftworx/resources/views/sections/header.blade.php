@@ -1,7 +1,3 @@
-@php
-  $linkedinUrl = 'https://www.linkedin.com/';
-@endphp
-
 <header class="site-header fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-black text-white" data-site-header>
   <div class="container mx-auto grid h-16 grid-cols-[1fr_auto] items-center gap-6 px-4 sm:px-6 md:grid-cols-[auto_1fr_auto] lg:grid-cols-[1fr_auto_1fr] lg:px-8" data-site-header-bar>
     @include('partials.site-logo', ['class' => 'justify-self-start'])
@@ -20,17 +16,7 @@
     @endif
 
     <div class="flex items-center justify-self-end gap-4">
-      <a
-        href="{{ $linkedinUrl }}"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="hidden items-center justify-center text-white/80 transition hover:text-white md:inline-flex"
-        aria-label="LinkedIn"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5" aria-hidden="true">
-          <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3V9zm6 0h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.08 1.4-2.08 2.85V21H9V9z"/>
-        </svg>
-      </a>
+      @include('partials.linkedin-link', ['class' => 'hidden items-center justify-center text-white/80 transition hover:text-white md:inline-flex'])
 
       @if (has_nav_menu('primary_navigation'))
         <button
@@ -66,18 +52,10 @@
           ]) !!}
         </nav>
 
-        <a
-          href="{{ $linkedinUrl }}"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="mt-6 inline-flex items-center gap-2 text-sm uppercase tracking-[0.1em] text-white/80 transition hover:text-white"
-          aria-label="LinkedIn"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5" aria-hidden="true">
-            <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3V9zm6 0h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.08 1.4-2.08 2.85V21H9V9z"/>
-          </svg>
-          LinkedIn
-        </a>
+        @include('partials.linkedin-link', [
+          'class' => 'mt-6 inline-flex items-center gap-2 text-sm uppercase tracking-[0.1em] text-white/80 transition hover:text-white',
+          'label' => 'LinkedIn',
+        ])
       </div>
     </div>
   @endif
