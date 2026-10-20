@@ -120,7 +120,7 @@
                 @endif
 
                 @if ($progress > 0)
-                  <div class="mt-auto pt-10">
+                  <div class="mt-auto pt-10 w-full xl:w-[90%] 2xl:w-[80%]">
                     <div class="h-4 w-full bg-current/20">
                       <div class="h-full {{ $barColor }}" style="width: {{ $progress }}%"></div>
                     </div>
