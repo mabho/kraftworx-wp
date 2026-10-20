@@ -283,6 +283,64 @@ appears in the **Kraftworx Components** category.
   `decoding="async"`.
 - SVG images work with the Safe SVG upload support described below.
 
+## Profiles
+
+The **Profiles** block renders the Leadership section on the About page. It uses a private `profile` post type and manually ordered ACF relationships, so profiles are structured content but have no landing pages.
+
+### Profile post type
+
+- Post type key: `profile`; admin label **Profiles**.
+- Registered in `App\PostTypes\Profile` and hooked on `init` from `app/setup.php`.
+- Private content: `public`, `publicly_queryable`, `query_var`, `rewrite`, and `has_archive` are all `false`; search and nav-menu exposure are disabled.
+- Admin UI is enabled with `show_ui => true`; `show_in_rest => false` so profiles use the classic editor.
+- Supports `title` and `thumbnail`. The title is the person's name; the featured image is the transparent portrait.
+- There is no public archive or single URL. Profiles are only available to queries and the Profiles block.
+
+### Profile fields
+
+**Profile details**
+
+- `role` (text) — role under the name, e.g. Co-Founder.
+- `bio` (WYSIWYG) — rich biography using the **Kraftworx** toolbar.
+
+The profile field group lives in `App\Fields\ProfileFields` and is attached to `post_type == profile`.
+
+### Profiles block fields
+
+**Content**
+
+- `title` (text) — section title, default **Leadership**.
+- `profiles` (relationship, required) — profiles selected manually. Drag to reorder; the order is preserved.
+
+**Layout**
+
+- `background_color` (select) — primary, secondary, tertiary, black, or white. Defaults to black; text colors adapt to the background.
+- `show_brand_mark` (true/false) — shows the large Kraftworx X mark at the bottom left. Defaults on.
+- `full_height` (true/false) — fills the viewport and shows the shared scroll arrow. Defaults on.
+
+### Leadership layout
+
+- Desktop uses two independent columns.
+  - Left column: title, then profiles at even positions in the relationship order (2nd, 4th, …).
+  - Right column: profiles at odd positions (1st, 3rd, …).
+  - With Craig, Rand, Judy, Dan selected in that order, Craig and Judy are on the right and Rand and Dan are on the left, matching the design.
+- The title sits in the left column at the top; the right column starts at the same top edge.
+- Mobile collapses to one column in the relationship order, with the title first. This uses `display: contents` plus order utilities so the DOM order remains intact.
+- The portrait is first in the card markup, above the text. At `lg`, the portrait is 50% of the card width and is pulled into the reserved left area with a negative bottom margin. The text starts 40% across the card and halfway down the portrait, so the masked right edge of the portrait clears the text while the left area stays reserved for the image.
+- Below `lg`, the card stacks: full-width portrait, then full-width text.
+- Profile name is `text-3xl`; role and bio are `text-xl`.
+
+### Portrait mask and gradient
+
+- The portrait frame is `583 / 336` and uses `resources/images/kraftworx-leadership-mask.svg` as a CSS mask. The mask is stretched to the frame; both diagonal sides share the same angle.
+- The frame background is an automatic `linear-gradient(45deg, primary, white)` behind the transparent PNG. The blue-to-white gradient therefore shows through the transparency and is clipped by the mask.
+- Upload subject-only portraits with a transparent background (no baked-in backdrop). The supplied design composites with the blue band are not suitable if the CSS gradient should be visible.
+- Images use `object-fit: cover` with `object-position: bottom center`. There is no portrait-position field; all portraits are bottom-aligned.
+- `mask-image` is provided with `-webkit-mask-image` for Safari; `overflow: hidden` is the fallback. No JavaScript is involved. `clip-path`/`mask` are supported by current Chrome, Firefox, and Safari.
+- The mask is applied to the frame, not the `<img>`, so no image edge can extend beyond the mask.
+
+The mask SVG was corrected so the right diagonal is parallel to the left: the polygon is `10.74 0, 25.16 0, 14.42 12.63, 0 12.63` in a `25.16 × 12.63` viewBox.
+
 ### Breakpoints
 
 - Breakpoints are project tokens in the `@theme` block of `resources/css/theme.css`:
