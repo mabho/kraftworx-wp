@@ -78,10 +78,12 @@ class Hero extends Block
   {
     $callToAction = get_field('call_to_action');
     $overlay = get_field('image_overlay');
+    $parallax = get_field('parallax');
 
     return [
       'background_image' => get_field('background_image'),
       'background_color' => get_field('background_color') ?: 'black',
+      'parallax' => $parallax === null ? false : (bool) $parallax,
       'image_overlay' => $overlay === null ? true : (bool) $overlay,
       'title' => get_field('title'),
       'intro_text' => get_field('intro_text'),
@@ -146,6 +148,12 @@ class Hero extends Block
         'label' => 'Background image',
         'return_format' => 'array',
         'preview_size' => 'medium',
+      ])
+      ->addTrueFalse('parallax', [
+        'label' => 'Parallax background',
+        'instructions' => 'Apply a subtle scroll-based parallax effect to the background image.',
+        'default_value' => 0,
+        'ui' => 1,
       ])
       ->addTrueFalse('image_overlay', [
         'label' => 'Image shade',

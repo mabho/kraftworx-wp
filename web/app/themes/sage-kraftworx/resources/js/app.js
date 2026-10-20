@@ -82,10 +82,74 @@ const initScrollTop = () => {
   });
 };
 
+const initHeroParallax = () => {
+  const sections = [...document.querySelectorAll('[data-hero-parallax]')];
+
+  if (!sections.length) {
+    return;
+  }
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let frame = 0;
+
+  const reset = () => {
+    sections.forEach((section) => {
+      const image = section.querySelector('[data-hero-parallax-image]');
+
+      if (image) {
+        image.style.transform = '';
+      }
+    });
+  };
+
+  const update = () => {
+    frame = 0;
+
+    if (prefersReducedMotion.matches) {
+      reset();
+      return;
+    }
+
+    const viewportHeight = window.innerHeight;
+
+    sections.forEach((section) => {
+      const image = section.querySelector('[data-hero-parallax-image]');
+
+      if (!image) {
+        return;
+      }
+
+      const rect = section.getBoundingClientRect();
+
+      if (rect.bottom < 0 || rect.top > viewportHeight) {
+        return;
+      }
+
+      const offset = -rect.top * 0.15;
+
+      image.style.transform = `translate3d(0, ${offset.toFixed(2)}px, 0) scale(1.2)`;
+    });
+  };
+
+  const requestUpdate = () => {
+    if (!frame) {
+      frame = window.requestAnimationFrame(update);
+    }
+  };
+
+  window.addEventListener('scroll', requestUpdate, { passive: true });
+  window.addEventListener('resize', requestUpdate);
+  window.addEventListener('load', requestUpdate);
+  prefersReducedMotion.addEventListener('change', requestUpdate);
+
+  update();
+};
+
 const init = () => {
   initHeader();
   initScrollArrows();
   initScrollTop();
+  initHeroParallax();
 };
 
 if (document.readyState === 'loading') {

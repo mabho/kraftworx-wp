@@ -152,6 +152,11 @@
   opacity: 0.7;
 }
 
+.hero-parallax-image {
+  will-change: transform;
+  transform-origin: center;
+}
+
 .profile-card {
   position: relative;
 }

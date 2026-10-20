@@ -28,12 +28,16 @@
   $height = $full_height ? 'min-h-[calc(100svh-var(--site-header-offset))]' : '';
 @endphp
 
-<section {{ $attributes->merge(['class' => "hero relative isolate overflow-hidden $background"]) }}>
+<section
+  {{ $attributes->merge(['class' => "hero relative isolate overflow-hidden $background"]) }}
+  @if ($parallax) data-hero-parallax @endif
+>
   @if ($image)
     <img
       src="{{ $image }}"
       alt="{{ $imageAlt }}"
-      class="absolute inset-0 -z-20 h-full w-full object-cover"
+      class="absolute inset-0 -z-20 h-full w-full object-cover {{ $parallax ? 'hero-parallax-image' : '' }}"
+      @if ($parallax) data-hero-parallax-image @endif
     />
     @if ($image_overlay)
       <div class="absolute inset-0 -z-10 bg-black/45"></div>
@@ -43,7 +47,7 @@
   <div class="container mx-auto flex {{ $height }} flex-col {{ $vertical }} px-4 py-24 sm:px-6 lg:px-8">
     <div class="{{ $alignment['content'] }} max-w-5xl {{ $alignment['text'] }}">
       @if ($title)
-        <h1 class="text-[clamp(2.75rem,10vw,var(--text-hero))] leading-[0.95] tracking-tight">
+        <h1 class="text-[clamp(2.75rem,10vw,var(--text-hero))] leading-[0.875] tracking-tight">
           {!! nl2br(e($title)) !!}
         </h1>
       @endif
