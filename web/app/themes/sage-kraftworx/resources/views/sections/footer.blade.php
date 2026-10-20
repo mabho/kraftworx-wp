@@ -1,5 +1,10 @@
 @php
   $footerCenter = get_field('footer_center', 'option') ?: '3214 N UNIVERSITY AVE / SUITE 140 / PROVO, UT 84604 / USA';
+  $footerCenter = preg_replace(
+    '/\s*\/\s*/',
+    ' <span class="footer-separator">/</span> ',
+    nl2br(e($footerCenter))
+  );
 @endphp
 
 <footer class="site-footer border-t border-white/10 bg-black text-white">
@@ -19,7 +24,7 @@
       @include('partials.site-logo', ['class' => 'justify-self-start'])
 
       <div class="text-center text-sm uppercase tracking-[0.08em] text-white/80">
-        {!! nl2br(e($footerCenter)) !!}
+        {!! $footerCenter !!}
       </div>
 
       <div class="flex items-center gap-8 justify-self-center md:justify-self-end">

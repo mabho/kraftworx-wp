@@ -263,6 +263,11 @@
   color: #fff;
 }
 
+.footer-separator {
+  display: inline-block;
+  padding-inline: 1em;
+}
+
 .site-logo {
   height: 1.25rem;
   width: auto;
