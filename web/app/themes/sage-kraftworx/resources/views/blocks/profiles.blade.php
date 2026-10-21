@@ -62,7 +62,7 @@
   @if ($show_brand_mark)
     <div class="absolute bottom-6 left-4 sm:left-6 lg:left-8" aria-hidden="true">
       @include('partials.brand-mark', [
-        'class' => 'h-16 w-16 text-current drop-shadow-[3px_3px_0_var(--color-primary)] lg:h-20 lg:w-20',
+        'class' => 'h-16 w-16 text-current lg:h-20 lg:w-20',
       ])
     </div>
   @endif
