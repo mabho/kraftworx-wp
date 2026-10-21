@@ -26,6 +26,11 @@
   };
 
   $height = $full_height ? 'min-h-[calc(100svh-var(--site-header-offset))]' : '';
+
+  $introSize = $large_intro
+    ? 'text-2xl sm:text-3xl lg:text-large-lead'
+    : 'text-xl sm:text-2xl lg:text-lead';
+  $introWidth = 'max-w-lg';
 @endphp
 
 <section
@@ -53,7 +58,7 @@
       @endif
 
       @if ($intro_text)
-        <p class="mt-8 max-w-lg text-xl font-light sm:text-2xl lg:text-lead {{ $alignment['inner'] }}">
+        <p class="mt-8 {{ $introWidth }} {{ $introSize }} font-light {{ $alignment['inner'] }}">
           {!! nl2br(e($intro_text)) !!}
         </p>
       @endif

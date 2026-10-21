@@ -79,6 +79,7 @@ class Hero extends Block
     $callToAction = get_field('call_to_action');
     $overlay = get_field('image_overlay');
     $parallax = get_field('parallax');
+    $largeIntro = get_field('large_intro');
 
     return [
       'background_image' => get_field('background_image'),
@@ -87,6 +88,7 @@ class Hero extends Block
       'image_overlay' => $overlay === null ? true : (bool) $overlay,
       'title' => get_field('title'),
       'intro_text' => get_field('intro_text'),
+      'large_intro' => $largeIntro === null ? false : (bool) $largeIntro,
       'call_to_action' => $callToAction,
       'call_to_action_is_external' => $this->isExternalUrl(
         is_array($callToAction) ? ($callToAction['url'] ?? null) : null
@@ -171,6 +173,12 @@ class Hero extends Block
           'white' => 'White',
         ],
         'default_value' => 'black',
+      ])
+      ->addTrueFalse('large_intro', [
+        'label' => 'Larger intro text',
+        'instructions' => 'Increase the intro text size without matching the title size.',
+        'default_value' => 0,
+        'ui' => 1,
       ])
       ->addPartial(Alignment::class)
       ->addPartial(VerticalAlignment::class)

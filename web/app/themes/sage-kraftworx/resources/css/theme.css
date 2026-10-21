@@ -58,6 +58,8 @@
   --text-hero--line-height: 0.95;
   --text-lead: 1.875rem;
   --text-lead--line-height: 1.25;
+  --text-large-lead: 3rem;
+  --text-large-lead--line-height: 1.125;
   --text-section: 4.5rem;
   --text-section--line-height: 1.05;
   --text-section-intro: 2.5rem;
