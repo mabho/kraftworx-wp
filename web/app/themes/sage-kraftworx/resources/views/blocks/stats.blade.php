@@ -108,7 +108,7 @@
                 @endif
 
                 @if (isset($stat['value']) && $stat['value'] !== '')
-                  <dt class="text-5xl font-extrabold leading-none sm:text-6xl lg:text-stat {{ $valueColor }}">
+                  <dt class="text-5xl font-extrabold leading-none sm:text-6xl xl:text-7xl 2xl:text-stat {{ $valueColor }}">
                     {{ $stat['value'] }}
                   </dt>
                 @endif
