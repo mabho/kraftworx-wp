@@ -25,7 +25,7 @@
         src="{{ $url }}"
         alt="{{ $alt }}"
         @if ($width && $height) width="{{ $width }}" height="{{ $height }}" @endif
-        class="mx-auto block h-auto max-w-full"
+        class="mx-auto block h-auto max-w-full w-full sm:w-[90%] md:w-[80%] lg:w-[70%] xl:w-[60%] 2xl:w-[40%]"
         loading="lazy"
         decoding="async"
       >
