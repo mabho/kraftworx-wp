@@ -273,9 +273,9 @@ appears in the **Kraftworx Components** category.
 
 **Rendering**
 
-- The image is centered inside the standard `.container` with
-  `mx-auto block h-auto max-w-full`: it keeps its natural width when smaller and scales
-  down when wider. Use `w-full` if it should always fill the container width.
+- The image is centered inside the standard `.container` and uses a responsive width:
+  100% by default, then 90% (`sm`), 80% (`md`), 70% (`lg`), 60% (`xl`), and 40% (`2xl`).
+  It keeps its natural height via `h-auto`.
 - There is no overlay, background-image treatment, cropping, or `object-cover`; the
   background color applies only to the section.
 - The section uses `py-16 lg:py-24` for separation from adjacent blocks.
