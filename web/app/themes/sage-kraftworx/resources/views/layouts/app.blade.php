@@ -9,6 +9,14 @@
     @php(do_action('get_header'))
     @php(wp_head())
 
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      sizes="any"
+      href="{{ get_theme_file_uri('favicon.svg') }}?v={{ filemtime(get_theme_file_path('favicon.svg')) }}"
+    >
+    <link rel="alternate icon" href="{{ home_url('/favicon.ico') }}" sizes="any">
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
   </head>
 
