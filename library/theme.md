@@ -402,6 +402,13 @@ The mask SVG was corrected so the right diagonal is parallel to the left: the po
 - The LinkedIn link and icon are shared via the same
   `resources/views/partials/linkedin-link.blade.php` partial.
 
+## Favicon
+
+- `web/app/themes/sage-kraftworx/favicon.svg` is the modern SVG favicon. It is linked after `wp_head()` in `layouts/app.blade.php` with a `filemtime()` cache-busting query.
+- `web/favicon.ico` is the site-root legacy fallback. It contains 16, 32, and 48px images and is linked as an alternate icon.
+- The WordPress **Site Icon** is a 512px PNG with a black background. WordPress supplies the 32, 192, 180 (Apple touch), and 270px (Windows tile) variants.
+- There is no favicon plugin or web app manifest. Add a manifest only if the site needs PWA/install support.
+
 ## SVG uploads
 
 - SVG uploads are provided by the **Safe SVG** plugin (`wp-plugin/safe-svg`, active),
