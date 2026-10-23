@@ -38,7 +38,7 @@
   </div>
 
   @if (has_nav_menu('primary_navigation'))
-    <div id="mobile-menu" class="fixed inset-x-0 bottom-0 top-[var(--site-header-offset)] z-40 hidden overflow-y-auto border-t border-white/10 bg-black md:hidden" data-mobile-menu>
+    <div id="mobile-menu" class="mobile-menu fixed inset-x-0 bottom-0 top-[var(--site-header-offset)] z-40 overflow-y-auto border-t border-white/10 bg-black md:hidden" data-mobile-menu aria-hidden="true" inert>
       <div class="container mx-auto flex min-h-full flex-col justify-center px-4 py-12 sm:px-6 lg:px-8">
         <nav class="site-nav site-nav--mobile" aria-label="{{ wp_get_nav_menu_name('primary_navigation') }}">
           {!! wp_nav_menu([
