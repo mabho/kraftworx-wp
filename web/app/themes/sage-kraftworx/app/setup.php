@@ -6,6 +6,7 @@
 
 namespace App;
 
+use App\Forms\ContactForm;
 use App\PostTypes\Profile;
 use Illuminate\Support\Facades\Vite;
 
@@ -13,6 +14,12 @@ use Illuminate\Support\Facades\Vite;
  * Register the profile post type.
  */
 add_action('init', [Profile::class, 'register']);
+
+/**
+ * Handle contact form submissions.
+ */
+add_action('admin_post_nopriv_kraftworx_contact', [ContactForm::class, 'handle']);
+add_action('admin_post_kraftworx_contact', [ContactForm::class, 'handle']);
 
 /**
  * Inject styles into the block editor.
