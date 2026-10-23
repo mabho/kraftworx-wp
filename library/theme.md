@@ -409,6 +409,17 @@ The mask SVG was corrected so the right diagonal is parallel to the left: the po
 - The form posts to `admin-post.php` with the `kraftworx_contact` action and a nonce. `App\Forms\ContactForm` validates and sends the message to the site admin email, with the sender as `Reply-To`.
 - A honeypot field is included. Success and error states are shown via the `contact_status` query parameter.
 
+## Editorial content block
+
+- `App\Blocks\EditorialContent` is a fieldless wrapper with a fixed, locked two-column structure.
+- It encloses one `core/columns` block. The wrapper and the Columns block use `templateLock: "all"`, so editors cannot add, remove, reorder, or move columns, or add blocks outside them.
+- Each `core/column` explicitly has `templateLock: false`; this is required so its own InnerBlocks stay editable. Without it, the Columns lock propagates into the column content.
+- Editors can insert any blocks into either column, including headings, paragraphs, images, and Contact.
+- The block uses a 34% left column, 16% gap, and 50% right column at `lg`; below `lg`, the columns stack.
+- The widths are CSS-driven. Editors cannot change the column configuration.
+- Content is edited as normal blocks, not ACF WYSIWYG fields. Source paragraphs in the right column are separated by block CSS, not per-paragraph padding.
+- The block is applied to the second About columns section; the original Section remains as a reference.
+
 ## Mobile layouts
 
 - Below `md`, Hero blocks stack. The first Hero on a page shows its image first, then the title and copy. Subsequent Heroes show the title above the image and the intro/CTA below. White Heroes show the title and copy above the image.
