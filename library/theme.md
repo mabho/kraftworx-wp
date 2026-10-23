@@ -327,8 +327,8 @@ The profile field group lives in `App\Fields\ProfileFields` and is attached to `
 - The title sits in the left column at the top; the right column starts at the same top edge.
 - Mobile collapses to one column in the relationship order, with the title first. This uses `display: contents` plus order utilities so the DOM order remains intact.
 - The portrait is first in the card markup, above the text. At `lg`, the portrait is 50% of the card width and is pulled into the reserved left area with a negative bottom margin. The text starts 40% across the card and halfway down the portrait, so the masked right edge of the portrait clears the text while the left area stays reserved for the image.
-- Below `lg`, the card stacks: full-width portrait, then full-width text.
-- Profile name is `text-3xl`; role and bio are `text-xl`.
+- Below `lg`, the card stacks: a 65%-wide portrait, then full-width text. The section title is centered on mobile.
+- Profile name is `text-2xl` on mobile and `text-3xl` at `lg`; role and bio are `text-lg` on mobile and `text-xl` at `lg`.
 
 ### Portrait mask and gradient
 
@@ -401,6 +401,24 @@ The mask SVG was corrected so the right diagonal is parallel to the left: the po
   at the bottom of the viewport on short pages.
 - The LinkedIn link and icon are shared via the same
   `resources/views/partials/linkedin-link.blade.php` partial.
+
+## Contact block
+
+- `App\Blocks\Contact` renders the Contact page introduction and form.
+- Fields: `title`, `intro_text`, `submit_label`, and `confirmation_message`.
+- The form posts to `admin-post.php` with the `kraftworx_contact` action and a nonce. `App\Forms\ContactForm` validates and sends the message to the site admin email, with the sender as `Reply-To`.
+- A honeypot field is included. Success and error states are shown via the `contact_status` query parameter.
+
+## Mobile layouts
+
+- Below `md`, Hero blocks stack. The first Hero on a page shows its image first, then the title and copy. Subsequent Heroes show the title above the image and the intro/CTA below. White Heroes show the title and copy above the image.
+- On mobile, full-height Heroes use a `50svh` image; non-full-height Heroes use a square `100vw` image. The media wrapper clips the parallax image, so it cannot slide over the title. The title has `3rem` of top padding for separation.
+- Hero scroll arrows are centered on mobile, except the white About Hero and the Profiles block, where they remain at the right.
+- Stats use two columns on mobile and tablet; three stats become three columns at `xl`, and four stats become four columns at `2xl`. Mobile source notes and eyebrow labels are smaller.
+- Profiles use a 65%-wide left-aligned portrait above the text on mobile; the desktop composition remains unchanged.
+- The mobile navigation is a full-screen panel with LinkedIn in the header and rule-separated links including Contact.
+- The mobile footer stacks as Contact, logo, address, and LinkedIn, with the up arrow centered.
+- The Contact page is available at `/contact/` and is included in the primary navigation.
 
 ## Favicon
 
