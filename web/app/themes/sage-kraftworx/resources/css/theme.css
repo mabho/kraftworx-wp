@@ -463,6 +463,15 @@
   }
 }
 
+.contact-page {
+  padding-block: 5rem 8rem;
+}
+
+.editorial-content__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+}
+
 .editorial-content .wp-block-columns {
   display: flex;
   flex-direction: column;
@@ -495,6 +504,10 @@
 }
 
 @variant lg {
+  .contact-page {
+    padding-block: 7rem;
+  }
+
   .editorial-content .wp-block-columns {
     display: grid;
     grid-template-columns: minmax(0, 34%) minmax(0, 50%);

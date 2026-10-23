@@ -3,6 +3,7 @@
 namespace App\Blocks;
 
 use Log1x\AcfComposer\Block;
+use Log1x\AcfComposer\Builder;
 
 class EditorialContent extends Block
 {
@@ -69,7 +70,27 @@ class EditorialContent extends Block
    */
   public function with(): array
   {
-    return [];
+    return [
+      'title' => get_field('title'),
+    ];
+  }
+
+  /**
+   * The block field group.
+   */
+  public function fields(): array
+  {
+    $fields = Builder::make('editorial_content');
+
+    $fields
+      ->addTextarea('title', [
+        'label' => 'Title',
+        'instructions' => 'Line breaks are preserved. Leave empty to hide the title and its spacing.',
+        'rows' => 3,
+        'new_lines' => '',
+      ]);
+
+    return $fields->build();
   }
 
   /**
