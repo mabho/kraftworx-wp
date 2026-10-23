@@ -512,6 +512,12 @@ body.admin-bar {
   }
 }
 
+@media screen and (max-width: 600px) {
+  body.admin-bar #wpadminbar {
+    position: fixed;
+  }
+}
+
 .stats-item {
   position: relative;
 }
