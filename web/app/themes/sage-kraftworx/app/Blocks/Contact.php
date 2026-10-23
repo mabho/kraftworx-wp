@@ -19,7 +19,7 @@ class Contact extends Block
    *
    * @var string
    */
-  public $description = 'A contact section with a short introduction and form.';
+  public $description = 'A contact introduction and form for placing inside a section or column.';
 
   /**
    * The block category.
@@ -62,7 +62,7 @@ class Contact extends Block
    * @var array
    */
   public $supports = [
-    'multiple' => false,
+    'multiple' => true,
   ];
 
   /**
@@ -71,7 +71,6 @@ class Contact extends Block
   public function with(): array
   {
     return [
-      'title' => get_field('title') ?: 'A 45-Minute Diagnostic',
       'intro_text' => get_field('intro_text'),
       'submit_label' => get_field('submit_label') ?: 'Submit Form',
       'confirmation_message' => get_field('confirmation_message') ?: 'Thank you. We will be in touch shortly.',
