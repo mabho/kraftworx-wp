@@ -10,12 +10,12 @@
   </div>
 
   <div class="profile-content">
-    <h3 class="text-3xl font-extrabold leading-tight {{ $text }}">
+    <h3 class="text-2xl font-extrabold leading-tight lg:text-3xl {{ $text }}">
       {{ $profile['name'] }}
     </h3>
 
     @if ($profile['role'])
-      <p class="mt-1 text-xl font-light italic {{ $muted }}">
+      <p class="mt-1 text-lg font-light italic lg:text-xl {{ $muted }}">
         {{ $profile['role'] }}
       </p>
     @endif

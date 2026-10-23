@@ -31,7 +31,7 @@
     <div class="flex flex-col gap-y-16 lg:grid lg:grid-cols-2 lg:gap-x-16 lg:gap-y-0">
       <div class="contents lg:block lg:space-y-20">
         @if ($title)
-          <h2 class="font-display text-5xl font-normal leading-none sm:text-6xl md:text-7xl lg:text-8xl">
+          <h2 class="font-display text-3xl font-normal leading-none text-center sm:text-4xl lg:text-left lg:text-8xl">
             {{ $title }}
           </h2>
         @endif

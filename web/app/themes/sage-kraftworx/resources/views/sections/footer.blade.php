@@ -20,16 +20,16 @@
       </button>
     </div>
 
-    <div class="grid gap-8 pt-12 md:grid-cols-[1fr_auto_1fr] md:items-center">
-      @include('partials.site-logo', ['class' => 'justify-self-start'])
+    <div class="grid grid-cols-[1fr_auto] items-center gap-x-6 gap-y-4 pt-10 md:grid-cols-[1fr_auto_1fr] md:gap-8 md:pt-12">
+      @include('partials.site-logo', ['class' => 'order-2 col-span-2 justify-self-start md:order-none md:col-auto'])
 
-      <div class="text-center text-sm uppercase tracking-[0.08em] text-white/80">
+      <div class="order-3 text-left text-sm uppercase tracking-[0.08em] text-white/80 md:order-none md:col-auto md:text-center">
         {!! $footerCenter !!}
       </div>
 
-      <div class="flex items-center gap-8 justify-self-center md:justify-self-end">
+      <div class="contents md:flex md:items-center md:gap-8 md:justify-self-end">
         @if (has_nav_menu('footer_navigation'))
-          <nav class="footer-nav" aria-label="{{ wp_get_nav_menu_name('footer_navigation') }}">
+          <nav class="footer-nav order-1 col-span-2 md:order-none md:col-auto" aria-label="{{ wp_get_nav_menu_name('footer_navigation') }}">
             {!! wp_nav_menu([
               'theme_location' => 'footer_navigation',
               'container' => false,
@@ -41,7 +41,10 @@
           </nav>
         @endif
 
-        @include('partials.linkedin-link', ['class' => 'inline-flex text-white/80 transition hover:text-white'])
+        @include('partials.linkedin-link', [
+          'class' => 'order-4 inline-flex h-10 w-10 items-center justify-center justify-self-end self-center text-white/80 transition hover:text-white md:order-none md:col-auto md:justify-self-auto md:self-auto',
+          'iconClass' => 'h-6 w-6',
+        ])
       </div>
     </div>
   </div>

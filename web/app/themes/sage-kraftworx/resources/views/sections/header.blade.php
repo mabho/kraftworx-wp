@@ -16,46 +16,40 @@
     @endif
 
     <div class="flex items-center justify-self-end gap-4">
-      @include('partials.linkedin-link', ['class' => 'hidden items-center justify-center text-white/80 transition hover:text-white md:inline-flex'])
+      @include('partials.linkedin-link', ['class' => 'inline-flex items-center justify-center text-white/80 transition hover:text-white'])
 
       @if (has_nav_menu('primary_navigation'))
         <button
           type="button"
-          class="inline-flex items-center justify-center text-white/80 transition hover:text-white md:hidden"
+          class="inline-flex cursor-pointer items-center justify-center text-white/80 transition hover:text-white md:hidden"
           aria-controls="mobile-menu"
           aria-expanded="false"
-          aria-label="Toggle navigation"
+          aria-label="Open navigation"
           data-menu-toggle
         >
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-6 w-6" aria-hidden="true" data-menu-icon-open>
-            <path stroke-linecap="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-          </svg>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="hidden h-6 w-6" aria-hidden="true" data-menu-icon-close>
-            <path stroke-linecap="round" d="M6 18 18 6M6 6l12 12" />
-          </svg>
+          <span class="menu-icon" aria-hidden="true">
+            <span class="menu-icon__bar"></span>
+            <span class="menu-icon__bar"></span>
+            <span class="menu-icon__bar"></span>
+          </span>
         </button>
       @endif
     </div>
   </div>
 
   @if (has_nav_menu('primary_navigation'))
-    <div id="mobile-menu" class="hidden border-t border-white/10 bg-black md:hidden" data-mobile-menu>
-      <div class="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
+    <div id="mobile-menu" class="fixed inset-x-0 bottom-0 top-[var(--site-header-offset)] z-40 hidden overflow-y-auto border-t border-white/10 bg-black md:hidden" data-mobile-menu>
+      <div class="container mx-auto flex min-h-full flex-col justify-center px-4 py-12 sm:px-6 lg:px-8">
         <nav class="site-nav site-nav--mobile" aria-label="{{ wp_get_nav_menu_name('primary_navigation') }}">
           {!! wp_nav_menu([
             'theme_location' => 'primary_navigation',
             'container' => false,
             'depth' => 1,
             'fallback_cb' => false,
-            'menu_class' => 'menu flex flex-col gap-4',
+            'menu_class' => 'menu flex flex-col',
             'menu_id' => 'primary-menu-mobile',
           ]) !!}
         </nav>
-
-        @include('partials.linkedin-link', [
-          'class' => 'mt-6 inline-flex items-center gap-2 text-sm uppercase tracking-[0.1em] text-white/80 transition hover:text-white',
-          'label' => 'LinkedIn',
-        ])
       </div>
     </div>
   @endif
