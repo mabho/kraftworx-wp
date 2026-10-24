@@ -404,20 +404,27 @@ The mask SVG was corrected so the right diagonal is parallel to the left: the po
 
 ## Contact block
 
-- `App\Blocks\Contact` renders the Contact page introduction and form.
-- Fields: `title`, `intro_text`, `submit_label`, and `confirmation_message`.
+- `App\Blocks\Contact` renders the contact form only; it has no title, intro, section wrapper, container, background, or outer padding.
+- It is designed to be placed inside `Section`, `Editorial content`, or another column.
+- Fields: `submit_label` and `confirmation_message`.
+- Add separate Heading or Paragraph blocks for any title or introductory copy.
+- The form text is white, so it should be placed on a black or dark background.
+- Multiple Contact blocks are allowed. Each render generates unique field IDs so forms can coexist on one page.
+- The Contact page uses the Editorial content block: the page title is the wrapper title, the intro copy is in the left column, and the Contact form is in the right column.
 - The form posts to `admin-post.php` with the `kraftworx_contact` action and a nonce. `App\Forms\ContactForm` validates and sends the message to the site admin email, with the sender as `Reply-To`.
 - A honeypot field is included. Success and error states are shown via the `contact_status` query parameter.
 
 ## Editorial content block
 
-- `App\Blocks\EditorialContent` is a fieldless wrapper with a fixed, locked two-column structure.
+- `App\Blocks\EditorialContent` is a wrapper with an optional title and a fixed, locked two-column structure.
 - It encloses one `core/columns` block. The wrapper and the Columns block use `templateLock: "all"`, so editors cannot add, remove, reorder, or move columns, or add blocks outside them.
 - Each `core/column` explicitly has `templateLock: false`; this is required so its own InnerBlocks stay editable. Without it, the Columns lock propagates into the column content.
+- The wrapper has a single `Title` textarea field. Line breaks are preserved; it is rendered above the columns using the same display type as Hero titles: Replica Pro 400, `clamp(2.75rem, 10vw, var(--text-hero))`, `0.875` line height, and tight tracking.
+- When the title is empty, no title element or title spacing is rendered.
 - Editors can insert any blocks into either column, including headings, paragraphs, images, and Contact.
 - The block uses a 34% left column, 16% gap, and 50% right column at `lg`; below `lg`, the columns stack.
 - The widths are CSS-driven. Editors cannot change the column configuration.
-- Content is edited as normal blocks, not ACF WYSIWYG fields. Source paragraphs in the right column are separated by block CSS, not per-paragraph padding.
+- Apart from the title field, content is edited as normal blocks, not ACF WYSIWYG fields. Source paragraphs in the right column are separated by block CSS, not per-paragraph padding.
 - The block is applied to the second About columns section; the original Section remains as a reference.
 
 ## Mobile layouts
