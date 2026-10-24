@@ -463,10 +463,6 @@
   }
 }
 
-.contact-page {
-  padding-block: 5rem 8rem;
-}
-
 .editorial-content__title {
   font-family: var(--font-display);
   font-weight: 400;
@@ -504,10 +500,6 @@
 }
 
 @variant lg {
-  .contact-page {
-    padding-block: 7rem;
-  }
-
   .editorial-content .wp-block-columns {
     display: grid;
     grid-template-columns: minmax(0, 34%) minmax(0, 50%);

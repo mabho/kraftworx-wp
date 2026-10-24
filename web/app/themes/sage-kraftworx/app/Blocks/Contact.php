@@ -19,7 +19,7 @@ class Contact extends Block
    *
    * @var string
    */
-  public $description = 'A contact introduction and form for placing inside a section or column.';
+  public $description = 'A contact form for placing inside a section or column.';
 
   /**
    * The block category.
@@ -71,7 +71,6 @@ class Contact extends Block
   public function with(): array
   {
     return [
-      'intro_text' => get_field('intro_text'),
       'submit_label' => get_field('submit_label') ?: 'Submit Form',
       'confirmation_message' => get_field('confirmation_message') ?: 'Thank you. We will be in touch shortly.',
       'status' => isset($_GET['contact_status'])
@@ -88,26 +87,6 @@ class Contact extends Block
     $fields = Builder::make('contact');
 
     $fields
-      ->addAccordion('Content', [
-        'open' => 1,
-        'multi_expand' => 1,
-      ])
-      ->addTextarea('title', [
-        'label' => 'Title',
-        'instructions' => 'Line breaks are preserved.',
-        'rows' => 2,
-        'new_lines' => '',
-        'default_value' => "A 45-Minute\nDiagnostic",
-      ])
-      ->addTextarea('intro_text', [
-        'label' => 'Intro text',
-        'rows' => 6,
-        'new_lines' => '',
-      ])
-      ->addAccordion('Form', [
-        'open' => 1,
-        'multi_expand' => 1,
-      ])
       ->addText('submit_label', [
         'label' => 'Submit label',
         'default_value' => 'Submit Form',

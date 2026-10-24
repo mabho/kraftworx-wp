@@ -5,18 +5,6 @@
 @endphp
 
 <div {{ $attributes->merge(['class' => 'contact mx-auto w-full text-white']) }}>
-  @if ($title)
-    <h2 class="text-center font-display text-4xl font-normal leading-none sm:text-5xl lg:text-6xl">
-      {!! nl2br(e($title)) !!}
-    </h2>
-  @endif
-
-  @if ($intro_text)
-    <p class="mt-6 text-center text-xl font-light leading-snug sm:text-2xl">
-      {!! nl2br(e($intro_text)) !!}
-    </p>
-  @endif
-
   @if ($status === 'success')
     <p class="mt-8 border border-white/20 px-5 py-4 text-center text-base" role="status">
       {{ $confirmation_message }}
