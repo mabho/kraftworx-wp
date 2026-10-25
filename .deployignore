@@ -1,5 +1,5 @@
 # DeployHQ exclusions for the Bedrock application root.
-# Build inputs are deployed; runtime dependencies, WordPress core, and public/build are generated on the server.
+# Frontend build runs in DeployHQ; Composer dependencies and WordPress core are generated on the server.
 
 # Repository and local development
 .git
@@ -52,7 +52,7 @@ web/app/themes/sage-kraftworx/node_modules
 web/app/themes/sage-kraftworx/node_modules/**
 web/app/themes/sage-kraftworx/public/hot
 
-# Composer-generated runtime dependencies; created on the server during Before Release Link
+# Composer-generated runtime dependencies; created on the server during After Changes
 vendor
 vendor/**
 web/app/themes/sage-kraftworx/vendor
@@ -62,9 +62,18 @@ web/wp/**
 web/app/plugins
 web/app/plugins/**
 
-# Server build output; generated during Before Release Link
-web/app/themes/sage-kraftworx/public/build
-web/app/themes/sage-kraftworx/public/build/**
+# DeployHQ frontend build inputs; public/build is uploaded as the deployment artifact
+web/app/themes/sage-kraftworx/package.json
+web/app/themes/sage-kraftworx/package-lock.json
+web/app/themes/sage-kraftworx/vite.config.js
+web/app/themes/sage-kraftworx/resources/css
+web/app/themes/sage-kraftworx/resources/css/**
+web/app/themes/sage-kraftworx/resources/js
+web/app/themes/sage-kraftworx/resources/js/**
+web/app/themes/sage-kraftworx/resources/fonts
+web/app/themes/sage-kraftworx/resources/fonts/**
+web/app/themes/sage-kraftworx/resources/images
+web/app/themes/sage-kraftworx/resources/images/**
 
 # WordPress runtime/cache/uploads should not be overwritten from the repository
 web/app/cache/*
