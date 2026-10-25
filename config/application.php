@@ -13,13 +13,13 @@ use Roots\WPConfig\Config;
 
 use function Env\env;
 
-// CONVERT_* + STRIP_QUOTES + LOCAL_FIRST
+// CONVERT_* + STRIP_QUOTES + USE_ENV_ARRAY
 Env\Env::$options
     = Env\Env::CONVERT_BOOL
     | Env\Env::CONVERT_NULL
     | Env\Env::CONVERT_INT
     | Env\Env::STRIP_QUOTES
-    | Env\Env::LOCAL_FIRST;
+    | Env\Env::USE_ENV_ARRAY;
 
 /**
  * Directory containing all of the site's files
