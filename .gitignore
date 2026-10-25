@@ -10,9 +10,16 @@ web/app/uploads/*
 !web/app/uploads/.gitkeep
 web/app/cache/*
 
+# Theme dependencies and generated assets (DeployHQ uploads build output separately)
+web/app/themes/sage-kraftworx/node_modules/
+web/app/themes/sage-kraftworx/vendor/
+web/app/themes/sage-kraftworx/public/build/
+web/app/themes/sage-kraftworx/public/hot
+
 # WordPress
 web/wp
 web/.htaccess
+web/wp/.maintenance
 
 # Logs
 *.log
