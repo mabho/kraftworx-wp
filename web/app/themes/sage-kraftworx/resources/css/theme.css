@@ -303,7 +303,6 @@
 
 .profile-portrait {
   position: relative;
-  width: 65%;
   margin-bottom: 1.5rem;
   aspect-ratio: 583 / 336;
   overflow: hidden;

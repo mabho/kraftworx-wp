@@ -11,7 +11,7 @@
 
   <div class="profile-content">
     <h3 class="text-2xl font-extrabold leading-tight lg:text-3xl {{ $text }}">
-      {{ $profile['name'] }}
+      {{ $profile['name'] }}profile-portrait
     </h3>
 
     @if ($profile['role'])
