@@ -537,9 +537,19 @@
   color: #fff;
 }
 
-.footer-separator {
-  display: inline-block;
-  padding-inline: 1em;
+.footer-address__part {
+  display: block;
+}
+
+@variant lg {
+  .footer-address__part {
+    display: inline;
+  }
+
+  .footer-address__part + .footer-address__part::before {
+    content: "/";
+    padding-inline: 1em;
+  }
 }
 
 .site-logo {

@@ -389,7 +389,7 @@ The mask SVG was corrected so the right diagonal is parallel to the left: the po
 - Black footer with the shared logo on the left, editable center content, and the footer
   menu plus LinkedIn on the right. An up-arrow button sits above the content with a gap.
 - Center content comes from the ACF **Footer** options page
-  (`App\Options\Footer`, field `footer_center`); line breaks render as `<br />`.
+  (`App\Options\Footer`, field `footer_center`). Line breaks and `/` separators become individual address parts; they stack on mobile and return to inline, slash-separated parts at `lg`.
 - The right side renders the `footer_navigation` menu (named **Footer Navigation**,
   currently containing Contact) plus the LinkedIn icon. There is no hardcoded Contact link.
 - The up arrow is a `data-scroll-top` button using the shared
