@@ -14,6 +14,13 @@ class Hero extends Block
   use HasLayoutControls;
 
   /**
+   * Track how many Hero blocks have rendered in the current request.
+   *
+   * @var int
+   */
+  protected static int $renderCount = 0;
+
+  /**
    * The block name.
    *
    * @var string
@@ -80,14 +87,23 @@ class Hero extends Block
     $overlay = get_field('image_overlay');
     $parallax = get_field('parallax');
     $largeIntro = get_field('large_intro');
+    $title = get_field('title');
+    $isFirstHero = is_page()
+      && self::$renderCount === 0
+      && trim((string) $title) !== '';
+
+    if ($isFirstHero) {
+      self::$renderCount++;
+    }
 
     return [
+      'is_first_hero' => $isFirstHero,
       'background_image' => get_field('background_image'),
       'mobile_background_image' => get_field('mobile_background_image'),
       'background_color' => get_field('background_color') ?: 'black',
       'parallax' => $parallax === null ? false : (bool) $parallax,
       'image_overlay' => $overlay === null ? true : (bool) $overlay,
-      'title' => get_field('title'),
+      'title' => $title,
       'intro_text' => get_field('intro_text'),
       'large_intro' => $largeIntro === null ? false : (bool) $largeIntro,
       'call_to_action' => $callToAction,

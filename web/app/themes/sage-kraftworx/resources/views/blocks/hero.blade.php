@@ -106,9 +106,15 @@
   <div class="hero-content container mx-auto flex {{ $height }} flex-col {{ $vertical }} px-4 py-24 sm:px-6 lg:px-8">
     <div class="hero-inner {{ $alignment['content'] }} max-w-5xl {{ $alignment['text'] }}">
       @if ($title)
-        <h1 class="hero-title text-[clamp(2.75rem,10vw,var(--text-hero))] leading-[0.875] tracking-tight {{ $alignment['text'] }}">
-          {!! nl2br(e($title)) !!}
-        </h1>
+        @if ($is_first_hero)
+          <h1 class="hero-title text-[clamp(2.75rem,10vw,var(--text-hero))] leading-[0.875] tracking-tight {{ $alignment['text'] }}">
+            {!! nl2br(e($title)) !!}
+          </h1>
+        @else
+          <h2 class="hero-title text-[clamp(2.75rem,10vw,var(--text-hero))] leading-[0.875] tracking-tight {{ $alignment['text'] }}">
+            {!! nl2br(e($title)) !!}
+          </h2>
+        @endif
       @endif
 
       <div class="hero-copy {{ $alignment['text'] }} {{ $hasCopy ? '' : 'hidden md:block' }}">

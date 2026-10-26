@@ -170,6 +170,11 @@
   transform-origin: center;
 }
 
+.hero-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+}
+
 .hero-media picture {
   display: block;
   width: 100%;
@@ -285,6 +290,11 @@
     left: auto;
     margin-left: 0;
   }
+}
+
+.profiles-title {
+  font-family: var(--font-display);
+  font-weight: 400;
 }
 
 .profile-card {
