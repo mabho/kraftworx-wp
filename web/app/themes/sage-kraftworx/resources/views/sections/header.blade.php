@@ -15,7 +15,7 @@
       </nav>
     @endif
 
-    <div class="flex items-center justify-self-end gap-4">
+    <div class="flex items-center justify-self-end gap-8">
       @include('partials.linkedin-link', ['class' => 'inline-flex items-center justify-center text-white/80 transition hover:text-white'])
 
       @if (has_nav_menu('primary_navigation'))
