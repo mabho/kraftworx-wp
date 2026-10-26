@@ -1,6 +1,37 @@
 @php
-  $image = is_array($background_image) ? ($background_image['url'] ?? null) : null;
-  $imageAlt = is_array($background_image) ? ($background_image['alt'] ?? '') : '';
+  $desktopImage = is_array($background_image) ? $background_image : null;
+  $mobileImage = is_array($mobile_background_image) ? $mobile_background_image : null;
+
+  $desktopId = (int) ($desktopImage['ID'] ?? 0);
+  $mobileId = (int) ($mobileImage['ID'] ?? 0);
+  $desktopUrl = $desktopImage['url'] ?? null;
+  $mobileUrl = $mobileImage['url'] ?? null;
+
+  $hasDesktop = $desktopId || $desktopUrl;
+  $hasMobile = $mobileId || $mobileUrl;
+  $hasMobileSource = $hasDesktop && $hasMobile;
+
+  $fallbackId = $desktopId ?: $mobileId;
+  $fallbackUrl = $desktopUrl ?: $mobileUrl;
+  $fallbackAlt = $hasDesktop
+    ? ($desktopImage['alt'] ?? ($desktopId ? get_post_meta($desktopId, '_wp_attachment_image_alt', true) : ''))
+    : ($mobileImage['alt'] ?? ($mobileId ? get_post_meta($mobileId, '_wp_attachment_image_alt', true) : ''));
+
+  $mobileSrcset = $mobileId ? wp_get_attachment_image_srcset($mobileId, 'full') : false;
+  $mobileSrcset = $mobileSrcset ?: $mobileUrl;
+  $mobileMime = $mobileId ? get_post_mime_type($mobileId) : null;
+
+  $imageClass = 'absolute inset-0 h-full w-full object-cover' . ($parallax ? ' hero-parallax-image' : '');
+  $imageAttrs = [
+    'alt' => $fallbackAlt,
+    'class' => $imageClass,
+    'sizes' => '100vw',
+    'loading' => 'eager',
+  ];
+
+  if ($parallax) {
+    $imageAttrs['data-hero-parallax-image'] = '';
+  }
 
   $background = match ($background_color) {
     'primary' => 'bg-primary text-white',
@@ -40,14 +71,32 @@
   data-full-height="{{ $full_height ? '1' : '0' }}"
   @if ($parallax) data-hero-parallax @endif
 >
-  @if ($image)
+  @if ($hasDesktop || $hasMobile)
     <div class="hero-media absolute inset-0 -z-20">
-      <img
-        src="{{ $image }}"
-        alt="{{ $imageAlt }}"
-        class="absolute inset-0 h-full w-full object-cover {{ $parallax ? 'hero-parallax-image' : '' }}"
-        @if ($parallax) data-hero-parallax-image @endif
-      />
+      <picture class="absolute inset-0 block h-full w-full">
+        @if ($hasMobileSource && $mobileSrcset)
+          <source
+            media="(max-width: 47.99rem)"
+            srcset="{{ $mobileSrcset }}"
+            sizes="100vw"
+            @if ($mobileMime) type="{{ $mobileMime }}" @endif
+          >
+        @endif
+
+        @if ($fallbackId)
+          {!! wp_get_attachment_image($fallbackId, 'full', false, $imageAttrs) !!}
+        @elseif ($fallbackUrl)
+          <img
+            src="{{ $fallbackUrl }}"
+            alt="{{ $fallbackAlt }}"
+            class="{{ $imageClass }}"
+            loading="eager"
+            sizes="100vw"
+            @if ($parallax) data-hero-parallax-image @endif
+          >
+        @endif
+      </picture>
+
       @if ($image_overlay)
         <div class="absolute inset-0 bg-black/45"></div>
       @endif

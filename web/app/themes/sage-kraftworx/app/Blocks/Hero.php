@@ -25,7 +25,7 @@ class Hero extends Block
    *
    * @var string
    */
-  public $description = 'A full-width hero with a background image, title, intro text, and call to action.';
+  public $description = 'A full-width hero with desktop/mobile background images, title, intro text, and call to action.';
 
   /**
    * The block category.
@@ -83,6 +83,7 @@ class Hero extends Block
 
     return [
       'background_image' => get_field('background_image'),
+      'mobile_background_image' => get_field('mobile_background_image'),
       'background_color' => get_field('background_color') ?: 'black',
       'parallax' => $parallax === null ? false : (bool) $parallax,
       'image_overlay' => $overlay === null ? true : (bool) $overlay,
@@ -148,6 +149,13 @@ class Hero extends Block
       ])
       ->addImage('background_image', [
         'label' => 'Background image',
+        'instructions' => 'Used at 48rem and above when a mobile image is also set.',
+        'return_format' => 'array',
+        'preview_size' => 'medium',
+      ])
+      ->addImage('mobile_background_image', [
+        'label' => 'Mobile background image',
+        'instructions' => 'Optional. Used below 48rem. If no desktop image is set, this image is used at every size.',
         'return_format' => 'array',
         'preview_size' => 'medium',
       ])

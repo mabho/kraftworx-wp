@@ -170,6 +170,12 @@
   transform-origin: center;
 }
 
+.hero-media picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 @variant max-md {
   .hero {
     display: flex;

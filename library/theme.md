@@ -431,6 +431,7 @@ The mask SVG was corrected so the right diagonal is parallel to the left: the po
 
 - Below `md`, Hero blocks stack. The first Hero on a page shows its image first, then the title and copy. Subsequent Heroes show the title above the image and the intro/CTA below. White Heroes show the title and copy above the image.
 - On mobile, full-height Heroes use a `50svh` image; non-full-height Heroes use a square `100vw` image. The media wrapper clips the parallax image, so it cannot slide over the title. The title has `3rem` of top padding for separation.
+- Hero images support an optional `Mobile background image` field. A single image is used at every width; when both are set, the mobile image is selected below `48rem` and the desktop image at or above it. Both image sources use WordPress attachment `srcset` with `sizes="100vw"`.
 - Hero scroll arrows are centered on mobile, except the white About Hero and the Profiles block, where they remain at the right.
 - Stats use two columns on mobile and tablet; three stats become three columns at `xl`, and four stats become four columns at `2xl`. Mobile source notes and eyebrow labels are smaller.
 - Profiles use a 65%-wide left-aligned portrait above the text on mobile; the desktop composition remains unchanged.
