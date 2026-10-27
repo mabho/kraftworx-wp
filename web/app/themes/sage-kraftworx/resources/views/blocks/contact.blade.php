@@ -42,7 +42,7 @@
 
     <button
       type="submit"
-      class="inline-flex cursor-pointer rounded-lg border border-white px-6 py-3 text-lg font-light uppercase tracking-[0.2em] transition hover:bg-white hover:text-black focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+      class="inline-flex cursor-pointer rounded-lg border border-white px-4 py-2.5 text-base font-light uppercase tracking-[0.16em] transition hover:bg-white hover:text-black focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white md:px-6 md:py-3 md:text-lg md:tracking-[0.2em]"
     >
       {{ $submit_label }}
     </button>

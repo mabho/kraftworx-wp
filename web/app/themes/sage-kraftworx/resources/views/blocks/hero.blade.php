@@ -128,7 +128,7 @@
           <a
             href="{{ $call_to_action['url'] }}"
             @if (!empty($call_to_action_is_external)) target="_blank" rel="noopener noreferrer" @endif
-            class="mt-10 inline-flex rounded-lg border border-current px-5 py-3 text-lg font-light uppercase tracking-[0.2em] transition {{ $buttonHover }}"
+            class="mt-10 inline-flex rounded-lg border border-current px-4 py-2.5 text-base font-light uppercase tracking-[0.16em] transition md:px-5 md:py-3 md:text-lg md:tracking-[0.2em] {{ $buttonHover }}"
           >
             {{ $call_to_action['title'] ?: 'Learn More' }}
           </a>
