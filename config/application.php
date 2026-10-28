@@ -174,6 +174,29 @@ Config::define('SCRIPT_DEBUG', env('SCRIPT_DEBUG') ?: false);
 ini_set('display_errors', '0');
 
 /**
+ * Redis object cache.
+ *
+ * Credentials are environment-specific and must not be committed.
+ */
+if ($redisHost = env('REDIS_HOST')) {
+    Config::define('WP_REDIS_HOST', $redisHost);
+    Config::define('WP_REDIS_PORT', (int) (env('REDIS_PORT') ?: 6379));
+    Config::define('WP_REDIS_PREFIX', env('REDIS_PREFIX') ?: sprintf('kraftworx_%s_', WP_ENV));
+    Config::define('WP_REDIS_DATABASE', (int) (env('REDIS_DATABASE') ?: 0));
+    Config::define('WP_REDIS_CLIENT', env('REDIS_CLIENT') ?: 'phpredis');
+    Config::define('WP_REDIS_TIMEOUT', 1);
+    Config::define('WP_REDIS_READ_TIMEOUT', 1);
+
+    if ($redisUsername = env('REDIS_USERNAME')) {
+        Config::define('WP_REDIS_USERNAME', $redisUsername);
+    }
+
+    if ($redisPassword = env('REDIS_PASSWORD')) {
+        Config::define('WP_REDIS_PASSWORD', $redisPassword);
+    }
+}
+
+/**
  * Allow WordPress to detect HTTPS when used behind a reverse proxy or a load balancer
  * See https://codex.wordpress.org/Function_Reference/is_ssl#Notes
  */
