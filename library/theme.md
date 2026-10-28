@@ -427,6 +427,25 @@ The mask SVG was corrected so the right diagonal is parallel to the left: the po
 - Apart from the title field, content is edited as normal blocks, not ACF WYSIWYG fields. Source paragraphs in the right column are separated by block CSS, not per-paragraph padding.
 - The block is applied to the second About columns section; the original Section remains as a reference.
 
+## Redis object cache
+
+- The site uses the **Redis Object Cache** plugin (`wp-plugin/redis-cache`, currently 3.0.0), installed through Composer.
+- `config/application.php` maps environment values to WordPress Redis constants:
+  `WP_REDIS_HOST`, `WP_REDIS_PORT`, `WP_REDIS_PREFIX`, `WP_REDIS_USERNAME`, `WP_REDIS_PASSWORD`, `WP_REDIS_DATABASE`, and `WP_REDIS_CLIENT`.
+- Production and remote development credentials come from the environment-specific `.env`; they are never committed.
+- Cloudways Redis runs on the application server and listens on `127.0.0.1:6379`. Use `REDIS_HOST=127.0.0.1`, not the public application IP.
+- Use a unique prefix per environment, such as `kraftworx_dev_` and `kraftworx_live_`.
+- Local development is disabled by `WP_REDIS_DISABLED` in `config/environments/development.php`. The plugin remains active for parity but does not initialize the object cache.
+- To use local DDEV Redis later, set `WP_REDIS_DISABLED=false` and local Redis connection values; otherwise keep local Redis disabled.
+- After configuring a server environment, activate and enable the object cache:
+  ```bash
+  wp --path=web/wp plugin activate redis-cache
+  wp --path=web/wp redis enable
+  wp --path=web/wp redis status
+  ```
+- The Redis Object Cache drop-in is generated state. Do not edit it manually.
+- Breeze is not used for Redis. It is only relevant if Cloudways page caching/Varnish/CDN is intentionally enabled.
+
 ## Mobile layouts
 
 - Below `md`, Hero blocks stack. The first Hero on a page shows its image first, then the title and copy. Subsequent Heroes show the title above the image and the intro/CTA below. White Heroes show the title and copy above the image.
