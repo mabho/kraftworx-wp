@@ -435,7 +435,7 @@ The mask SVG was corrected so the right diagonal is parallel to the left: the po
 - Production and remote development credentials come from the environment-specific `.env`; they are never committed.
 - Cloudways Redis runs on the application server and listens on `127.0.0.1:6379`. Use `REDIS_HOST=127.0.0.1`, not the public application IP.
 - Use a unique prefix per environment, such as `kraftworx_dev_` and `kraftworx_live_`.
-- Local development is disabled by `WP_REDIS_DISABLED` in `config/environments/development.php`. The plugin remains active for parity but does not initialize the object cache.
+- Local development is disabled with `WP_REDIS_DISABLED=true` in the local `.env`. The plugin remains active for parity but does not initialize the object cache. Do not set this on remote development or production.
 - To use local DDEV Redis later, set `WP_REDIS_DISABLED=false` and local Redis connection values; otherwise keep local Redis disabled.
 - After configuring a server environment, activate and enable the object cache:
   ```bash
