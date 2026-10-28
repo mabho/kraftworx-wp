@@ -36,8 +36,8 @@ them without explicit permission.
 
 ### Commit message format
 
-- Messages must use `f/NNNN: <message>.` (feature) or `b/NNNN: <message>.` (bug),
-  e.g. `f/0001: Add section block.`
+- Messages must use `f/NNNN: <message>.` (feature), `b/NNNN: <message>.` (bug),
+  or `u/NNNN: <message>.` (update), e.g. `f/0001: Add section block.`
 - The prefix is followed by a colon and a space; the message must end with a
   period.
 - Enforced by `.githooks/commit-msg`; enable it in a clone with
