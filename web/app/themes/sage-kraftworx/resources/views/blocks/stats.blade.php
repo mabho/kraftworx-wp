@@ -57,7 +57,7 @@
           @endif
 
           @if ($title)
-            <h2 class="font-sans font-extrabold leading-[1.05] text-5xl lg:text-6xl xl:text-section">
+            <h2 class="font-sans font-extrabold leading-[0.9375] text-5xl lg:text-6xl xl:text-section">
               {!! nl2br(e($title)) !!}
             </h2>
           @endif
