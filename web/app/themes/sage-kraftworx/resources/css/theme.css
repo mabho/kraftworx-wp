@@ -77,6 +77,11 @@
 }
 
 @layer base {
+  html,
+  body {
+    background-color: var(--color-black);
+  }
+
   body {
     font-family: var(--font-sans);
   }
