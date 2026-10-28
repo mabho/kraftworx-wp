@@ -1,0 +1,37 @@
+{
+  "server": {
+    "id": "1683675"
+  },
+  "ssh": {
+    "default_alias": "kraftworxDev",
+    "connect_timeout": 15
+  },
+  "environments": {
+    "dev": {
+      "folder": "jcbgukfpnp",
+      "url": "https://phpstack-1683675-6753396.cloudwaysapps.com",
+      "enabled": true
+    },
+    "test": {
+      "folder": null,
+      "url": null,
+      "enabled": false
+    },
+    "live": {
+      "folder": null,
+      "url": null,
+      "enabled": false
+    }
+  },
+  "remote": {
+    "app_root": "/home/{server_id}.cloudwaysapps.com/{folder}",
+    "public_path": "{app_root}/public_html",
+    "database_path": "{public_path}/_databases",
+    "uploads_path": "{public_path}/web/app/uploads",
+    "wordpress_path": "{public_path}/web/wp"
+  },
+  "local": {
+    "database_path": "./_databases",
+    "uploads_path": "./web/app/uploads"
+  }
+}
