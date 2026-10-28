@@ -3,3 +3,8 @@
 @source "../../app/**/*.php";
 @source "../**/*.blade.php";
 @source "../**/*.js";
+
+html,
+body {
+  background-color: var(--color-black);
+}
