@@ -81,6 +81,16 @@ ddev sync dev
 This replaces the local database. The sync command requires the `kraftworxDev`
 SSH alias and the configuration in `.ddev/sync/config.json`.
 
+To download a database dump without importing it or replacing the local database:
+
+```bash
+ddev db-dump dev
+```
+
+Use `test` or `prod` to pull another environment. `prod` uses the `live`
+environment configuration until a separate `prod` entry exists. Dumps are written
+to `_databases/<timestamp>_kraftworx_<environment>.sql.gz`.
+
 ### 4. Frontend dependencies and build
 
 ```bash
