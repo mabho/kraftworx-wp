@@ -13,7 +13,8 @@ theme.
 | Local environment | DDEV (`wp-bedrock`, PHP 8.4, MariaDB 11.8, Node 24) |
 | Frontend | Vite 8 + Tailwind CSS 4 |
 | ACF | ACF PRO via Composer |
-| Cache | Redis Object Cache; see [Caching](library/caching.md) |
+| Object cache | Redis Object Cache (inactive locally); see [Caching](library/caching.md) |
+| Page cache / Varnish | Breeze 2.6.3 (inactive locally) |
 
 ## Requirements
 
@@ -43,8 +44,9 @@ WP_HOME='https://kraftworx.ddev.site'
 WP_SITEURL="${WP_HOME}/wp"
 ```
 
-The local Redis settings are present in `.env.example`, but Redis is disabled
-locally with `WP_REDIS_DISABLED=true`. See [Caching](library/caching.md).
+The local Redis settings are present in `.env.example`, but the Redis Object Cache
+plugin is inactive locally. `WP_REDIS_DISABLED=true` remains as a safety guard.
+See [Caching](library/caching.md).
 
 ### 2. Install PHP dependencies
 
@@ -164,6 +166,17 @@ update the Sage baseline and version history in this file, then rebuild assets.
 Redis Object Cache is configured separately from the theme. See
 [Caching](library/caching.md) for environment values, activation commands, and
 the local development behavior.
+
+Breeze is installed through Composer for Cloudways Varnish integration. It is
+intentionally **inactive locally**; activate it only on development/production
+servers, with **Auto Purge Varnish** enabled. After deployments, run:
+
+```bash
+wp --path=web/wp breeze purge --cache=all
+```
+
+The `ddev sync` command deactivates both Breeze and Redis Object Cache locally
+after importing the database.
 
 ### Deployment
 
