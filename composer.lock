@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "854137323ac4e1931b8746cbe941e869",
+    "content-hash": "d11508f45c9b25d17d500269375db79a",
     "packages": [
         {
             "name": "composer/installers",
@@ -1040,6 +1040,36 @@
                 }
             ],
             "time": "2026-08-24T18:07:49+00:00"
+        },
+        {
+            "name": "wp-plugin/breeze",
+            "version": "2.6.3",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/breeze/",
+                "reference": "tags/2.6.3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/breeze.2.6.3.zip"
+            },
+            "require": {
+                "composer/installers": "~1.0|~2.0"
+            },
+            "type": "wordpress-plugin",
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Cloudways"
+                }
+            ],
+            "description": "Breeze is a caching plugin developed by Cloudways. Breeze uses advance caching systems to improve site loading times exponentially.",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/breeze/#developers",
+                "issues": "https://wordpress.org/support/plugin/breeze",
+                "source": "https://plugins.svn.wordpress.org/breeze"
+            },
+            "time": "2026-10-20T12:02:13+00:00"
         },
         {
             "name": "wp-plugin/redis-cache",
