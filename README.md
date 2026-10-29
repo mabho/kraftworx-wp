@@ -1,54 +1,191 @@
-<p align="center">
-  <a href="https://roots.io/bedrock/">
-    <img alt="Bedrock" src="https://cdn.roots.io/app/uploads/logo-bedrock.svg" height="100">
-  </a>
-</p>
+# Kraftworx
 
-<p align="center">
-  <a href="https://packagist.org/packages/roots/bedrock"><img alt="Packagist Installs" src="https://img.shields.io/packagist/dt/roots/bedrock?label=projects%20created&colorB=2b3072&colorA=525ddc&style=flat-square"></a>
-  <a href="https://packagist.org/packages/roots/wordpress"><img alt="roots/wordpress Packagist Downloads" src="https://img.shields.io/packagist/dt/roots/wordpress?label=roots%2Fwordpress%20downloads&logo=roots&logoColor=white&colorB=2b3072&colorA=525ddc&style=flat-square"></a>
-  <img src="https://img.shields.io/badge/dynamic/json.svg?url=https://raw.githubusercontent.com/roots/bedrock/master/composer.json&label=wordpress&logo=roots&logoColor=white&query=$.require[%22roots/wordpress%22]&colorB=2b3072&colorA=525ddc&style=flat-square">
-  <a href="https://github.com/roots/bedrock/actions/workflows/ci.yml"><img alt="Build Status" src="https://img.shields.io/github/actions/workflow/status/roots/bedrock/ci.yml?branch=master&logo=github&label=CI&style=flat-square"></a>
-  <a href="https://twitter.com/rootswp"><img alt="Follow Roots" src="https://img.shields.io/badge/follow%20@rootswp-1da1f2?logo=twitter&logoColor=ffffff&message=&style=flat-square"></a>
-  <a href="https://github.com/sponsors/roots"><img src="https://img.shields.io/badge/sponsor%20roots-525ddc?logo=github&style=flat-square&logoColor=ffffff&message=" alt="Sponsor Roots"></a>
-</p>
+WordPress marketing site for Kraftworx, built on Bedrock and the Kraftworx Sage
+theme.
 
-<p align="center">WordPress boilerplate with Composer, easier configuration, and an improved folder structure</p>
+## Stack
 
-<p align="center">
-  <a href="https://roots.io/bedrock/">Website</a> &nbsp;&nbsp; <a href="https://roots.io/bedrock/docs/installation/">Documentation</a> &nbsp;&nbsp; <a href="https://github.com/roots/bedrock/releases">Releases</a> &nbsp;&nbsp; <a href="https://discourse.roots.io/">Community</a>
-</p>
+| Component | Version / source |
+| --- | --- |
+| CMS | WordPress 7.1.3 via Composer |
+| Application | Bedrock |
+| Theme | `web/app/themes/sage-kraftworx`, based on Sage 11.2.1 |
+| Local environment | DDEV (`wp-bedrock`, PHP 8.4, MariaDB 11.8, Node 24) |
+| Frontend | Vite 8 + Tailwind CSS 4 |
+| ACF | ACF PRO via Composer |
+| Cache | Redis Object Cache; see [Caching](library/caching.md) |
 
-## Support us
+## Requirements
 
-Roots is an independent open source org, supported only by developers like you. Your sponsorship funds [WP Packages](https://wp-packages.org/) and the entire Roots ecosystem, and keeps them independent. Support us by purchasing [Radicle](https://roots.io/radicle/) or [sponsoring us on GitHub](https://github.com/sponsors/roots) — sponsors get access to our private Discord.
+- DDEV
+- Composer access to the ACF PRO repository, through `COMPOSER_AUTH` or a local
+  Composer `auth.json`
+- SSH access configured for Cloudways if you need to sync remote data
 
-### Sponsors
+Do not commit credentials or `.env` files.
 
-<a href="https://carrot.com/"><img src="https://cdn.roots.io/app/uploads/carrot.svg" alt="Carrot" height="90"></a> <a href="https://wordpress.com/"><img src="https://cdn.roots.io/app/uploads/wordpress.svg" alt="WordPress.com" height="90"></a> <a href="https://www.itineris.co.uk/"><img src="https://cdn.roots.io/app/uploads/itineris.svg" alt="Itineris" height="90"></a> <a href="https://kinsta.com/?kaid=OFDHAJIXUDIV"><img src="https://cdn.roots.io/app/uploads/kinsta.svg" alt="Kinsta" height="90"></a>
+## Local setup
 
-## Overview
+### 1. Environment
 
-Bedrock is a WordPress boilerplate for developers that want to manage their projects with Git and Composer. Much of the philosophy behind Bedrock is inspired by the [Twelve-Factor App](http://12factor.net/) methodology, including the [WordPress specific version](https://roots.io/twelve-factor-wordpress/).
+Create the local environment file and fill in the database credentials, salts, and
+local URL:
 
-- Better folder structure
-- Dependency management with [Composer](https://getcomposer.org)
-  - [`roots/wordpress`](https://wp-packages.org/wordpress-core) package for WordPress core
-  - [WP Packages](https://wp-packages.org/) repository for WordPress plugins and themes
-- Easy WordPress configuration with environment specific files
-- Environment variables with [Dotenv](https://github.com/vlucas/phpdotenv)
-- Autoloader for mu-plugins (use regular plugins as mu-plugins)
+```bash
+cp .env.example .env
+```
 
-## Getting Started
+For DDEV, the local site URL is normally:
 
-See the [Bedrock installation documentation](https://roots.io/bedrock/docs/installation/).
+```dotenv
+WP_ENV='development'
+WP_HOME='https://kraftworx.ddev.site'
+WP_SITEURL="${WP_HOME}/wp"
+```
 
-## Community
+The local Redis settings are present in `.env.example`, but Redis is disabled
+locally with `WP_REDIS_DISABLED=true`. See [Caching](library/caching.md).
 
-Keep track of development and community news.
+### 2. Install PHP dependencies
 
-- Join us on Discord by [sponsoring us on GitHub](https://github.com/sponsors/roots)
-- Join us on [Roots Discourse](https://discourse.roots.io/)
-- Follow [@rootswp on Twitter](https://twitter.com/rootswp)
-- Follow the [Roots Blog](https://roots.io/blog/)
-- Subscribe to the [Roots Newsletter](https://roots.io/subscribe/)
+Configure ACF PRO authentication first, either through `COMPOSER_AUTH` or a local
+Composer `auth.json`. Then install both Composer projects:
+
+```bash
+ddev start
+ddev composer install
+ddev exec bash -c 'cd web/app/themes/sage-kraftworx && composer install'
+```
+
+The root Composer project manages Bedrock, WordPress core, and site plugins. The
+theme has a separate `composer.json` and `composer.lock`; install theme
+dependencies from the theme directory, not from the project root.
+
+Composer is pinned to **2.8.12** for this project. See
+[Tech debt](library/tech-debt.md) before changing that pin.
+
+### 3. Database
+
+Import an existing database:
+
+```bash
+ddev import-db --file=_databases/<dump>.sql
+```
+
+Or sync from the configured Cloudways development environment:
+
+```bash
+ddev sync dev
+```
+
+This replaces the local database. The sync command requires the `kraftworxDev`
+SSH alias and the configuration in `.ddev/sync/config.json`.
+
+### 4. Frontend dependencies and build
+
+```bash
+ddev exec -d /var/www/html/web/app/themes/sage-kraftworx npm install
+ddev exec -d /var/www/html/web/app/themes/sage-kraftworx npm run build
+```
+
+If Vite fails with a Rolldown binding error, restore the Linux binding before
+building:
+
+```bash
+ddev exec -d /var/www/html/web/app/themes/sage-kraftworx \
+  npm install --no-save --force @rolldown/binding-linux-arm64-gnu@1.2.14
+```
+
+### 5. Start the site
+
+```bash
+ddev launch
+```
+
+## Compilation
+
+Run frontend commands inside the DDEV web container:
+
+```bash
+ddev exec -d /var/www/html/web/app/themes/sage-kraftworx npm run dev
+ddev exec -d /var/www/html/web/app/themes/sage-kraftworx npm run watch
+ddev exec -d /var/www/html/web/app/themes/sage-kraftworx npm run build
+```
+
+After Blade or template changes, clear compiled views:
+
+```bash
+ddev exec wp acorn view:clear
+```
+
+## Maintenance
+
+### Composer updates
+
+Update Bedrock, WordPress, and site plugins from the project root:
+
+```bash
+ddev composer update
+```
+
+Update theme dependencies from the theme directory:
+
+```bash
+ddev exec bash -c 'cd web/app/themes/sage-kraftworx && composer update'
+```
+
+Both `composer.lock` files are committed. Composer-installed `vendor/` directories
+are ignored.
+
+### Theme upgrades
+
+Sage is a copied starter, not a package dependency. The theme is not upgraded by
+running Composer.
+
+- **Sage baseline:** 11.2.1
+- **Project theme version:** 0.1.0
+
+To upgrade, compare the current upstream Sage release against the local theme and
+manually port relevant changes. Do not overwrite project code. After an upgrade,
+update the Sage baseline and version history in this file, then rebuild assets.
+
+### Cache
+
+Redis Object Cache is configured separately from the theme. See
+[Caching](library/caching.md) for environment values, activation commands, and
+the local development behavior.
+
+### Deployment
+
+DeployHQ deploys from Git using the rules in `.deployignore`:
+
+- The frontend build runs in DeployHQ’s Build Pipeline.
+- Composer dependencies and WordPress core are installed on the server.
+- Environment-specific values belong in the DeployHQ config file, not in Git.
+
+### Documentation
+
+- [Theme reference](library/theme.md) — theme decisions, styling, typography,
+  breakpoints, header, footer, and related behavior.
+- [Block reference](library/blocks.md) — Stats, Image, Profiles, Contact, and
+  Editorial Content blocks.
+- [Caching](library/caching.md) — Redis and page-cache notes.
+- [Tech debt](library/tech-debt.md) — known workarounds and resolution criteria.
+
+## Known cosmetic leftovers
+
+A few scaffold identifiers still use Sage defaults:
+
+- Theme `composer.json` name: `roots/sage`
+- Theme text domain: `sage`
+
+These are functional. The `style.css` Theme Name is already
+**Kraftworx Sage**. Changing the text domain also requires updating the
+translation scripts and files.
+
+## Version history
+
+| Date | Version | Type | Notes |
+| --- | --- | --- | --- |
+| 2026-10-17 | 11.2.1 | Sage baseline | Initial install; Vite base path set; assets built |
+| 2026-10-17 | 0.1.0 | Project theme | Set “Kraftworx Sage” identity in `style.css` |
