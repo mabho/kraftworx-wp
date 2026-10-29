@@ -11,8 +11,8 @@ concerns and are kept separate from the theme reference.
 - Production and remote development credentials come from the environment-specific `.env`; they are never committed.
 - Cloudways Redis runs on the application server and listens on `127.0.0.1:6379`. Use `REDIS_HOST=127.0.0.1`, not the public application IP.
 - Use a unique prefix per environment, such as `kraftworx_dev_` and `kraftworx_live_`.
-- Local development is disabled with `WP_REDIS_DISABLED=true` in the local `.env`. The plugin remains active for parity but does not initialize the object cache. Do not set this on remote development or production.
-- To use local DDEV Redis later, set `WP_REDIS_DISABLED=false` and local Redis connection values; otherwise keep local Redis disabled.
+- The Redis Object Cache plugin is inactive locally. `ddev sync` deactivates it after importing a remote database. `WP_REDIS_DISABLED=true` remains in the local `.env` as a safety guard; do not set it on remote development or production.
+- To use local DDEV Redis later, activate the plugin, set `WP_REDIS_DISABLED=false`, and provide local Redis connection values; otherwise keep the plugin inactive locally.
 - After configuring a server environment, activate and enable the object cache:
   ```bash
   wp --path=web/wp plugin activate redis-cache
@@ -20,11 +20,13 @@ concerns and are kept separate from the theme reference.
   wp --path=web/wp redis status
   ```
 - The Redis Object Cache drop-in is generated state. Do not edit it manually.
-- Breeze is not used for Redis. It is only relevant if Cloudways page caching/Varnish/CDN is intentionally enabled.
+- Breeze is installed for Cloudways Varnish/page-cache integration; it is not an object cache and does not replace Redis.
 
 ## Page caching and Breeze
 
 - Redis is an object cache and does not replace full-page caching.
-- Breeze, Cloudways Varnish, and CDN caching can be evaluated separately if page-level caching is needed.
-- Exclude dynamic pages such as the Contact page from full-page caching because its nonce is embedded in the HTML.
+- Breeze 2.6.3 is installed through Composer. It is **inactive locally** and should only be activated on the Cloudways development and production applications.
+- In Breeze, keep **Auto Purge Varnish** enabled. Breeze then purges Varnish when posts/pages are created, updated, or deleted, and when plugins/themes are activated or deactivated.
+- After a deployment, run `wp --path=web/wp breeze purge --cache=all` as a DeployHQ After Changes command.
+- Exclude `/contact/` from Breeze and Cloudways Varnish caching because its nonce is embedded in the cached HTML.
 - Do not enable a second object-cache implementation in Breeze while Redis Object Cache is active.
