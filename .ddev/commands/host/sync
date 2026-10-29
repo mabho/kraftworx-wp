@@ -128,6 +128,14 @@ REMOTE
   tar -xzvf "${LOCAL_DATABASE_FOLDERNAME}${DATABASE_DUMP_FILENAME_TAR}" -C "$LOCAL_DATABASE_FOLDERNAME"
   ddev import-db --file="${LOCAL_DATABASE_FOLDERNAME}${DATABASE_DUMP_FILENAME_SQL}"
 
+  # Keep Breeze inactive locally; it is only used for Cloudways Varnish.
+  echo -e "${yellow}Deactivating Breeze in the local environment...${NC}"
+  ddev exec wp plugin deactivate breeze || true
+
+  # Keep Redis Object Cache inactive locally; only server environments use it.
+  echo -e "${yellow}Deactivating Redis Object Cache in the local environment...${NC}"
+  ddev exec wp plugin deactivate redis-cache || true
+
   if [ -z "$REMOTE_SITE_URL" ]; then
     REMOTE_SITE_URL="$(ssh "${SSH_OPTS[@]}" "$REMOTE_HOST" "wp --path='${REMOTE_WP_PATH}' option get home" 2>/dev/null | tr -d '\r')"
   fi
