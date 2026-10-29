@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+
+## Description: Fetch a HubSpot form definition as JSON
+## Usage: hubspot-form [form-id]
+## Example: "ddev hubspot-form"
+
+set -e
+
+red='\033[0;31m'
+NC='\033[0m'
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "${SCRIPT_DIR}/../../.." && pwd)"
+
+env_value() {
+  local key="$1"
+  local file
+  local line
+  local value
+
+  for file in "${PROJECT_ROOT}/.env.local" "${PROJECT_ROOT}/.env"; do
+    [ -f "$file" ] || continue
+
+    line="$(grep -E "^${key}=" "$file" | tail -n 1 || true)"
+    [ -n "$line" ] || continue
+
+    value="${line#*=}"
+    value="${value%$'\r'}"
+    value="${value#\"}"
+    value="${value%\"}"
+    value="${value#\'}"
+    value="${value%\'}"
+
+    printf '%s' "$value"
+    return
+  done
+}
+
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+  echo "Usage: ddev hubspot-form [form-id]"
+  echo "Fetch a HubSpot form definition as JSON."
+  echo "Set HUBSPOT_ACCESS_TOKEN and HUBSPOT_FORM_GUID in .env."
+  exit 0
+fi
+
+form_id="${1:-$(env_value HUBSPOT_FORM_GUID)}"
+token="${HUBSPOT_ACCESS_TOKEN:-$(env_value HUBSPOT_ACCESS_TOKEN)}"
+
+if [ -z "$form_id" ]; then
+  echo -e "${red}Missing HubSpot form ID.${NC}" >&2
+  echo "Pass a form ID or set HUBSPOT_FORM_GUID in .env." >&2
+  exit 1
+fi
+
+if ! command -v jq >/dev/null 2>&1; then
+  echo -e "${red}jq is required to format the form schema.${NC}" >&2
+  exit 1
+fi
+
+if [ -z "$token" ]; then
+  echo -e "${red}Missing HubSpot access token.${NC}" >&2
+  echo "Set HUBSPOT_ACCESS_TOKEN in .env." >&2
+  exit 1
+fi
+
+response="$(curl -sS --fail-with-body \
+  -H "Authorization: Bearer ${token}" \
+  -H "Accept: application/json" \
+  "https://api.hubapi.com/marketing/v3/forms/${form_id}")"
+
+printf '%s\n' "$response" | jq .
