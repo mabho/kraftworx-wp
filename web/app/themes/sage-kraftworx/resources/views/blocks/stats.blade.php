@@ -23,9 +23,9 @@
   $columnCount = count($stats);
 
   $grid = match (true) {
-    $columnCount >= 4 => 'grid-cols-2 2xl:grid-cols-4',
-    $columnCount === 3 => 'grid-cols-2 xl:grid-cols-3',
-    default => 'grid-cols-2',
+    $columnCount >= 4 => 'grid-cols-1 sm:grid-cols-2 2xl:grid-cols-4',
+    $columnCount === 3 => 'grid-cols-1 sm:grid-cols-2 xl:grid-cols-3',
+    default => 'grid-cols-1 sm:grid-cols-2',
   };
 
   $labelSize = $columnCount === 2
@@ -138,7 +138,7 @@
         @endif
 
         @if ($source)
-          <div class="border-t pt-10 {{ $ruleColor }}">
+          <div class="mt-8 border-t pt-10 sm:mt-0 {{ $ruleColor }}">
             <p class="text-lg font-normal md:text-note">
               {{ $source }}
             </p>
