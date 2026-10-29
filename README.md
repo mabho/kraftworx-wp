@@ -186,6 +186,18 @@ DeployHQ deploys from Git using the rules in `.deployignore`:
 - Composer dependencies and WordPress core are installed on the server.
 - Environment-specific values belong in the DeployHQ config file, not in Git.
 
+After deployment, activate Breeze and clear the cache. Breeze’s activation hook
+already defaults Varnish to `127.0.0.1` with auto-purge enabled, so no custom
+Cloudways configuration hook is needed:
+
+```bash
+wp --path=web/wp plugin activate breeze || true
+wp --path=web/wp breeze purge --cache=all
+```
+
+The first command is idempotent: it reports that the plugin is already active
+without changing the existing settings.
+
 ### HubSpot form schema
 
 Add the portal ID, form GUID, and a private app token with the `forms` read scope

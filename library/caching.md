@@ -27,6 +27,11 @@ concerns and are kept separate from the theme reference.
 - Redis is an object cache and does not replace full-page caching.
 - Breeze 2.6.3 is installed through Composer. It is **inactive locally** and should only be activated on the Cloudways development and production applications.
 - In Breeze, keep **Auto Purge Varnish** enabled. Breeze then purges Varnish when posts/pages are created, updated, or deleted, and when plugins/themes are activated or deactivated.
-- After a deployment, run `wp --path=web/wp breeze purge --cache=all` as a DeployHQ After Changes command.
+- Breeze's own activation hook initializes the Cloudways defaults: Varnish server `127.0.0.1`, auto-purge enabled, and cache enabled. A custom activation hook is not required.
+- DeployHQ must activate the plugin after Composer installs it, then purge:
+  ```bash
+  wp --path=web/wp plugin activate breeze || true
+  wp --path=web/wp breeze purge --cache=all
+  ```
 - Exclude `/contact/` from Breeze and Cloudways Varnish caching because its nonce is embedded in the cached HTML.
 - Do not enable a second object-cache implementation in Breeze while Redis Object Cache is active.
