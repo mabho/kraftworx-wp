@@ -1,11 +1,15 @@
 @php
   $desktopImage = is_array($background_image) ? $background_image : null;
   $mobileImage = is_array($mobile_background_image) ? $mobile_background_image : null;
+  $parallaxImage = is_array($parallax_image ?? null) ? $parallax_image : null;
 
   $desktopId = (int) ($desktopImage['ID'] ?? 0);
   $mobileId = (int) ($mobileImage['ID'] ?? 0);
+  $parallaxId = (int) ($parallaxImage['ID'] ?? 0);
   $desktopUrl = $desktopImage['url'] ?? null;
   $mobileUrl = $mobileImage['url'] ?? null;
+  $parallaxUrl = $parallaxImage['url'] ?? null;
+  $hasParallaxImage = $parallaxId || $parallaxUrl;
 
   $hasDesktop = $desktopId || $desktopUrl;
   $hasMobile = $mobileId || $mobileUrl;
@@ -99,6 +103,30 @@
 
       @if ($image_overlay)
         <div class="absolute inset-0 bg-black/45"></div>
+      @endif
+
+      @if ($hasParallaxImage)
+        <div
+          class="hero-parallax-layer pointer-events-none absolute inset-0 hidden md:block"
+          data-hero-parallax-layer
+          data-parallax-effect="{{ $parallax_effect }}"
+          aria-hidden="true"
+        >
+          @if ($parallaxId)
+            {!! wp_get_attachment_image($parallaxId, 'full', false, [
+              'alt' => '',
+              'class' => 'hero-parallax-layer__image absolute inset-0 h-full w-full object-cover',
+              'loading' => 'eager',
+            ]) !!}
+          @elseif ($parallaxUrl)
+            <img
+              src="{{ $parallaxUrl }}"
+              alt=""
+              class="hero-parallax-layer__image absolute inset-0 h-full w-full object-cover"
+              loading="eager"
+            >
+          @endif
+        </div>
       @endif
     </div>
   @endif

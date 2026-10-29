@@ -89,14 +89,22 @@ const initHeroParallax = () => {
   }
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const backgroundRate = 0.15;
+  const parallaxScale = 1.2;
+  const zoomAmount = 0.15;
   let frame = 0;
 
   const reset = () => {
     sections.forEach((section) => {
-      const image = section.querySelector('[data-hero-parallax-image]');
+      const background = section.querySelector('[data-hero-parallax-image]');
+      const layerImage = section.querySelector('.hero-parallax-layer__image');
 
-      if (image) {
-        image.style.transform = '';
+      if (background) {
+        background.style.transform = '';
+      }
+
+      if (layerImage) {
+        layerImage.style.transform = '';
       }
     });
   };
@@ -112,9 +120,11 @@ const initHeroParallax = () => {
     const viewportHeight = window.innerHeight;
 
     sections.forEach((section) => {
-      const image = section.querySelector('[data-hero-parallax-image]');
+      const background = section.querySelector('[data-hero-parallax-image]');
+      const layer = section.querySelector('[data-hero-parallax-layer]');
+      const layerImage = layer?.querySelector('.hero-parallax-layer__image') ?? null;
 
-      if (!image) {
+      if (!background && !layerImage) {
         return;
       }
 
@@ -124,9 +134,47 @@ const initHeroParallax = () => {
         return;
       }
 
-      const offset = -rect.top * 0.15;
+      const offset = -rect.top * backgroundRate;
 
-      image.style.transform = `translate3d(0, ${offset.toFixed(2)}px, 0) scale(1.2)`;
+      if (background) {
+        background.style.transform = `translate3d(0, ${offset.toFixed(2)}px, 0) scale(${parallaxScale})`;
+      }
+
+      if (!layerImage) {
+        return;
+      }
+
+      const effect = layer?.dataset.parallaxEffect ?? 'none';
+      let transform = '';
+
+      switch (effect) {
+        case 'same-speed':
+          transform = `translate3d(0, ${offset.toFixed(2)}px, 0) scale(${parallaxScale})`;
+          break;
+        case 'same-speed-zoom': {
+          const progress = Math.min(1, Math.max(0, -rect.top / Math.max(rect.height, 1)));
+          const scale = 1 + (progress * zoomAmount);
+
+          transform = `translate3d(0, ${offset.toFixed(2)}px, 0) scale(${scale.toFixed(3)})`;
+          break;
+        }
+        case 'slower':
+          transform = `translate3d(0, ${(offset * 0.5).toFixed(2)}px, 0) scale(${parallaxScale})`;
+          break;
+        case 'faster':
+          transform = `translate3d(0, ${(offset * 1.5).toFixed(2)}px, 0) scale(${parallaxScale})`;
+          break;
+        case 'left-to-right':
+          transform = `translate3d(${offset.toFixed(2)}px, ${offset.toFixed(2)}px, 0) scale(${parallaxScale})`;
+          break;
+        case 'right-to-left':
+          transform = `translate3d(${(-offset).toFixed(2)}px, ${offset.toFixed(2)}px, 0) scale(${parallaxScale})`;
+          break;
+        default:
+          transform = '';
+      }
+
+      layerImage.style.transform = transform;
     });
   };
 

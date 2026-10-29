@@ -100,6 +100,8 @@ class Hero extends Block
       'is_first_hero' => $isFirstHero,
       'background_image' => get_field('background_image'),
       'mobile_background_image' => get_field('mobile_background_image'),
+      'parallax_image' => get_field('parallax_image'),
+      'parallax_effect' => get_field('parallax_effect') ?: 'none',
       'background_color' => get_field('background_color') ?: 'black',
       'parallax' => $parallax === null ? false : (bool) $parallax,
       'image_overlay' => $overlay === null ? true : (bool) $overlay,
@@ -175,12 +177,6 @@ class Hero extends Block
         'return_format' => 'array',
         'preview_size' => 'medium',
       ])
-      ->addTrueFalse('parallax', [
-        'label' => 'Parallax background',
-        'instructions' => 'Apply a subtle scroll-based parallax effect to the background image.',
-        'default_value' => 0,
-        'ui' => 1,
-      ])
       ->addTrueFalse('image_overlay', [
         'label' => 'Image shade',
         'instructions' => 'Apply the dark shade over the background image for text contrast.',
@@ -206,7 +202,55 @@ class Hero extends Block
       ])
       ->addPartial(Alignment::class)
       ->addPartial(VerticalAlignment::class)
-      ->addPartial(FullHeight::class);
+      ->addPartial(FullHeight::class)
+      ->addAccordion('Parallax effect', [
+        'open' => 0,
+        'multi_expand' => 1,
+      ])
+      ->addTrueFalse('parallax', [
+        'label' => 'Enable parallax',
+        'instructions' => 'Enable scroll parallax for the background image and the secondary image.',
+        'default_value' => 0,
+        'ui' => 1,
+      ])
+      ->addImage('parallax_image', [
+        'label' => 'Secondary parallax image',
+        'instructions' => 'Optional. Displayed at 48rem and above. Use an SVG for decorative arrows or vector graphics.',
+        'return_format' => 'array',
+        'preview_size' => 'medium',
+        'conditional_logic' => [
+          [
+            [
+              'field' => 'parallax',
+              'operator' => '==',
+              'value' => '1',
+            ],
+          ],
+        ],
+      ])
+      ->addSelect('parallax_effect', [
+        'label' => 'Parallax effect',
+        'instructions' => 'Controls how the secondary image moves relative to the background. Horizontal effects also move vertically at the background rate.',
+        'choices' => [
+          'none' => 'None',
+          'same-speed' => 'Same direction and speed as background',
+          'same-speed-zoom' => 'Same speed with soft zoom-in',
+          'slower' => 'Slower than background',
+          'faster' => 'Faster than background',
+          'left-to-right' => 'Left to right at background speed',
+          'right-to-left' => 'Right to left at background speed',
+        ],
+        'default_value' => 'none',
+        'conditional_logic' => [
+          [
+            [
+              'field' => 'parallax',
+              'operator' => '==',
+              'value' => '1',
+            ],
+          ],
+        ],
+      ]);
 
     return $fields->build();
   }

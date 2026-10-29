@@ -165,9 +165,14 @@
   border-top-width: 0.75rem;
 }
 
-.hero-parallax-image {
+.hero-parallax-image,
+.hero-parallax-layer__image {
   will-change: transform;
   transform-origin: center;
+}
+
+.hero-parallax-layer {
+  pointer-events: none;
 }
 
 .hero-title {
