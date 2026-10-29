@@ -173,6 +173,31 @@ DeployHQ deploys from Git using the rules in `.deployignore`:
 - Composer dependencies and WordPress core are installed on the server.
 - Environment-specific values belong in the DeployHQ config file, not in Git.
 
+### HubSpot form schema
+
+Add the portal ID, form GUID, and a private app token with the `forms` read scope
+to `.env`. The contact block fetches the form definition server-side and caches
+the normalized schema for 12 hours. If the API is unavailable or no token is
+configured, the original contact fields are used as a fallback.
+
+Fetch the raw definition as structured JSON:
+
+```bash
+ddev hubspot-form
+ddev hubspot-form <form-id>
+```
+
+The result is formatted with `jq` and can be redirected to a file. Never commit
+`HUBSPOT_ACCESS_TOKEN`. Set `HUBSPOT_SUBMIT=true` to send submissions to HubSpot
+from a non-production environment; production defaults to enabled.
+
+To invalidate the cached schema after changing the form:
+
+```bash
+ddev exec wp eval 'App\Forms\HubSpotForm::refresh();'
+```
+
+### Documentation
 ### Documentation
 
 - [Theme reference](library/theme.md) — theme decisions, styling, typography,
