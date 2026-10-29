@@ -2,6 +2,7 @@
 
 namespace App\Blocks;
 
+use App\Forms\HubSpotForm;
 use Log1x\AcfComposer\Block;
 use Log1x\AcfComposer\Builder;
 
@@ -70,9 +71,13 @@ class Contact extends Block
    */
   public function with(): array
   {
+    $form = HubSpotForm::schema();
+
     return [
       'submit_label' => get_field('submit_label') ?: 'Submit Form',
       'confirmation_message' => get_field('confirmation_message') ?: 'Thank you. We will be in touch shortly.',
+      'fields' => $form['fields'],
+      'recaptcha' => $form['recaptcha'],
       'status' => isset($_GET['contact_status'])
         ? sanitize_key(wp_unslash($_GET['contact_status']))
         : '',

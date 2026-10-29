@@ -24,27 +24,100 @@ class ContactForm
       self::redirect($redirect, 'success');
     }
 
-    $name = isset($_POST['name']) ? sanitize_text_field(wp_unslash($_POST['name'])) : '';
-    $email = isset($_POST['email']) ? sanitize_email(wp_unslash($_POST['email'])) : '';
-    $message = isset($_POST['message']) ? sanitize_textarea_field(wp_unslash($_POST['message'])) : '';
+    $schema = HubSpotForm::schema();
+    $values = [];
+    $valid = true;
 
-    if ($name === '' || ! is_email($email) || $message === '') {
+    foreach ($schema['fields'] as $field) {
+      $name = $field['name'];
+
+      if ($field['hidden']) {
+        $values[$name] = $field['default_value'];
+        continue;
+      }
+
+      $raw = $_POST[$name] ?? '';
+
+      if (is_array($raw)) {
+        $value = implode(', ', array_map(
+          static fn ($item): string => sanitize_text_field(wp_unslash($item)),
+          $raw
+        ));
+      } elseif ($field['type'] === 'email') {
+        $value = sanitize_email(wp_unslash($raw));
+      } elseif ($field['type'] === 'textarea') {
+        $value = sanitize_textarea_field(wp_unslash($raw));
+      } else {
+        $value = sanitize_text_field(wp_unslash($raw));
+      }
+
+      if ($field['required'] && trim($value) === '') {
+        $valid = false;
+      }
+
+      if ($field['type'] === 'email' && $value !== '' && ! is_email($value)) {
+        $valid = false;
+      }
+
+      $values[$name] = $value;
+    }
+
+    if (! $valid) {
       self::redirect($redirect, 'error');
     }
 
-    $recipient = apply_filters('kraftworx_contact_recipient', get_option('admin_email'));
-    $subject = sprintf('Kraftworx contact form: %s', $name);
-    $body = sprintf(
-      "Name: %s\nEmail: %s\n\n%s",
-      $name,
-      $email,
-      $message
-    );
-    $headers = [sprintf('Reply-To: %s <%s>', $name, $email)];
-
-    $sent = wp_mail($recipient, $subject, $body, $headers);
+    if (HubSpotForm::shouldSubmit()) {
+      $sent = HubSpotForm::submit($values, [
+        'pageUri' => $redirect,
+        'pageName' => get_bloginfo('name'),
+      ]);
+    } else {
+      $sent = self::sendEmail($values, $schema);
+    }
 
     self::redirect($redirect, $sent ? 'success' : 'error');
+  }
+
+  /**
+   * Send the local fallback email.
+   *
+   * @param  array<string, mixed>  $values
+   * @param  array<string, mixed>  $schema
+   */
+  protected static function sendEmail(array $values, array $schema): bool
+  {
+    $name = trim(sprintf('%s %s', $values['firstname'] ?? '', $values['lastname'] ?? ''));
+    $name = $name !== '' ? $name : (string) ($values['name'] ?? '');
+    $email = (string) ($values['email'] ?? '');
+
+    foreach ($schema['fields'] as $field) {
+      if ($field['type'] === 'email' && ! empty($values[$field['name']])) {
+        $email = (string) $values[$field['name']];
+        break;
+      }
+    }
+
+    if ($email === '') {
+      return false;
+    }
+
+    $lines = [];
+    foreach ($schema['fields'] as $field) {
+      $value = $values[$field['name']] ?? '';
+
+      if ($value === '' || $field['hidden']) {
+        continue;
+      }
+
+      $lines[] = $field['label'].': '.$value;
+    }
+
+    $recipient = apply_filters('kraftworx_contact_recipient', get_option('admin_email'));
+    $subject = sprintf('Kraftworx contact form: %s', $name ?: $email);
+    $body = implode("\n", $lines);
+    $headers = $name !== '' ? [sprintf('Reply-To: %s <%s>', $name, $email)] : [];
+
+    return wp_mail($recipient, $subject, $body, $headers);
   }
 
   /**

@@ -25,19 +25,68 @@
       <input id="{{ $formId }}-website" name="website" type="text" tabindex="-1" autocomplete="off">
     </div>
 
-    <div>
-      <label for="{{ $formId }}-name" class="sr-only">Your name</label>
-      <input id="{{ $formId }}-name" name="name" type="text" required placeholder="YOUR NAME" class="{{ $inputClass }}">
-    </div>
+    <div class="grid grid-cols-2 gap-4">
+      @foreach ($fields as $field)
+        @php
+          $name = $field['name'];
+          $id = $formId.'-'.sanitize_html_class($name);
+          $placeholder = $field['placeholder'] ?: $field['label'];
+          $fieldClass = in_array($name, ['firstname', 'lastname'], true)
+            ? 'min-w-0'
+            : 'col-span-2 min-w-0';
+        @endphp
 
-    <div>
-      <label for="{{ $formId }}-email" class="sr-only">Your email</label>
-      <input id="{{ $formId }}-email" name="email" type="email" required placeholder="YOUR EMAIL" class="{{ $inputClass }}">
-    </div>
-
-    <div>
-      <label for="{{ $formId }}-message" class="sr-only">How can we help?</label>
-      <textarea id="{{ $formId }}-message" name="message" rows="6" required placeholder="HOW CAN WE HELP?" class="min-h-48 resize-y {{ $inputClass }}"></textarea>
+        @if ($field['hidden'])
+          <input id="{{ $id }}" name="{{ $name }}" type="hidden" value="{{ $field['default_value'] }}">
+        @else
+          <div class="{{ $fieldClass }}">
+            @if ($field['type'] === 'textarea')
+              <label for="{{ $id }}" class="sr-only">{{ $field['label'] }}</label>
+              <textarea id="{{ $id }}" name="{{ $name }}" rows="6" @if ($field['required']) required @endif placeholder="{{ strtoupper($placeholder) }}" class="min-h-48 resize-y {{ $inputClass }}"></textarea>
+            @elseif ($field['type'] === 'select')
+              <label for="{{ $id }}" class="sr-only">{{ $field['label'] }}</label>
+              <select id="{{ $id }}" name="{{ $name }}" @if ($field['required']) required @endif class="{{ $inputClass }} appearance-none">
+                <option value="">{{ strtoupper($placeholder) }}</option>
+                @foreach ($field['options'] as $option)
+                  <option value="{{ $option['value'] }}">{{ $option['label'] }}</option>
+                @endforeach
+              </select>
+            @elseif ($field['type'] === 'radio')
+              <fieldset>
+                <legend class="sr-only">{{ $field['label'] }}</legend>
+                <div class="space-y-3">
+                  @foreach ($field['options'] as $option)
+                    <label class="flex cursor-pointer items-center gap-3 text-base uppercase tracking-[0.1em]">
+                      <input name="{{ $name }}" type="radio" value="{{ $option['value'] }}" @if ($field['required']) required @endif class="h-4 w-4 accent-primary">
+                      <span>{{ $option['label'] }}</span>
+                    </label>
+                  @endforeach
+                </div>
+              </fieldset>
+            @elseif ($field['type'] === 'checkbox')
+              <label class="flex cursor-pointer items-center gap-3 text-base uppercase tracking-[0.1em]">
+                <input name="{{ $name }}" type="checkbox" value="1" @if ($field['required']) required @endif class="h-4 w-4 accent-primary">
+                <span>{{ $field['label'] }}</span>
+              </label>
+            @elseif ($field['type'] === 'checkboxes')
+              <fieldset>
+                <legend class="sr-only">{{ $field['label'] }}</legend>
+                <div class="space-y-3">
+                  @foreach ($field['options'] as $option)
+                    <label class="flex cursor-pointer items-center gap-3 text-base uppercase tracking-[0.1em]">
+                      <input name="{{ $name }}[]" type="checkbox" value="{{ $option['value'] }}" class="h-4 w-4 accent-primary">
+                      <span>{{ $option['label'] }}</span>
+                    </label>
+                  @endforeach
+                </div>
+              </fieldset>
+            @else
+              <label for="{{ $id }}" class="sr-only">{{ $field['label'] }}</label>
+              <input id="{{ $id }}" name="{{ $name }}" type="{{ $field['type'] }}" @if ($field['required']) required @endif placeholder="{{ strtoupper($placeholder) }}" class="{{ $inputClass }}">
+            @endif
+          </div>
+        @endif
+      @endforeach
     </div>
 
     <button
