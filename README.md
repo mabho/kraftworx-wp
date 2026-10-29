@@ -197,6 +197,12 @@ To invalidate the cached schema after changing the form:
 ddev exec wp eval 'App\Forms\HubSpotForm::refresh();'
 ```
 
+If HubSpot marks submissions as **Unregistered Site Domain**, add the exact
+submitting domain in HubSpot under **Settings → Tracking & Analytics → Tracking
+Code → Advanced Tracking → Additional site domains**. Add the local
+`kraftworx.ddev.site` domain when testing locally, and the production domain when
+live. Then manually release the blocked submissions from the form's spam view.
+
 ### Documentation
 ### Documentation
 
