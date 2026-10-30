@@ -47,6 +47,7 @@
     "wp-plugin/breeze": "^2.6",
     "wp-plugin/redis-cache": "^3.0",
     "wp-plugin/safe-svg": "^2.5",
+    "wp-plugin/wp-mail-smtp": "^4.10",
     "wp-theme/twentytwentyfive": "^1.0",
     "wpengine/advanced-custom-fields-pro": "^6.8"
   },

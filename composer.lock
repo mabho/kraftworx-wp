@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d11508f45c9b25d17d500269375db79a",
+    "content-hash": "cd745b3008aaae9054221d46beaad0bd",
     "packages": [
         {
             "name": "composer/installers",
@@ -1132,6 +1132,37 @@
                 "source": "https://plugins.svn.wordpress.org/safe-svg"
             },
             "time": "2026-10-26T22:38:58+00:00"
+        },
+        {
+            "name": "wp-plugin/wp-mail-smtp",
+            "version": "4.10.3",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/wp-mail-smtp/",
+                "reference": "tags/4.10.3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/wp-mail-smtp.4.10.3.zip"
+            },
+            "require": {
+                "composer/installers": "~1.0|~2.0"
+            },
+            "type": "wordpress-plugin",
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Syed Balkhi"
+                }
+            ],
+            "description": "Make email delivery easy for WordPress. Connect with SMTP, Gmail, Brevo, SendGrid, Amazon SES + more, with powerful WordPress SMTP Email plugin.",
+            "homepage": "https://wpmailsmtp.com/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/wp-mail-smtp/#developers",
+                "issues": "https://wordpress.org/support/plugin/wp-mail-smtp",
+                "source": "https://plugins.svn.wordpress.org/wp-mail-smtp"
+            },
+            "time": "2026-10-20T14:29:00+00:00"
         },
         {
             "name": "wp-theme/twentytwentyfive",
