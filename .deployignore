@@ -75,6 +75,10 @@ web/app/themes/sage-kraftworx/resources/fonts/**
 web/app/themes/sage-kraftworx/resources/images
 web/app/themes/sage-kraftworx/resources/images/**
 
+# Breeze generated configuration and URL index
+web/app/breeze-config
+web/app/breeze-config/**
+
 # WordPress runtime/cache/uploads should not be overwritten from the repository
 web/app/cache/*
 web/app/upgrade

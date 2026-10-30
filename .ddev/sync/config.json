@@ -18,9 +18,10 @@
       "enabled": false
     },
     "live": {
-      "folder": null,
-      "url": null,
-      "enabled": false
+      "folder": "qbbegnzsnh",
+      "url": "https://phpstack-1683675-6756527.cloudwaysapps.com",
+      "enabled": true,
+      "ssh_alias": "kraftworxLive"
     }
   },
   "remote": {
