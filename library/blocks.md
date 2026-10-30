@@ -171,6 +171,7 @@ The mask SVG was corrected so the right diagonal is parallel to the left: the po
 - The Contact page uses the Editorial content block: the page title is the wrapper title, the intro copy is in the left column, and the Contact form is in the right column.
 - The form posts to `admin-post.php` with the `kraftworx_contact` action and a nonce. `App\Forms\ContactForm` validates and sends the message to the site admin email, with the sender as `Reply-To`.
 - A honeypot field is included. Success and error states are shown via the `contact_status` query parameter.
+- Phone fields use `intl-tel-input` with the US as the initial country. The selector shows flags, country names, and dial codes, and formats/validates against the selected country. Validation is visual only; invalid numbers do not block submission. Valid numbers are normalized to E.164 before submission.
 
 ## Editorial content block
 

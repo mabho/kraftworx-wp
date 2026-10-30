@@ -82,7 +82,7 @@
               </fieldset>
             @else
               <label for="{{ $id }}" class="sr-only">{{ $field['label'] }}</label>
-              <input id="{{ $id }}" name="{{ $name }}" type="{{ $field['type'] }}" @if ($field['required']) required @endif placeholder="{{ strtoupper($placeholder) }}" class="{{ $inputClass }}">
+              <input id="{{ $id }}" name="{{ $name }}" type="{{ $field['type'] }}" @if ($field['type'] === 'tel') data-intl-phone @endif @if ($field['required']) required @endif placeholder="{{ strtoupper($placeholder) }}" class="{{ $inputClass }}">
             @endif
           </div>
         @endif

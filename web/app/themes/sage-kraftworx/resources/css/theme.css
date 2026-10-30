@@ -175,6 +175,10 @@
   pointer-events: none;
 }
 
+.contact .iti {
+  width: 100%;
+}
+
 .hero-title {
   font-family: var(--font-display);
   font-weight: 400;

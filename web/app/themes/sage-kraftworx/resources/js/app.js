@@ -1,3 +1,6 @@
+import intlTelInput from 'intl-tel-input';
+import 'intl-tel-input/styles';
+
 const initHeader = () => {
   const toggle = document.querySelector('[data-menu-toggle]');
   const menu = document.querySelector('[data-mobile-menu]');
@@ -192,11 +195,78 @@ const initHeroParallax = () => {
   update();
 };
 
+const initPhoneInputs = () => {
+  const inputs = [...document.querySelectorAll('[data-intl-phone]')];
+
+  if (!inputs.length) {
+    return;
+  }
+
+  const invalidClasses = ['ring-2', 'ring-red-500'];
+
+  const setValidityState = (input, iti) => {
+    if (!input.value.trim()) {
+      input.setAttribute('aria-invalid', 'false');
+      input.classList.remove(...invalidClasses);
+      return;
+    }
+
+    let isValid = false;
+
+    try {
+      isValid = iti.isValidNumber() === true;
+    } catch {
+      isValid = false;
+    }
+
+    input.setAttribute('aria-invalid', String(!isValid));
+    input.classList.toggle('ring-2', !isValid);
+    input.classList.toggle('ring-red-500', !isValid);
+  };
+
+  inputs.forEach((input) => {
+    const iti = intlTelInput(input, {
+      initialCountry: 'us',
+      showFlags: true,
+      separateDialCode: true,
+      countrySearch: true,
+      countrySelectorMode: 'AUTO',
+      formatAsYouType: true,
+      placeholderNumberPolicy: 'AGGRESSIVE',
+      strictMode: false,
+      dropdownParent: document.body,
+      fullscreenParent: document.body,
+      loadUtils: () => import('intl-tel-input/utils'),
+    });
+
+    const form = input.closest('form');
+
+    if (form) {
+      form.addEventListener('submit', () => {
+        try {
+          const number = iti.getNumber();
+
+          if (number) {
+            input.value = number;
+          }
+        } catch {
+          // Leave the user's value intact if the number cannot be normalized.
+        }
+      });
+    }
+
+    input.addEventListener('blur', () => setValidityState(input, iti));
+    input.addEventListener('countrychange', () => setValidityState(input, iti));
+    iti.promise.then(() => setValidityState(input, iti)).catch(() => {});
+  });
+};
+
 const init = () => {
   initHeader();
   initScrollArrows();
   initScrollTop();
   initHeroParallax();
+  initPhoneInputs();
 };
 
 if (document.readyState === 'loading') {
