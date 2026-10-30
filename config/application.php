@@ -174,6 +174,24 @@ Config::define('SCRIPT_DEBUG', env('SCRIPT_DEBUG') ?: false);
 ini_set('display_errors', '0');
 
 /**
+ * Transactional email via Mailgun and WP Mail SMTP.
+ *
+ * Credentials are environment-specific and must not be committed.
+ */
+if ($mailgunApiKey = env('MAILGUN_API_KEY')) {
+    Config::define('WPMS_ON', true);
+    Config::define('WPMS_MAILER', 'mailgun');
+    Config::define('WPMS_MAILGUN_API_KEY', $mailgunApiKey);
+    Config::define('WPMS_MAILGUN_DOMAIN', (string) (env('MAILGUN_DOMAIN') ?: 'mg.kraftworx.com'));
+    Config::define('WPMS_MAILGUN_REGION', strtoupper((string) (env('MAILGUN_REGION') ?: 'US')));
+    Config::define('WPMS_MAIL_FROM', (string) (env('MAILGUN_FROM_EMAIL') ?: 'no-reply@mg.kraftworx.com'));
+    Config::define('WPMS_MAIL_FROM_NAME', (string) (env('MAILGUN_FROM_NAME') ?: 'Kraftworx'));
+    Config::define('WPMS_MAIL_FROM_FORCE', true);
+    Config::define('WPMS_MAIL_FROM_NAME_FORCE', true);
+    Config::define('WPMS_SET_RETURN_PATH', true);
+}
+
+/**
  * Redis object cache.
  *
  * Credentials are environment-specific and must not be committed.
