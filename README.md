@@ -89,9 +89,35 @@ To download a database dump without importing it or replacing the local database
 ddev db-dump dev
 ```
 
-Use `test` or `prod` to pull another environment. `prod` uses the `live`
-environment configuration until a separate `prod` entry exists. Dumps are written
-to `_databases/<timestamp>_kraftworx_<environment>.sql.gz`.
+Use `test` or `live` to pull another environment. Dumps are written to
+`_databases/<timestamp>_kraftworx_<environment>.sql.gz`.
+
+### Environment-to-environment sync
+
+Sync the database and uploads from one Cloudways environment to another:
+
+```bash
+ddev environment-sync                  # live..dev
+ddev environment-sync live..dev
+ddev environment-sync dev..live
+ddev environment-sync live..dev --db-only
+ddev environment-sync live..dev --files-only
+```
+
+The command:
+
+- Requires both environments to be configured in `.ddev/sync/config.json`.
+- Requires an SSH alias that can access each application. Set
+  `.environments.live.ssh_alias` to the live application alias; the default
+  `kraftworxDev` alias only has access to the dev application.
+- Backs up the destination database under `_databases/`.
+- Pulls uploads into local temporary staging, then mirrors them to the destination
+  exactly, including deleting destination-only files.
+- Imports the source database and replaces its URL with the destination URL.
+- Flushes the destination object cache and Breeze/Varnish cache.
+- Requires interactive confirmation before changing anything.
+
+Use this only with a deliberate source and destination. `live..dev` is the default; reverse it only when you are intentionally promoting data.
 
 ### 4. Frontend dependencies and build
 
