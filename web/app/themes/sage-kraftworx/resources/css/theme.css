@@ -179,6 +179,18 @@
   width: 100%;
 }
 
+.contact .iti__selected-country {
+  padding-right: 8px;
+  color: var(--color-black);
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+.contact .iti__selected-dial-code {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
 .hero-title {
   font-family: var(--font-display);
   font-weight: 400;
