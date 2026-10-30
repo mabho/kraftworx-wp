@@ -1,6 +1,6 @@
 @php
   $status = in_array($status, ['success', 'error'], true) ? $status : '';
-  $inputClass = 'w-full rounded-lg border-0 bg-white px-5 py-4 text-base uppercase tracking-[0.1em] text-black placeholder:text-black/50 focus:outline-none focus:ring-2 focus:ring-primary';
+  $inputClass = 'w-full rounded-lg border-0 bg-white px-5 py-4 text-base tracking-[0.1em] text-black placeholder:text-black/50 placeholder:uppercase focus:outline-none focus:ring-2 focus:ring-primary';
   $formId = wp_unique_id('contact-');
 @endphp
 
