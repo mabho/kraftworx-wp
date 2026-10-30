@@ -3,7 +3,7 @@
 @endphp
 
 <article class="profile-card" style="order: {{ $order }}">
-  <div class="profile-portrait">
+  <div class="profile-portrait pt-6">
     @if ($profile['portrait'])
       {!! $profile['portrait'] !!}
     @endif
