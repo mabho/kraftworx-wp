@@ -136,6 +136,10 @@ REMOTE
   echo -e "${yellow}Deactivating Redis Object Cache in the local environment...${NC}"
   ddev exec wp plugin deactivate redis-cache || true
 
+  # Keep WP Mail SMTP inactive locally; local mail is captured by DDEV Mailpit.
+  echo -e "${yellow}Deactivating WP Mail SMTP in the local environment...${NC}"
+  ddev exec wp plugin deactivate wp-mail-smtp || true
+
   if [ -z "$REMOTE_SITE_URL" ]; then
     REMOTE_SITE_URL="$(ssh "${SSH_OPTS[@]}" "$REMOTE_HOST" "wp --path='${REMOTE_WP_PATH}' option get home" 2>/dev/null | tr -d '\r')"
   fi
