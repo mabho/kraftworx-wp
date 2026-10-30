@@ -15,6 +15,7 @@ theme.
 | ACF | ACF PRO via Composer |
 | Object cache | Redis Object Cache (inactive locally); see [Caching](library/caching.md) |
 | Page cache / Varnish | Breeze 2.6.3 (inactive locally) |
+| Transactional email | Mailgun via WP Mail SMTP (inactive locally) |
 
 ## Requirements
 
@@ -201,8 +202,35 @@ servers, with **Auto Purge Varnish** enabled. After deployments, run:
 wp --path=web/wp breeze purge --cache=all
 ```
 
-The `ddev sync` command deactivates both Breeze and Redis Object Cache locally
-after importing the database.
+The `ddev sync` command deactivates Breeze, Redis Object Cache, and WP Mail SMTP
+locally after importing the database.
+
+### Transactional email
+
+Mailgun is used for WordPress transactional emails through WP Mail SMTP
+(installed via Composer).
+
+- The plugin is **inactive locally**; local mail is captured by DDEV Mailpit.
+- View local messages with `ddev mailpit` or open
+  `https://kraftworx.ddev.site:8026`.
+- Dev and live use Mailgun through environment constants in
+  `config/application.php`.
+- Required environment values:
+  ```dotenv
+  MAILGUN_API_KEY=... # Domain sending key or account API key
+  MAILGUN_DOMAIN=mg.kraftworx.com
+  MAILGUN_REGION=US
+  MAILGUN_FROM_EMAIL=no-reply@mg.kraftworx.com
+  MAILGUN_FROM_NAME=Kraftworx
+  ```
+- The live WordPress admin email is `hello@kraftworx.com`.
+- Contact-form replies use the visitor’s email as `Reply-To`.
+- Mailgun domain verification needs SPF and DKIM. DMARC is recommended but is not
+  required to send mail.
+- Activate the plugin after deployment:
+  ```bash
+  wp --path=web/wp plugin activate wp-mail-smtp || true
+  ```
 
 ### Deployment
 
@@ -219,6 +247,7 @@ Cloudways configuration hook is needed:
 ```bash
 wp --path=web/wp plugin activate breeze || true
 wp --path=web/wp breeze purge --cache=all
+wp --path=web/wp plugin activate wp-mail-smtp || true
 ```
 
 The first command is idempotent: it reports that the plugin is already active
