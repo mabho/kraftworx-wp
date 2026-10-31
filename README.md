@@ -15,7 +15,7 @@ theme.
 | ACF | ACF PRO via Composer |
 | Object cache | Redis Object Cache (inactive locally); see [Caching](library/caching.md) |
 | Page cache / Varnish | Breeze 2.6.3 (inactive locally) |
-| Transactional email | Mailgun via WP Mail SMTP (inactive locally) |
+| Transactional email | Managed SMTP via WP Mail SMTP (inactive locally) |
 
 ## Requirements
 
@@ -207,26 +207,30 @@ locally after importing the database.
 
 ### Transactional email
 
-Mailgun is used for WordPress transactional emails through WP Mail SMTP
-(installed via Composer).
+The site uses Elastic Email SMTP for WordPress transactional emails through WP
+Mail SMTP (4.10.3, installed via Composer).
 
 - The plugin is **inactive locally**; local mail is captured by DDEV Mailpit.
 - View local messages with `ddev mailpit` or open
   `https://kraftworx.ddev.site:8026`.
-- Dev and live use Mailgun through environment constants in
+- Dev and live use SMTP through environment constants in
   `config/application.php`.
 - Required environment values:
   ```dotenv
-  MAILGUN_API_KEY=... # Domain sending key or account API key
-  MAILGUN_DOMAIN=mg.kraftworx.com
-  MAILGUN_REGION=US
-  MAILGUN_FROM_EMAIL=no-reply@mg.kraftworx.com
-  MAILGUN_FROM_NAME=Kraftworx
+  SMTP_HOST=smtp.elasticemail.com
+  SMTP_PORT=2525
+  SMTP_ENCRYPTION=tls
+  SMTP_USER=9Vshg1793469605@managedcloudhostingemail.com
+  SMTP_PASSWORD=...
+  SMTP_FROM_EMAIL=...
+  SMTP_FROM_NAME=Kraftworx
   ```
+- `SMTP_PORT` and `SMTP_ENCRYPTION` must match the provider exactly. Elastic
+  Email uses port `2525` with `tls` here.
+- The From Email must be a verified sender in Elastic Email. It defaults to the
+  SMTP username when `SMTP_FROM_EMAIL` is empty, which is not brand-friendly.
 - The live WordPress admin email is `hello@kraftworx.com`.
 - Contact-form replies use the visitor’s email as `Reply-To`.
-- Mailgun domain verification needs SPF and DKIM. DMARC is recommended but is not
-  required to send mail.
 - Activate the plugin after deployment:
   ```bash
   wp --path=web/wp plugin activate wp-mail-smtp || true
