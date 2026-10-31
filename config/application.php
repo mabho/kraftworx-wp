@@ -174,18 +174,22 @@ Config::define('SCRIPT_DEBUG', env('SCRIPT_DEBUG') ?: false);
 ini_set('display_errors', '0');
 
 /**
- * Transactional email via Mailgun and WP Mail SMTP.
+ * Transactional email via the managed SMTP service and WP Mail SMTP.
  *
  * Credentials are environment-specific and must not be committed.
  */
-if ($mailgunApiKey = env('MAILGUN_API_KEY')) {
+if ($smtpHost = env('SMTP_HOST')) {
     Config::define('WPMS_ON', true);
-    Config::define('WPMS_MAILER', 'mailgun');
-    Config::define('WPMS_MAILGUN_API_KEY', $mailgunApiKey);
-    Config::define('WPMS_MAILGUN_DOMAIN', (string) (env('MAILGUN_DOMAIN') ?: 'mg.kraftworx.com'));
-    Config::define('WPMS_MAILGUN_REGION', strtoupper((string) (env('MAILGUN_REGION') ?: 'US')));
-    Config::define('WPMS_MAIL_FROM', (string) (env('MAILGUN_FROM_EMAIL') ?: 'no-reply@mg.kraftworx.com'));
-    Config::define('WPMS_MAIL_FROM_NAME', (string) (env('MAILGUN_FROM_NAME') ?: 'Kraftworx'));
+    Config::define('WPMS_MAILER', 'smtp');
+    Config::define('WPMS_SMTP_HOST', $smtpHost);
+    Config::define('WPMS_SMTP_PORT', (int) (env('SMTP_PORT') ?: 2525));
+    Config::define('WPMS_SSL', (string) (env('SMTP_ENCRYPTION') ?: 'tls'));
+    Config::define('WPMS_SMTP_AUTH', true);
+    Config::define('WPMS_SMTP_USER', (string) env('SMTP_USER'));
+    Config::define('WPMS_SMTP_PASS', (string) env('SMTP_PASSWORD'));
+    Config::define('WPMS_SMTP_AUTOTLS', true);
+    Config::define('WPMS_MAIL_FROM', (string) (env('SMTP_FROM_EMAIL') ?: env('SMTP_USER')));
+    Config::define('WPMS_MAIL_FROM_NAME', (string) (env('SMTP_FROM_NAME') ?: 'Kraftworx'));
     Config::define('WPMS_MAIL_FROM_FORCE', true);
     Config::define('WPMS_MAIL_FROM_NAME_FORCE', true);
     Config::define('WPMS_SET_RETURN_PATH', true);
