@@ -205,6 +205,18 @@ wp --path=web/wp breeze purge --cache=all
 The `ddev sync` command deactivates Breeze, Redis Object Cache, and WP Mail SMTP
 locally after importing the database.
 
+### Analytics
+
+Google Analytics 4 is loaded directly in `layouts/app.blade.php`; no analytics
+plugin is used. Set the measurement ID in the production environment:
+
+```dotenv
+GA_MEASUREMENT_ID=G-...
+```
+
+Tracking is rendered only when `wp_get_environment_type()` is `production`, so
+local, development, and staging environments remain untracked.
+
 ### Transactional email
 
 The site uses Elastic Email SMTP for WordPress transactional emails through WP
@@ -222,13 +234,18 @@ Mail SMTP (4.10.3, installed via Composer).
   SMTP_ENCRYPTION=tls
   SMTP_USER=9Vshg1793469605@managedcloudhostingemail.com
   SMTP_PASSWORD=...
-  SMTP_FROM_EMAIL=...
+  SMTP_FROM_EMAIL=no-reply@ee.kraftworx.com
   SMTP_FROM_NAME=Kraftworx
   ```
 - `SMTP_PORT` and `SMTP_ENCRYPTION` must match the provider exactly. Elastic
   Email uses port `2525` with `tls` here.
-- The From Email must be a verified sender in Elastic Email. It defaults to the
-  SMTP username when `SMTP_FROM_EMAIL` is empty, which is not brand-friendly.
+- `SMTP_USER` is only the SMTP authentication identity. Verify
+  `ee.kraftworx.com` in Elastic Email and send from
+  `no-reply@ee.kraftworx.com`; no `no-reply` mailbox is required.
+- Verify the Elastic Email sending domain with SPF and DKIM. DMARC is recommended
+  but not required to send. MX records are not required for outbound mail.
+- If `SMTP_FROM_EMAIL` is empty, it falls back to the generated SMTP username;
+  that is authenticated but not brand-friendly.
 - The live WordPress admin email is `hello@kraftworx.com`.
 - Contact-form replies use the visitor’s email as `Reply-To`.
 - Activate the plugin after deployment:
