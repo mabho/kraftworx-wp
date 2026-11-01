@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Seo\MetaTags;
 use Roots\Acorn\Sage\SageServiceProvider;
 
 class ThemeServiceProvider extends SageServiceProvider
@@ -24,5 +25,7 @@ class ThemeServiceProvider extends SageServiceProvider
   public function boot()
   {
     parent::boot();
+
+    $this->app->make(MetaTags::class)->boot();
   }
 }
