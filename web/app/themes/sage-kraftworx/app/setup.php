@@ -22,6 +22,30 @@ add_action('admin_post_nopriv_kraftworx_contact', [ContactForm::class, 'handle']
 add_action('admin_post_kraftworx_contact', [ContactForm::class, 'handle']);
 
 /**
+ * Add Google Analytics 4 in production only.
+ */
+add_action('wp_head', function (): void {
+  if (! function_exists('wp_get_environment_type') || wp_get_environment_type() !== 'production') {
+    return;
+  }
+
+  $measurementId = (string) env('GA_MEASUREMENT_ID');
+
+  if ($measurementId === '') {
+    return;
+  }
+  ?>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo esc_attr(rawurlencode($measurementId)); ?>"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '<?php echo esc_js($measurementId); ?>');
+  </script>
+  <?php
+});
+
+/**
  * Inject styles into the block editor.
  *
  * @return array
