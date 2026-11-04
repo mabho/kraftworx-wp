@@ -1043,15 +1043,15 @@
         },
         {
             "name": "wp-plugin/breeze",
-            "version": "2.6.3",
+            "version": "2.6.4",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/breeze/",
-                "reference": "tags/2.6.3"
+                "reference": "tags/2.6.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/breeze.2.6.3.zip"
+                "url": "https://downloads.wordpress.org/plugin/breeze.2.6.4.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -1069,7 +1069,7 @@
                 "issues": "https://wordpress.org/support/plugin/breeze",
                 "source": "https://plugins.svn.wordpress.org/breeze"
             },
-            "time": "2026-10-20T12:02:13+00:00"
+            "time": "2026-11-02T07:17:42+00:00"
         },
         {
             "name": "wp-plugin/redis-cache",
